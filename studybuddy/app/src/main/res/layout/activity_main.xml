@@ -75,7 +75,7 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display3"
         android:textColor="#4CAF50"
-        android:textSize="65"
+        android:textSize="65dp"
         android:textStyle="bold|italic" />
 
     <Button

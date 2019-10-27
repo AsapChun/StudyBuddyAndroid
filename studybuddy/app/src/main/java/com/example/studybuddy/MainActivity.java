@@ -2,6 +2,7 @@ package com.example.studybuddy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -38,11 +39,15 @@ public class MainActivity extends AppCompatActivity {
         btnNewUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
+                NewUser(v);
             }
         });
 
     }
+
+    public void NewUser(View v){
+        Intent newIntent = new Intent(this, CreateUserActivity.class);
+        this.startActivity(newIntent);
+    }
+
 }
