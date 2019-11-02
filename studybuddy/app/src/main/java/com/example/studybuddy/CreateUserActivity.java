@@ -2,6 +2,7 @@ package com.example.studybuddy;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,8 @@ public class CreateUserActivity extends AppCompatActivity {
     EditText edtEmail;
     EditText edtPassword;
     Spinner genderDropDown;
+
+    private String gender;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +54,14 @@ public class CreateUserActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String e = edtEmail.getText().toString();
+                String firstN = edtFirstName.getText().toString();
+                String lastN = edtLastName.getText().toString();
+                int year = Integer.valueOf(edtClassYear.getText().toString());
+                String pass = edtPassword.getText().toString();
+                String g = genderDropDown.getSelectedItem().toString();
+                User newUser =  new User(e, firstN, lastN, g , year, pass);
+
 
             }
         });
