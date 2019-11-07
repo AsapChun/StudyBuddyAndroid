@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/txtUpcomingSessions"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_weight="1"
+        android:lineSpacingExtra="36sp"
+        android:text="Your Upcoming Sessions"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textColor="#4CAF50"
+        android:textSize="36sp"
+        android:textStyle="bold|italic" />
+
+    <EditText
+        android:id="@+id/medtUpSessions"
+        android:layout_width="match_parent"
+        android:layout_height="153dp"
+        android:layout_weight="6"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine" />
+</LinearLayout>
