@@ -87,4 +87,14 @@
         android:layout_marginEnd="153dp"
         android:layout_marginBottom="31dp"
         android:text="New User" />
+
+    <Button
+        android:id="@+id/btnSignOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="292dp"
+        android:layout_marginBottom="30dp"
+        android:text="Sign Out" />
 </RelativeLayout>
