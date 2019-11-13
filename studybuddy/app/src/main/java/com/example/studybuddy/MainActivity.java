@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,6 +37,13 @@ public class MainActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               /* if(edtEmail.getText().toString().equals("schun@bu.edu") && edtEmail.getText().toString().equals("12345")){
+                    Toast.makeText(getApplicationContext(), "Login Success!", Toast.LENGTH_SHORT).show();
+                    HomePage(v);
+                }
+
+                */
+                HomePage(v);
 
             }
         });
@@ -73,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void PayUser(View v){
         Intent newIntent = new Intent(this, PaymentActivity.class);
+        this.startActivity(newIntent);
+    }
+
+    public void HomePage(View v){
+        Intent newIntent = new Intent(this, HomePageActivity.class);
         this.startActivity(newIntent);
     }
 
