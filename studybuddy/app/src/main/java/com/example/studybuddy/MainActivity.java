@@ -27,7 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText edtEmail;
     private EditText edtPassword;
     private FirebaseAuth mAuth;
-    private Button btnSignOut;
+
+
+    boolean signin;
 
 
     @Override
@@ -40,15 +42,19 @@ public class MainActivity extends AppCompatActivity {
         edtEmail = (EditText)findViewById(R.id.edtEmail);
         edtPassword = (EditText) findViewById(R.id.edtPassword);
         mAuth = FirebaseAuth.getInstance();
-        btnSignOut = (Button) findViewById(R.id.btnSignOut);
+
+
+
 
 
         //Login
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signIn(edtEmail.getText().toString(), edtPassword.getText().toString());
-
+                if(signIn(edtEmail.getText().toString(), edtPassword.getText().toString())){
+                    signin = false;
+                    HomePage(v);
+                }
             }
         });
 
@@ -57,15 +63,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 NewUser();
+
             }
         });
 
-        btnSignOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signOut();
-            }
-        });
 
     }
 
@@ -79,11 +80,9 @@ public class MainActivity extends AppCompatActivity {
             Log.w(TAG,"already logged In");
             Toast.makeText(getApplicationContext(), "currentEmail: "+currentUser.getEmail() ,
                     Toast.LENGTH_SHORT).show();
-            btnSignOut.setVisibility(View.VISIBLE);
+
         }
-        else{
-            btnSignOut.setVisibility(View.GONE);
-        }
+
 
     }
     private boolean validateForm() {
@@ -108,11 +107,12 @@ public class MainActivity extends AppCompatActivity {
         return valid;
     }
 
-    public void signIn(String email, String password){
+    public boolean signIn(String email, String password){
         Log.d(TAG, "signIn:" + email);
         if (!validateForm()) {
-            return;
+            return false;
         }
+
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -123,38 +123,40 @@ public class MainActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(getApplicationContext(), "Authentication Success.",
                                     Toast.LENGTH_SHORT).show();
+                            signin = true;
+
 
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(getApplicationContext(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
+                            signin = false;
                         }
 
                         // [START_EXCLUDE]
                         // [END_EXCLUDE]
                     }
                 });
-
+        if(signin){
+            return true;
+        }
+        else{
+            return false;
+        }
 
 
     }
 
-    public void signOut(){
 
-        try {
-            mAuth.signOut();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if(mAuth.getCurrentUser() == null) {
-            btnSignOut.setVisibility(View.GONE);
-        }
-
-    }
 
     public void NewUser(){
         Intent newIntent = new Intent(this, CreateUserActivity.class);
+        this.startActivity(newIntent);
+    }
+
+    public void HomePage(View v){
+        Intent newIntent = new Intent(this, HomePageActivity.class);
         this.startActivity(newIntent);
     }
 

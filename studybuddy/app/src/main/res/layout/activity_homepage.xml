@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomePageActivity">
+
+    <TextView
+        android:id="@+id/txtUpcomingSessions"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_weight="0"
+        android:text="Upcoming Sessions!"
+        android:textAlignment="textStart"
+        android:textSize="36sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/txtSessions"
+        android:layout_width="match_parent"
+        android:layout_height="147dp"
+        android:layout_weight="0"
+        android:background="#00C51A1A"
+        android:backgroundTint="#00D52D2D" />
+
+    <TextView
+        android:id="@+id/txtCurrentClasses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:text="CurrentClasses"
+        android:textSize="36sp"
+        android:textStyle="bold|italic" />
+
+    <ScrollView
+        android:id="@+id/scvClasses"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+</LinearLayout>

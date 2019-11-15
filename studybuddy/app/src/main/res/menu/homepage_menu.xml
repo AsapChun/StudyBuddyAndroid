@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itmMessages"
+        android:title="Messages" />
+    <item
+        android:id="@+id/itmPayment"
+        android:title="Payment" />
+    <item
+        android:id="@+id/itmLocation"
+        android:title="Location" />
+    <item
+        android:id="@+id/itmSettings"
+        android:title="Settings" />
+    <item
+        android:id="@+id/itmLogoff"
+        android:title="Logoff" />
+</menu>

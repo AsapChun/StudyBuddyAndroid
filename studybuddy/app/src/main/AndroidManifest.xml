@@ -23,6 +23,14 @@
         <activity android:name=".CreateUserActivity"
             android:screenOrientation="portrait">
         </activity>
+
+        <activity android:name=".HomePageActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity android:name=".SettingsActivity"
+            android:screenOrientation="portrait">
+        </activity>
         <!-- [START firebase_service] -->
         <service
             android:name="com.google.firebase.messaging.FirebaseMessagingService"
