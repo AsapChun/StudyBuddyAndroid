@@ -35,6 +35,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.2.0'
     implementation 'com.google.firebase:firebase-messaging:20.0.0'
     implementation 'com.google.firebase:firebase-messaging:20.0.1'
+    //Stripe Android SDK
+    implementation 'com.stripe:stripe-android:12.3.0'
 
 
 }

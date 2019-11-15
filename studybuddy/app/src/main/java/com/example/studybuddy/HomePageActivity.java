@@ -38,7 +38,7 @@ public class HomePageActivity extends AppCompatActivity {
             case R.id.itmMessages:
                 return true;
             case R.id.itmPayment:
-
+                goToPayment();
                 return true;
             case R.id.itmLocation:
                 return true;
@@ -61,6 +61,10 @@ public class HomePageActivity extends AppCompatActivity {
 
     public void goToSettings(){
         Intent newIntent = new Intent(this, SettingsActivity.class);
+        this.startActivity(newIntent);
+    }
+    public void goToPayment(){
+        Intent newIntent = new Intent(this, PaymentActivity.class);
         this.startActivity(newIntent);
     }
 
