@@ -8,12 +8,14 @@
 
     <TextView
         android:id="@+id/txtSettings"
-        android:layout_width="match_parent"
-        android:layout_height="87dp"
+        android:layout_width="324dp"
+        android:layout_height="92dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="-3dp"
-        android:layout_marginBottom="728dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginEnd="49dp"
+        android:layout_marginBottom="636dp"
         android:text="Settings"
         android:textAlignment="center"
         android:textSize="72sp"
@@ -21,7 +23,152 @@
 
     <Button
         android:id="@+id/btnNewBack"
-        android:layout_width="128dp"
-        android:layout_height="81dp"
-        android:text="Button" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="318dp"
+        android:layout_marginBottom="50dp"
+        android:text="Back" />
+
+    <Button
+        android:id="@+id/btnChangeEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="193dp"
+        android:layout_marginBottom="405dp"
+        android:text="Confirm" />
+
+    <EditText
+        android:id="@+id/edtOldUsername"
+        android:layout_width="258dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="27dp"
+        android:layout_marginBottom="524dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Enter Current Email" />
+
+    <TextView
+        android:id="@+id/txtChangeUsername"
+        android:layout_width="356dp"
+        android:layout_height="41dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="581dp"
+        android:text="Change Username"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/txtOldEmail"
+        android:layout_width="83dp"
+        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="523dp"
+        android:layout_toStartOf="@+id/edtOldUsername"
+        android:text="Old Email"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txtNewEmail"
+        android:layout_width="88dp"
+        android:layout_height="36dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="294dp"
+        android:layout_marginBottom="475dp"
+        android:text="New Email"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/edtNewUsername"
+        android:layout_width="258dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="27dp"
+        android:layout_marginBottom="473dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="New Email" />
+
+    <TextView
+        android:id="@+id/txtChangePassword"
+        android:layout_width="334dp"
+        android:layout_height="52dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="55dp"
+        android:layout_marginBottom="343dp"
+        android:text="Change Password"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/txtOldPassword"
+        android:layout_width="93dp"
+        android:layout_height="55dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="288dp"
+        android:layout_marginBottom="290dp"
+        android:text="TextView"
+        android:textSize="18sp"
+        tools:text="Old Password" />
+
+    <EditText
+        android:id="@+id/edtOldPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="72dp"
+        android:layout_marginBottom="295dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Old Password" />
+
+    <TextView
+        android:id="@+id/txtNewPassword"
+        android:layout_width="87dp"
+        android:layout_height="49dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="291dp"
+        android:layout_marginBottom="227dp"
+        android:text="New Password"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/edtNewPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="74dp"
+        android:layout_marginBottom="227dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="New Password" />
+
+    <Button
+        android:id="@+id/btnConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="186dp"
+        android:layout_marginBottom="152dp"
+        android:text="Confirm" />
 </RelativeLayout>
