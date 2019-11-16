@@ -33,7 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
         txtTutorSubjects = (TextView) findViewById(R.id.txtTutorSubjects);
         txtTotalEarnings = (TextView) findViewById(R.id.txtTutorEarnings);
         rbTutorRatings = (RatingBar) findViewById(R.id.rbTutorRatings);
-        btnBack = (Button) findViewById(R.id.btnBack);
+        btnBack = (Button) findViewById(R.id.btnReturn);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +45,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    public void goBack() {
+    public void goBack()
+    {
         this.finish();
     }
 
