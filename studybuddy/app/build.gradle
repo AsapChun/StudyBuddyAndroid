@@ -38,6 +38,13 @@ dependencies {
     //Stripe Android SDK
     implementation 'com.stripe:stripe-android:12.3.0'
 
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:8.5.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:4.9.0'
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
 
 }
 

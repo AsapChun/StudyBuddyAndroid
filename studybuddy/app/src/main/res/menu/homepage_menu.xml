@@ -2,6 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/itmProfile"
+        android:title="Profile" />
+    <item
         android:id="@+id/itmMessages"
         android:title="Messages" />
     <item

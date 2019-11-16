@@ -35,6 +35,10 @@ public class HomePageActivity extends AppCompatActivity {
     }
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
+            case R.id.itmProfile:
+                Toast.makeText(getApplicationContext(), "Profile Selected", Toast.LENGTH_SHORT).show();
+                goToProfile();
+                return true;
             case R.id.itmMessages:
                 return true;
             case R.id.itmPayment:
@@ -65,6 +69,10 @@ public class HomePageActivity extends AppCompatActivity {
     }
     public void goToPayment(){
         Intent newIntent = new Intent(this, PaymentActivity.class);
+        this.startActivity(newIntent);
+    }
+    public void goToProfile(){
+        Intent newIntent = new Intent(this, ProfileActivity.class);
         this.startActivity(newIntent);
     }
 

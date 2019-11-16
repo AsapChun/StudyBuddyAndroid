@@ -156,7 +156,7 @@ public class PaymentActivity extends AppCompatActivity {
                 }
         );
     }
-
+/*
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -167,7 +167,10 @@ public class PaymentActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
         return true;
-    }
+       }
+
+ */
+
 
 
     public void goBack(View v) {

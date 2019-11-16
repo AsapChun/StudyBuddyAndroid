@@ -127,7 +127,7 @@
         android:inputType="textPersonName" />
 
     <TextView
-        android:id="@+id/txtEmail"
+        android:id="@+id/txtName"
         android:layout_width="105dp"
         android:layout_height="44dp"
         android:layout_alignParentEnd="true"
