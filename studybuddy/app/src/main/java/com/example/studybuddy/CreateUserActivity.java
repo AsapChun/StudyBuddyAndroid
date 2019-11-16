@@ -1,5 +1,6 @@
 package com.example.studybuddy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -218,6 +219,9 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
                             Toast.makeText(getApplicationContext(), "Authentication Success.",
                                     Toast.LENGTH_SHORT).show();
 
+                            HomePage();
+
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -229,6 +233,11 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
                     }
                 });
 
+    }
+
+    public void HomePage(){
+        Intent newIntent = new Intent(this, HomePageActivity.class);
+        this.startActivity(newIntent);
     }
 
 

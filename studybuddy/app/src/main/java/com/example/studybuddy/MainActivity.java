@@ -51,9 +51,9 @@ public class MainActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(signIn(edtEmail.getText().toString(), edtPassword.getText().toString())){
+                if (signIn(edtEmail.getText().toString(), edtPassword.getText().toString())){
                     signin = false;
-                    HomePage(v);
+                    HomePage();
                 }
             }
         });
@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
             Log.w(TAG,"already logged In");
             Toast.makeText(getApplicationContext(), "currentEmail: "+currentUser.getEmail() ,
                     Toast.LENGTH_SHORT).show();
+            HomePage();
+
 
         }
 
@@ -124,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Authentication Success.",
                                     Toast.LENGTH_SHORT).show();
                             signin = true;
+                            HomePage();
 
 
                         } else {
@@ -155,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         this.startActivity(newIntent);
     }
 
-    public void HomePage(View v){
+    public void HomePage(){
         Intent newIntent = new Intent(this, HomePageActivity.class);
         this.startActivity(newIntent);
     }
