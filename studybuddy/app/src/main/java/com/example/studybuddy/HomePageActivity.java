@@ -45,6 +45,7 @@ public class HomePageActivity extends AppCompatActivity {
                 goToPayment();
                 return true;
             case R.id.itmLocation:
+                goToLocation();
                 return true;
             case R.id.itmSettings:
                 Toast.makeText(getApplicationContext(), "Settings Selected", Toast.LENGTH_SHORT).show();
@@ -73,6 +74,10 @@ public class HomePageActivity extends AppCompatActivity {
     }
     public void goToProfile(){
         Intent newIntent = new Intent(this, ProfileActivity.class);
+        this.startActivity(newIntent);
+    }
+    public void goToLocation(){
+        Intent newIntent = new Intent(this, LocationActivity.class);
         this.startActivity(newIntent);
     }
 
