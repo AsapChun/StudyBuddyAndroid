@@ -1,5 +1,6 @@
 package com.example.studybuddy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -85,16 +86,18 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
             }
         });
 
-        btnAddTutor.setOnClickListener(new View.OnClickListener() { //add course to tutor courses to firebase
+        btnAddTutorCourse.setOnClickListener(new View.OnClickListener() { //add course to tutor courses to firebase
             @Override
             public void onClick(View v) {
+
 
             }
         });
-        btnAddTutorCourse.setOnClickListener(new View.OnClickListener() { //to new activty where we match to a tutor
+
+        btnAddTutor.setOnClickListener(new View.OnClickListener() { //to new activty where we match to a tutor
             @Override
             public void onClick(View v) {
-
+                goToAddTutor();
             }
         });
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -205,7 +208,10 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
  */
 
 
-
+    public void goToAddTutor(){
+        Intent newIntent = new Intent(this, FindTutorActivity.class);
+        this.startActivity(newIntent);
+    }
 
     public void goBack(View v) {
         this.finish();

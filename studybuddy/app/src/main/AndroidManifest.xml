@@ -45,6 +45,10 @@
         <activity android:name=".ManageAccountActivity"
             android:screenOrientation="portrait">
         </activity>
+
+        <activity android:name=".FindTutorActivity"
+            android:screenOrientation="portrait">
+        </activity>
         <!-- [START firebase_service] -->
         <service
             android:name="com.google.firebase.messaging.FirebaseMessagingService"
