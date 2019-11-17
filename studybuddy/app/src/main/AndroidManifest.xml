@@ -37,6 +37,9 @@
         <activity android:name=".ProfileActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".LocationActivity"
+            android:screenOrientation="portrait">
+        </activity>
         <!-- [START firebase_service] -->
         <service
             android:name="com.google.firebase.messaging.FirebaseMessagingService"
