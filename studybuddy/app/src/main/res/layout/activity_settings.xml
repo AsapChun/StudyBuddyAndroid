@@ -41,7 +41,7 @@
         android:layout_marginBottom="405dp"
         android:text="Confirm" />
 
-    <EditText
+    <TextView
         android:id="@+id/edtOldUsername"
         android:layout_width="258dp"
         android:layout_height="wrap_content"
@@ -123,11 +123,11 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="288dp"
         android:layout_marginBottom="290dp"
-        android:text="TextView"
+        android:text="Old Password"
         android:textSize="18sp"
         tools:text="Old Password" />
 
-    <EditText
+    <TextView
         android:id="@+id/edtOldPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
