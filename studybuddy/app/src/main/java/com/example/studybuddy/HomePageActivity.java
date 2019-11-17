@@ -35,6 +35,10 @@ public class HomePageActivity extends AppCompatActivity {
     }
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
+            case R.id.idManageAccount:
+                Toast.makeText(getApplicationContext(), "Manage Account Selected", Toast.LENGTH_SHORT).show();
+                goToManageAccount();
+                return true;
             case R.id.itmProfile:
                 Toast.makeText(getApplicationContext(), "Profile Selected", Toast.LENGTH_SHORT).show();
                 goToProfile();
@@ -78,6 +82,10 @@ public class HomePageActivity extends AppCompatActivity {
     }
     public void goToLocation(){
         Intent newIntent = new Intent(this, LocationActivity.class);
+        this.startActivity(newIntent);
+    }
+    public void goToManageAccount(){
+        Intent newIntent = new Intent(this, ManageAccountActivity.class);
         this.startActivity(newIntent);
     }
 

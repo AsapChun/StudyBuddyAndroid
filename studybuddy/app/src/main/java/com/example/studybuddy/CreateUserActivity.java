@@ -34,6 +34,8 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
     private static final String TAG = "EmailPassword";
     private Button btnRegister;
     private Button btnReturn;
+    private Button btnAddCourse;
+
     private EditText edtFirstName;
     private EditText edtLastName;
     private EditText edtClassYear;
@@ -60,9 +62,6 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
         edtClassYear = (EditText) findViewById(R.id.edtClassYear);
         // Access a Cloud Firestore instance from your Activity
         db = FirebaseFirestore.getInstance();
-
-
-
 
 
         genderDropDown = (Spinner) findViewById(R.id.spinGender);

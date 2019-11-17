@@ -43,10 +43,6 @@ public class MainActivity extends AppCompatActivity {
         edtPassword = (EditText) findViewById(R.id.edtPassword);
         mAuth = FirebaseAuth.getInstance();
 
-
-
-
-
         //Login
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
