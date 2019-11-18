@@ -199,6 +199,7 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
                                 profile.put("gender", gender);
                                 profile.put("class_year", edtClassYear.getText().toString());
                                 profile.put("your_class", null);
+                                profile.put("tutor_class", null);
 
                                 db.collection("Profile").document(userId).set(profile)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {

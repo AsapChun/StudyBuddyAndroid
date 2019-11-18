@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +26,9 @@ public class HomePageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_homepage);
 
         mAuth = FirebaseAuth.getInstance();
+
+
+       // scvClass.addView(//View child);
 
 
     }

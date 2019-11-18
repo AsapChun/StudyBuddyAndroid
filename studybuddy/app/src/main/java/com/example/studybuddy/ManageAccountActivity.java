@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -40,6 +41,8 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
     private Button btnBack;
     private static final ArrayList<String> paths = new ArrayList<String>(Arrays.asList("cs131", "cs132"));
 
+    private ArrayList<String> courses= new ArrayList<>();
+    private ArrayList<String> Tcourses= new ArrayList<>();
     private String courseToAdd;
     private String TutorCourseAdd;
     private String findTutoradd;
@@ -81,7 +84,18 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
         btnAddCourse.setOnClickListener(new View.OnClickListener() { //add course to firebase
             @Override
             public void onClick(View v) {
-
+             if(courses.isEmpty()) {
+                 courses.add(courseToAdd);
+                 addCourses(courses);
+             } else{
+                 if(courses.contains(courseToAdd)){
+                     Toast.makeText(getApplicationContext(), "Course has already been added!", Toast.LENGTH_SHORT).show();
+                 }
+                 else{
+                     courses.add(courseToAdd);
+                     addCourses(courses);
+                 }
+             }
 
             }
         });
@@ -89,8 +103,18 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
         btnAddTutorCourse.setOnClickListener(new View.OnClickListener() { //add course to tutor courses to firebase
             @Override
             public void onClick(View v) {
-
-
+                if(Tcourses.isEmpty()) {
+                    Tcourses.add(TutorCourseAdd);
+                    addTutorCourses(Tcourses);
+                } else{
+                    if(Tcourses.contains(TutorCourseAdd)){
+                        Toast.makeText(getApplicationContext(), "Tutor subject has already been added!", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Tcourses.add(TutorCourseAdd);
+                        addTutorCourses(Tcourses);
+                    }
+                }
             }
         });
 
@@ -163,11 +187,59 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
      //   gender = null;
 
     }
-/*
-    private void addCourses(String course) {
+
+    private void addCourses(ArrayList course) {
+
+        DocumentReference ProfileRef = db.collection("Profile").document(mAuth.getCurrentUser().getUid());
+
+        ProfileRef
+                .update("your_class", course)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getApplicationContext(), "Course has been added!", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
+                        Log.w(TAG, "Error updating document", e);
+                    }
+                });
+
+    }
+
+    private void addTutorCourses(ArrayList Tcourse) {
+
+        DocumentReference ProfileRef = db.collection("Profile").document(mAuth.getCurrentUser().getUid());
+
+        ProfileRef
+                .update("tutor_class", Tcourse)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getApplicationContext(), "Tutor subject has been added!", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
+                        Log.w(TAG, "Error updating document", e);
+                    }
+                });
+
+    }
+
+
+
+
      //   Log.d(TAG, "createAccount:" + email);
 
-        mAuth.getCurrentUser().updateProfile(course).addOnCompleteListener(this, new OnCompleteListener<Void>() {
+  /*      mAuth.getCurrentUser().updateProfile().addOnCompleteListener(this, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
@@ -203,9 +275,10 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
             }
         });
 
-    }
+   */
 
- */
+
+
 
 
     public void goToAddTutor(){
