@@ -22,6 +22,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -34,6 +36,8 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
     private static final String TAG = "EmailPassword";
     private Button btnRegister;
     private Button btnReturn;
+    private Button btnAddCourse;
+
     private EditText edtFirstName;
     private EditText edtLastName;
     private EditText edtClassYear;
@@ -60,9 +64,6 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
         edtClassYear = (EditText) findViewById(R.id.edtClassYear);
         // Access a Cloud Firestore instance from your Activity
         db = FirebaseFirestore.getInstance();
-
-
-
 
 
         genderDropDown = (Spinner) findViewById(R.id.spinGender);
@@ -199,7 +200,9 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
                                 profile.put("last_name", edtLastName.getText().toString());
                                 profile.put("gender", gender);
                                 profile.put("class_year", edtClassYear.getText().toString());
-                                profile.put("your_class","");
+                                profile.put("tutor_class", null);
+                                profile.put("tutor_session", null); 
+                                profile.put("your_class", null);
                                 profile.put("image_url","");
                                 profile.put("cover_url","");
 
@@ -236,6 +239,8 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
                 });
 
     }
+
+
 
     public void HomePage(){
         Intent newIntent = new Intent(this, HomePageActivity.class);
