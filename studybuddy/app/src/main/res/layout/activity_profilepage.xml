@@ -1,88 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:background="#F1EDED"
     tools:context=".ProfileActivity">
 
-    <TextView
-        android:id="@+id/txtProfileHeader"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_weight="1"
-        android:text="Profile"
-        android:textAlignment="center"
-        android:textSize="36sp"
-        android:textStyle="bold|italic" />
 
-    <TextView
-        android:id="@+id/txtName"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:layout_weight="1"
-        android:text="Name:"
-        android:textAlignment="textStart"
-        android:textSize="18sp"
-        android:textStyle="bold|italic" />
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/txtClassYear"
-        android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/coverIv"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="@color/colorPrimaryDark">
+            </ImageView>
+
+
+
+            <LinearLayout
+                android:id="@+id/topSection"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="100dp">
+
+                <ImageView
+                    android:id="@+id/avatarIv"
+                    android:layout_marginStart="20dp"
+                    android:background="@color/colorPrimary"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_add_image"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginLeft="20dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/firstNameTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="First Name"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_marginLeft="5dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/lastNameTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="Last Name"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_marginLeft="5dp"
+                        />
+                    <TextView
+                        android:id="@+id/classYearTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="Class Year"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_marginLeft="5dp"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_below="@id/topSection"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <RatingBar
+                    android:id="@+id/ratingBr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:stepSize="1.0"
+                    android:clickable="false"
+                    android:rating="4.0" />
+
+                <TextView
+                    android:id="@+id/txtClassSubjects"
+                    android:layout_width="match_parent"
+                    android:layout_height="71dp"
+                    android:layout_weight="1"
+                    android:text="Class Subjects"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold|italic" />
+
+                <TextView
+                    android:id="@+id/txtTutorSubjects"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:layout_weight="1"
+                    android:text="Tutor Subjects"
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp"
+                    android:textStyle="bold|italic" />
+
+                <TextView
+                    android:id="@+id/txtTutorRatings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Tutor Ratings"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+
+
+                <TextView
+                    android:id="@+id/txtTutorEarnings"
+                    android:layout_width="match_parent"
+                    android:layout_height="71dp"
+                    android:layout_weight="1"
+                    android:text="Total Earnings"
+                    android:textSize="18sp"
+                    android:textStyle="bold|italic" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <!--Floating Action Button-->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:src="@drawable/ic_edit_profile"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Class Year"
-        android:textSize="18sp"
-        android:textStyle="bold|italic" />
+        android:layout_gravity="end|bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp" />
 
-    <TextView
-        android:id="@+id/txtClassSubjects"
-        android:layout_width="match_parent"
-        android:layout_height="71dp"
-        android:layout_weight="1"
-        android:text="Class Subjects"
-        android:textSize="18sp"
-        android:textStyle="bold|italic" />
 
-    <TextView
-        android:id="@+id/txtTutorSubjects"
-        android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:layout_weight="1"
-        android:text="Tutor Subjects"
-        android:textAlignment="viewStart"
-        android:textSize="18sp"
-        android:textStyle="bold|italic" />
-
-    <TextView
-        android:id="@+id/txtTutorRatings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Tutor Ratings"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <RatingBar
-        android:id="@+id/rbTutorRatings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
-
-    <TextView
-        android:id="@+id/txtTutorEarnings"
-        android:layout_width="match_parent"
-        android:layout_height="71dp"
-        android:layout_weight="1"
-        android:text="Total Earnings"
-        android:textSize="18sp"
-        android:textStyle="bold|italic" />
-
-    <Button
-        android:id="@+id/btnReturn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Back" />
-
-</LinearLayout>
+</RelativeLayout>
