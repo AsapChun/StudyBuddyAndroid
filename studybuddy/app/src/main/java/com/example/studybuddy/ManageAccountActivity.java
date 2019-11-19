@@ -1,6 +1,8 @@
 package com.example.studybuddy;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +23,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -121,6 +124,7 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
         btnAddTutor.setOnClickListener(new View.OnClickListener() { //to new activty where we match to a tutor
             @Override
             public void onClick(View v) {
+                saveSharedPreferenceInfo();
                 goToAddTutor();
             }
         });
@@ -276,6 +280,24 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
         });
 
    */
+
+    void saveSharedPreferenceInfo(){
+        //1. Refer to the SharedPreference Object.
+        SharedPreferences simpleAppInfo = getSharedPreferences("ManageAccountActivity", Context.MODE_PRIVATE);  //Private means no other Apps can access this.
+
+        //2. Create an Shared Preferences Editor for Editing Shared Preferences.
+        //Note, not a real editor, just an object that allows editing...
+
+        SharedPreferences.Editor editor = simpleAppInfo.edit();
+
+        //3. Store what's important!  Key Value Pair, what else is new...
+        editor.putString("tutor", findTutoradd);
+
+        //4. Save your information.
+        editor.apply();
+
+        Toast.makeText(this, "Shared Preference Data Updated.", Toast.LENGTH_LONG).show();
+    }
 
 
 

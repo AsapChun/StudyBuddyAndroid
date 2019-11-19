@@ -4,20 +4,35 @@ import java.sql.Time;
 import java.util.Date;
 
 public class Appointment {
-    private int appointmentID;
-    private Course course;
-    private User tutor;
-    private User student;
-    private Date date;
-    private Time time;
+    private String course;
+    private String tutor;
+    private String location;
+    private String date;
+    private String time;
 
 
-    public Appointment(int aptID , Course c, User tut, User stu, Date d, Time t){
-        appointmentID = aptID;
+
+    public Appointment(String c, String tut, String l,  String d, String t){
         course = c;
         tutor = tut;
-        student = stu;
+        location = l;
         date = d;
         time = t;
+    }
+
+    public String getCourse(){
+        return course;
+    }
+    public String getTutor(){
+        return tutor;
+    }
+    public String getLocation(){
+        return location;
+    }
+    public String getDate(){
+        return date;
+    }
+    public String getTime(){
+        return time;
     }
 }

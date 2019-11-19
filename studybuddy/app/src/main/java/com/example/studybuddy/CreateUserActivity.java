@@ -22,6 +22,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -200,6 +202,7 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
                                 profile.put("class_year", edtClassYear.getText().toString());
                                 profile.put("your_class", null);
                                 profile.put("tutor_class", null);
+                                profile.put("tutor_session", null);
 
                                 db.collection("Profile").document(userId).set(profile)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -234,6 +237,8 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
                 });
 
     }
+
+
 
     public void HomePage(){
         Intent newIntent = new Intent(this, HomePageActivity.class);
