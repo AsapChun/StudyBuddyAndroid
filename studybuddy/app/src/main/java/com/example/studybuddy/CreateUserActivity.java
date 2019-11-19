@@ -199,23 +199,25 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
                                 profile.put("last_name", edtLastName.getText().toString());
                                 profile.put("gender", gender);
                                 profile.put("class_year", edtClassYear.getText().toString());
-                                profile.put("your_class", null);
+                                profile.put("your_class","");
+                                profile.put("image_url","");
+                                profile.put("cover_url","");
 
-                                db.collection("Profile").document(userId).set(profile)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                Log.d(TAG, "Profile successfully written!");
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error writing profile", e);
-                                            }
-                                        });
+                                    db.collection("Profile").document(userId).set(profile)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d(TAG, "Profile successfully written!");
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w(TAG, "Error writing profile", e);
+                                                }
+                                            });
 
-                            }
+                                }
                             Toast.makeText(getApplicationContext(), "Authentication Success.",
                                     Toast.LENGTH_SHORT).show();
 
