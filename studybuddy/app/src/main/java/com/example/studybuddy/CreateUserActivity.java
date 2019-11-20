@@ -194,15 +194,15 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
                                 String userId = mAuth.getCurrentUser().getUid();
-
+                                ArrayList<String> courses = new ArrayList<String>();
                                 Map<String, Object> profile = new HashMap<>();
                                 profile.put("first_name", edtFirstName.getText().toString());
                                 profile.put("last_name", edtLastName.getText().toString());
                                 profile.put("gender", gender);
                                 profile.put("class_year", edtClassYear.getText().toString());
-                                profile.put("tutor_class", null);
-                                profile.put("tutor_session", null); 
-                                profile.put("your_class", null);
+                                profile.put("tutor_class", courses);
+                                profile.put("tutor_session",courses);
+                                profile.put("your_class", courses);
                                 profile.put("image_url","");
                                 profile.put("cover_url","");
 

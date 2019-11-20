@@ -100,7 +100,6 @@
                     android:layout_height="71dp"
                     android:layout_weight="1"
                     android:text="Class Subjects"
-                    android:textColor="@color/colorPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold|italic" />
 

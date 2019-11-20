@@ -59,9 +59,11 @@ public class HomePageActivity extends AppCompatActivity {
                                                           Map<String, Object> data = document.getData();
                                                           Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                                           ArrayList<String> courses = (ArrayList<String>) data.get("tutor_session");
-                                                          String s = "You have a " + courses.get(0) + " appointment with " + courses.get(1) +
-                                                                  " at " + courses.get(2) + " on " + courses.get(3) + " at " + courses.get(4);
-                                                          txtClasses.setText(s);
+                                                          if(courses!=null) {
+                                                              String s = "You have a " + courses.get(0) + " appointment with " + courses.get(1) +
+                                                                      " at " + courses.get(2) + " on " + courses.get(3) + " at " + courses.get(4);
+                                                              txtClasses.setText(s);
+                                                          }
                                                       }
                                                   }
                                               }
