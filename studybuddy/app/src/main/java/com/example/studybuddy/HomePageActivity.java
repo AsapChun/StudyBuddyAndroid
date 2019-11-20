@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,6 +34,7 @@ public class HomePageActivity extends AppCompatActivity {
     private static final String TAG = "HomePage";
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private DatabaseReference mDatabase;
     private ArrayList<String> your_class;
     private Map<String, Object> profile;
     private TextView txtClasses;
@@ -39,32 +42,36 @@ public class HomePageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-       /* DocumentReference docRef = db.collection("Profile").document(mAuth.getCurrentUser().getUid());
+
+
+        txtClasses = (TextView) findViewById(R.id.txtSessions );
+        DocumentReference docRef = db.collection("Profile").document(mAuth.getCurrentUser().getUid());
+
+
+
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    if (document.exists()){
+                    if (document != null) {
+                        Map<String, Object> data = document.getData();
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        profile = document.getData();
-                        //document.getData().get();
-                    } else {
-                        Log.d(TAG, "No such document");
+                        if(data.get("tutor_session")!=null){
+                            ArrayList<String> courses = (ArrayList<String>) data.get("tutor_session");
+                            String s = "You have a " + courses.get(0) + " appointment with " + courses.get(1) +
+                                    " at " + courses.get(2) + " on " + courses.get(3) + " at " + courses.get(4);
+                            txtClasses.setText(s);
+                        }
                     }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
                 }
             }
+
         });
-        txtClasses = (TextView) findViewById(R.id.txtSessions );
-        your_class = (ArrayList<String>) profile.get("your_class");
 
-        txtClasses.setText(your_class.get(0) + " ;" + your_class.get(1));
-
-        */
     }
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
