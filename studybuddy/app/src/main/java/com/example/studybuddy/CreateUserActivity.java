@@ -26,10 +26,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class CreateUserActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -193,6 +195,7 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
+                                String uID = generate_UserId();
                                 String userId = mAuth.getCurrentUser().getUid();
 
                                 Map<String, Object> profile = new HashMap<>();
@@ -205,6 +208,7 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
                                 profile.put("your_class", null);
                                 profile.put("image_url","");
                                 profile.put("cover_url","");
+                                profile.put("user_id", mAuth.getCurrentUser().getUid());
 
                                     db.collection("Profile").document(userId).set(profile)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -245,6 +249,14 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
     public void HomePage(){
         Intent newIntent = new Intent(this, HomePageActivity.class);
         this.startActivity(newIntent);
+    }
+
+    public String generate_UserId() {
+        byte[] array = new byte[7]; // length is bounded by 7
+        new Random().nextBytes(array);
+        String generatedString = new String(array, Charset.forName("UTF-8"));
+
+        return generatedString;
     }
 
 
