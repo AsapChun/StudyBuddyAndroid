@@ -20,18 +20,8 @@
         android:textSize="24sp"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/btnCreate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="138dp"
-        android:layout_marginBottom="52dp"
-        android:text="Confirm" />
-
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/txtTutorClassInfo"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_alignParentEnd="true"
@@ -41,84 +31,14 @@
         android:text="Finding a tutor for "
         android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/txtInfo2"
-        android:layout_width="346dp"
-        android:layout_height="wrap_content"
+    <ListView
+        android:id="@+id/lvTutors"
+        android:layout_width="wrap_content"
+        android:layout_height="534dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="499dp"
-        android:text="Select Available Tutor:"
-        android:textSize="18sp" />
-
-    <Spinner
-        android:id="@+id/spinAvailableTutors"
-        android:layout_width="match_parent"
-        android:layout_height="37dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="2dp"
-        android:layout_marginBottom="450dp" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="358dp"
-        android:layout_height="34dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="317dp"
-        android:text="Tutor Available Times:"
-        android:textSize="18sp" />
-
-    <Spinner
-        android:id="@+id/spinAvailableTimes"
-        android:layout_width="358dp"
-        android:layout_height="40dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="2dp"
-        android:layout_marginBottom="272dp" />
-
-    <TextView
-        android:id="@+id/txtInfo3"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="221dp"
-        android:text="Locations:"
-        android:textSize="18sp" />
-
-    <Spinner
-        android:id="@+id/spinLocations"
-        android:layout_width="match_parent"
-        android:layout_height="41dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="174dp" />
-
-    <TextView
-        android:id="@+id/txtinfor"
-        android:layout_width="291dp"
-        android:layout_height="37dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="67dp"
-        android:layout_marginBottom="408dp"
-        android:text="Tutor Available Dates"
-        android:textSize="18sp" />
-
-    <Spinner
-        android:id="@+id/spinDates"
-        android:layout_width="365dp"
-        android:layout_height="41dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="-3dp"
-        android:layout_marginBottom="364dp" />
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="2dp"
+        android:fastScrollAlwaysVisible="false" />
 
 </RelativeLayout>
