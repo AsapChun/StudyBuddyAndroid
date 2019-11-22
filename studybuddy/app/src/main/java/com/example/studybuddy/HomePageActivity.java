@@ -45,8 +45,6 @@ public class HomePageActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
-
         txtClasses = (TextView) findViewById(R.id.txtSessions );
         DocumentReference docRef = db.collection("Profile").document(mAuth.getCurrentUser().getUid());
 
@@ -60,8 +58,8 @@ public class HomePageActivity extends AppCompatActivity {
                     if (document != null) {
                         Map<String, Object> data = document.getData();
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        if(data.get("tutor_session")!=null){
-                            ArrayList<String> courses = (ArrayList<String>) data.get("tutor_session");
+                        ArrayList<String> courses = (ArrayList<String>) data.get("tutor_session");
+                        if(courses!=null) {
                             String s = "You have a " + courses.get(0) + " appointment with " + courses.get(1) +
                                     " at " + courses.get(2) + " on " + courses.get(3) + " at " + courses.get(4);
                             txtClasses.setText(s);
@@ -127,6 +125,9 @@ public class HomePageActivity extends AppCompatActivity {
     }
     public void goToLocation(){
         Intent newIntent = new Intent(this, LocationActivity.class);
+        Bundle b = new Bundle();
+        b.putBoolean("update",true);
+        newIntent.putExtras(b);
         this.startActivity(newIntent);
     }
     public void goToManageAccount(){
