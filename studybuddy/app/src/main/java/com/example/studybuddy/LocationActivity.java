@@ -88,6 +88,7 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineWidth;
 
 
 public class LocationActivity extends AppCompatActivity {
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private static final String TAG = "LocationActivity";
     private static final String ROUTE_LAYER_ID = "route-layer-id";
     private static final String ROUTE_SOURCE_ID = "route-source-id";
@@ -402,6 +403,9 @@ public class LocationActivity extends AppCompatActivity {
         for (String provider : providers) {
             if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
                 Toast.makeText(getBaseContext(),"permission not granted",Toast.LENGTH_LONG).show();
+                ActivityCompat.requestPermissions(LocationActivity.this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
             }
             Location l = mLocationManager.getLastKnownLocation(provider);
             if (l == null) {
