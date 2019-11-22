@@ -71,7 +71,7 @@
                         android:id="@+id/firstNameTv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="John"
+
                         android:paddingEnd="6dp"
                         android:textColor="@color/colorPrimary"
                         android:textSize="25sp"/>
@@ -80,7 +80,7 @@
                         android:id="@+id/lastNameTv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Do"
+
                         android:textColor="@color/colorPrimary"
                         android:textSize="25sp"
                         android:layout_toRightOf="@id/firstNameTv"/>
@@ -90,7 +90,7 @@
                         android:id="@+id/classYearTv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Class Year"
+
                         android:layout_gravity="center"
                         android:textSize="13sp"
                         android:textColor="@color/colorPrimary" />
@@ -183,7 +183,6 @@
                         android:id="@+id/classTv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="cs111, cs112, cs131, cs210, cs320, cs350, cs440, cs455, cs460, cs552, cs558, cs591"
                         android:textSize="18sp"
                         android:fontFamily="sans-serif-light" />
 
@@ -215,7 +214,6 @@
                     android:id="@+id/classTutorTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="CS111"
                     android:textSize="18sp"
                     android:fontFamily="sans-serif-light"/>
                     </LinearLayout>
