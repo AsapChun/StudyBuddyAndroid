@@ -50,6 +50,7 @@ public class HomePageActivity extends AppCompatActivity {
 
 
 
+
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -69,6 +70,8 @@ public class HomePageActivity extends AppCompatActivity {
             }
 
         });
+
+
 
     }
     public boolean onCreateOptionsMenu(Menu menu){
