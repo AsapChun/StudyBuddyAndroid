@@ -21,6 +21,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.api.directions.v5.DirectionsCriteria;
@@ -49,6 +59,7 @@ import com.mapbox.mapboxsdk.utils.BitmapUtils;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import androidx.annotation.NonNull;
@@ -77,7 +88,8 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineWidth;
 
 
 public class LocationActivity extends AppCompatActivity {
-
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    private static final String TAG = "LocationActivity";
     private static final String ROUTE_LAYER_ID = "route-layer-id";
     private static final String ROUTE_SOURCE_ID = "route-source-id";
     private static final String ICON_LAYER_ID = "icon-layer-id";
@@ -97,16 +109,30 @@ public class LocationActivity extends AppCompatActivity {
     private Button btnEMA;
     private Button btnQuestrom;
     private Button btnBack;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    private ArrayList<String> destinations;
+    private static boolean update=true;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        destinations = new ArrayList<>();
+
         //try to get the destination coordinates
         Bundle b = getIntent().getExtras();
         if(b!=null){
-            double tempLo = b.getDouble("longtitude");
-            double tempLa = b.getDouble("latitude");
-            destination = Point.fromLngLat(tempLo, tempLa);
+            if(b.keySet().size()>1){
+                destinations = b.getStringArrayList("destinations");
+                double tempLo = b.getDouble("longtitude");
+                double tempLa = b.getDouble("latitude");
+                destination = Point.fromLngLat(tempLo, tempLa);
+            }
+            update = b.getBoolean("update");
+
+
         }
 
 
@@ -117,9 +143,7 @@ public class LocationActivity extends AppCompatActivity {
         // This contains the MapView in XML and needs to be called after the access token is configured.
         setContentView(R.layout.activity_location);
 
-        btnGSU = (Button) findViewById(R.id.btnGSU);
-        btnEMA = (Button) findViewById(R.id.btnEMA);
-        btnQuestrom = (Button) findViewById(R.id.btnQuestrom);
+
         btnBack = (Button) findViewById(R.id.btnExit);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -128,55 +152,6 @@ public class LocationActivity extends AppCompatActivity {
                 goBack();
             }
         });
-
-        btnGSU.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                destination = Point.fromLngLat(-71.109040, 42.350760);
-                Intent i = new Intent(getBaseContext(), LocationActivity.class);
-                Bundle b = new Bundle();
-                b.putDouble("latitude",destination.latitude());
-                b.putDouble("longtitude",destination.longitude());
-                i.putExtras(b);
-                startActivity(i);
-
-            }
-        });
-
-
-        btnEMA.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                destination = Point.fromLngLat(-71.106990, 42.349640);
-                Intent i = new Intent(getBaseContext(), LocationActivity.class);
-                Bundle b = new Bundle();
-                b.putDouble("latitude",destination.latitude());
-                b.putDouble("longtitude",destination.longitude());
-                i.putExtras(b);
-                startActivity(i);
-            }
-        });
-
-        btnQuestrom.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                destination = Point.fromLngLat(-71.099540, 42.349580);
-                Intent i = new Intent(getBaseContext(), LocationActivity.class);
-                Bundle b = new Bundle();
-                b.putDouble("latitude",destination.latitude());
-                b.putDouble("longtitude",destination.longitude());
-                i.putExtras(b);
-                startActivity(i);
-            }
-        });
-
-
 
         // Setup the MapView
         mapView = findViewById(R.id.mapView);
@@ -190,10 +165,16 @@ public class LocationActivity extends AppCompatActivity {
 // Set the origin location to the Alhambra landmark in Granada, Spain.
 
                         getLocation();
-//                        origin = Point.fromLngLat(-71.091310, 42.349200);
+
                         origin = Point.fromLngLat(lng, lat);
 
-// Set the destination location to GSU
+                        if(update){
+                            getDestination();
+                        }
+
+
+
+// Set the destination location to current location if location is null
                         if(destination==null){
                             destination = Point.fromLngLat(lng, lat);
                         }
@@ -213,6 +194,7 @@ public class LocationActivity extends AppCompatActivity {
                                 .build();
 
                         mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(position),2000 );
+
                     }
                 });
             }
@@ -226,9 +208,18 @@ public class LocationActivity extends AppCompatActivity {
         loadedMapStyle.addSource(new GeoJsonSource(ROUTE_SOURCE_ID,
                 FeatureCollection.fromFeatures(new Feature[] {})));
 
-        GeoJsonSource iconGeoJsonSource = new GeoJsonSource(ICON_SOURCE_ID, FeatureCollection.fromFeatures(new Feature[] {
-                Feature.fromGeometry(Point.fromLngLat(origin.longitude(), origin.latitude())),
-                Feature.fromGeometry(Point.fromLngLat(destination.longitude(), destination.latitude()))}));
+        Feature[] feat = new Feature[destinations.size()+1];
+        feat[0] = Feature.fromGeometry(Point.fromLngLat(origin.longitude(), origin.latitude()));
+        for(int i=0;i<destinations.size();i++){
+            feat[i+1] = Feature.fromGeometry(getLngLat(destinations.get(i)));
+        }
+
+//        GeoJsonSource iconGeoJsonSource = new GeoJsonSource(ICON_SOURCE_ID, FeatureCollection.fromFeatures(new Feature[] {
+//                Feature.fromGeometry(Point.fromLngLat(origin.longitude(), origin.latitude())),
+//                Feature.fromGeometry(Point.fromLngLat(destination.longitude(), destination.latitude())),
+//        }));
+        GeoJsonSource iconGeoJsonSource = new GeoJsonSource(ICON_SOURCE_ID, FeatureCollection.fromFeatures(feat));
+
         loadedMapStyle.addSource(iconGeoJsonSource);
     }
 
@@ -292,10 +283,6 @@ public class LocationActivity extends AppCompatActivity {
 // Get the directions route
                 currentRoute = response.body().routes().get(0);
 
-// Make a toast which displays the route's distance
-                Toast.makeText(LocationActivity.this, String.format(
-                        "The route distance is: ",
-                        currentRoute.distance()), Toast.LENGTH_SHORT).show();
 
                 if (mapboxmap != null) {
                     mapboxmap.getStyle(new Style.OnStyleLoaded() {
@@ -328,6 +315,55 @@ public class LocationActivity extends AppCompatActivity {
 
     public void goBack() {
         this.finish();
+    }
+
+
+    private void getDestination(){
+        db.collection("Appointment")
+                .whereEqualTo("TutorID",mAuth.getCurrentUser().getUid() )
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String data = (String) document.getData().get("Location");
+                                Log.d(TAG, document.getId() + " appointment at " + data);
+                                destinations.add(data);
+                            }
+                            if(destinations.size()!=0)
+                            {
+                                destination = getLngLat(destinations.get(0));
+                            }
+                            Toast.makeText(getBaseContext(), "data retrieve from firebase", Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(getBaseContext(), LocationActivity.class);
+                            Bundle b = new Bundle();
+                            b.putBoolean("update",false);
+                            b.putDouble("latitude",destination.latitude());
+                            b.putDouble("longtitude",destination.longitude());
+                            b.putStringArrayList("destinations",destinations);
+                            i.putExtras(b);
+                            goBack();
+                            startActivity(i);
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+    }
+
+    private Point getLngLat(String place){
+        if(place.equals("Law")){
+            return Point.fromLngLat(-71.107140, 42.351070);
+        }
+        else if (place.equals("GSU")){
+            return Point.fromLngLat(-71.109040, 42.350760);
+        }
+        else if(place.equals("Questrom")){
+            return Point.fromLngLat(-71.099540, 42.349580);
+        }
+        return destination;
     }
 
 
@@ -367,6 +403,9 @@ public class LocationActivity extends AppCompatActivity {
         for (String provider : providers) {
             if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
                 Toast.makeText(getBaseContext(),"permission not granted",Toast.LENGTH_LONG).show();
+                ActivityCompat.requestPermissions(LocationActivity.this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
             }
             Location l = mLocationManager.getLastKnownLocation(provider);
             if (l == null) {

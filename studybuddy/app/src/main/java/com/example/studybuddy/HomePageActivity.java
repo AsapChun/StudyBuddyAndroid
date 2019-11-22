@@ -57,7 +57,6 @@ public class HomePageActivity extends AppCompatActivity {
         DocumentReference docRef = db.collection("Profile").document(mAuth.getCurrentUser().getUid());
 
 
-
        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                               @Override
                                               public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -89,6 +88,7 @@ public class HomePageActivity extends AppCompatActivity {
                                               }
 
                     });
+
     }
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
@@ -144,6 +144,9 @@ public class HomePageActivity extends AppCompatActivity {
     }
     public void goToLocation(){
         Intent newIntent = new Intent(this, LocationActivity.class);
+        Bundle b = new Bundle();
+        b.putBoolean("update",true);
+        newIntent.putExtras(b);
         this.startActivity(newIntent);
     }
     public void goToManageAccount(){
