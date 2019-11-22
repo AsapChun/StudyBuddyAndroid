@@ -50,25 +50,29 @@ public class HomePageActivity extends AppCompatActivity {
 
 
 
-       docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                              @Override
-                                              public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                  if (task.isSuccessful()) {
-                                                      DocumentSnapshot document = task.getResult();
-                                                      if (document != null) {
-                                                          Map<String, Object> data = document.getData();
-                                                          Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                                          ArrayList<String> courses = (ArrayList<String>) data.get("tutor_session");
-                                                          if(courses!=null) {
-                                                              String s = "You have a " + courses.get(0) + " appointment with " + courses.get(1) +
-                                                                      " at " + courses.get(2) + " on " + courses.get(3) + " at " + courses.get(4);
-                                                              txtClasses.setText(s);
-                                                          }
-                                                      }
-                                                  }
-                                              }
 
-                    });
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null) {
+                        Map<String, Object> data = document.getData();
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        ArrayList<String> courses = (ArrayList<String>) data.get("tutor_session");
+                        if(courses!=null) {
+                            String s = "You have a " + courses.get(0) + " appointment with " + courses.get(1) +
+                                    " at " + courses.get(2) + " on " + courses.get(3) + " at " + courses.get(4);
+                            txtClasses.setText(s);
+                        }
+                    }
+                }
+            }
+
+        });
+
+
+
     }
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
@@ -124,6 +128,9 @@ public class HomePageActivity extends AppCompatActivity {
     }
     public void goToLocation(){
         Intent newIntent = new Intent(this, LocationActivity.class);
+        Bundle b = new Bundle();
+        b.putBoolean("update",true);
+        newIntent.putExtras(b);
         this.startActivity(newIntent);
     }
     public void goToManageAccount(){
