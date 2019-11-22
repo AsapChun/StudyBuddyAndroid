@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".CreateAppointment">
+
+    <TextView
+        android:id="@+id/txtTutorInformation"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:text="Set Tutor Subject for "
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/txtTutorPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="141dp"
+        android:layout_marginBottom="312dp"
+        android:text="Enter your rate per hour ($):"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txtDaysAvailable"
+        android:layout_width="275dp"
+        android:layout_height="34dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="119dp"
+        android:layout_marginBottom="205dp"
+        android:text="Select Available Days"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btnSelectDays"
+        android:layout_width="77dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="279dp"
+        android:layout_marginBottom="68dp"
+        android:text="Select Day" />
+
+    <TextView
+        android:id="@+id/txtDaysChoosen"
+        android:layout_width="233dp"
+        android:layout_height="57dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="70dp"
+        android:text="Days Selected:" />
+
+    <Button
+        android:id="@+id/btnCreateTutorAppt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="Create Tutor Subject" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="267dp"
+        android:layout_marginBottom="6dp"
+        android:text="Return" />
+
+    <Spinner
+        android:id="@+id/spinDaTes"
+        android:layout_width="336dp"
+        android:layout_height="47dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="49dp"
+        android:layout_marginBottom="145dp" />
+
+    <TextView
+        android:id="@+id/txtLocation"
+        android:layout_width="185dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="216dp"
+        android:layout_marginBottom="425dp"
+        android:text="Select Location"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/edtPrice"
+        android:layout_width="306dp"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/txtTutorInformation"
+        android:layout_alignBottom="@+id/btnCancel"
+        android:layout_marginEnd="87dp"
+        android:layout_marginBottom="242dp"
+        android:ems="10"
+        android:inputType="phone" />
+
+    <Spinner
+        android:id="@+id/spinLoc"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="373dp" />
+
+</RelativeLayout>

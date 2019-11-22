@@ -29,6 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class ManageAccountActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -42,13 +43,14 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
     private Button btnAddTutorCourse;
     private Button btnAddTutor;
     private Button btnBack;
-    private static final ArrayList<String> paths = new ArrayList<String>(Arrays.asList("cs131", "cs132"));
-
+    private static final ArrayList<String> paths = new ArrayList<String>(Arrays.asList("cs111", "cs112", "cs131", "cs132","cs235","cs237", "cs320", "cs330", "cs350"));
     private ArrayList<String> courses= new ArrayList<>();
     private ArrayList<String> Tcourses= new ArrayList<>();
+    private ArrayList<String> findTutorCourses = new ArrayList<>(); // dynamically update this list from firebase to show courses user can be tutored in
     private String courseToAdd;
     private String TutorCourseAdd;
     private String findTutoradd;
+    private String test;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -61,6 +63,29 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
         mAuth = FirebaseAuth.getInstance();
         // Access a Cloud Firestore instance from your Activity
         db = FirebaseFirestore.getInstance();
+
+    /*    DocumentReference docRef = db.collection("Profile").document(mAuth.getCurrentUser().getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if(document != null){
+                        Map<String, Object> data = document.getData();
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        ArrayList<String> courses = (ArrayList<String>) data.get("your_class");
+                        if(courses != null){
+                            Iterator cc = courses.iterator();
+                            while(cc.hasNext()){
+                                findTutorCourses.add(cc.next().toString());
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+     */
 
         btnBack = (Button) findViewById(R.id.btnRETURN);
         btnAddCourse = (Button) findViewById(R.id.btnAddCourse);
@@ -79,9 +104,10 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
         TutorCoursesDropDown.setAdapter(adapter);
         TutorCoursesDropDown.setOnItemSelectedListener(this);
 
+        ArrayAdapter<String> adapt = new ArrayAdapter<String>(ManageAccountActivity.this, android.R.layout.simple_spinner_dropdown_item, paths);
         TutorDropDown = (Spinner) findViewById(R.id.spinFindTutors);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        TutorDropDown.setAdapter(adapter);
+        adapt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        TutorDropDown.setAdapter(adapt);
         TutorDropDown.setOnItemSelectedListener(this);
 
         btnAddCourse.setOnClickListener(new View.OnClickListener() { //add course to firebase
@@ -106,11 +132,12 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
         btnAddTutorCourse.setOnClickListener(new View.OnClickListener() { //add course to tutor courses to firebase
             @Override
             public void onClick(View v) {
+                /*
                 if(Tcourses.isEmpty()) {
                     Tcourses.add(TutorCourseAdd);
                     addTutorCourses(Tcourses);
                 } else{
-                    if(Tcourses.contains(TutorCourseAdd)){
+                    if(Tcourses.contains(TutorCourseAdd)){ //checks to make sure isnt added twice
                         Toast.makeText(getApplicationContext(), "Tutor subject has already been added!", Toast.LENGTH_SHORT).show();
                     }
                     else{
@@ -118,6 +145,11 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
                         addTutorCourses(Tcourses);
                     }
                 }
+
+                 */
+                saveSharedPreferenceInfo();
+                goToCreateTutor();
+
             }
         });
 
@@ -144,46 +176,111 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
         if(parent.getId() == R.id.spinCourses){
             switch (position) {
                 case 0:
-                    courseToAdd = "cs131";
-                    // Whatever you want to happen when the first item gets selected
-                    //  gender = "Male";
+                    courseToAdd = "cs111";
                     break;
                 case 1:
+                    courseToAdd = "cs112";
+                    break;
+                case 2:
+                    courseToAdd = "cs131";
+                    break;
+                case 3:
                     courseToAdd = "cs132";
-                    // Whatever you want to happen when the first item gets selected
-                    //  gender = "Male";
+                    break;
+                case 4:
+                    courseToAdd = "cs235";
+                    break;
+                case 5:
+                    courseToAdd = "cs237";
+                    break;
+                case 6:
+                    courseToAdd = "cs320";
+                    break;
+                case 7:
+                    courseToAdd = "cs330";
+                    break;
+                case 8:
+                    courseToAdd = "cs350";
                     break;
             }
         }
         if(parent.getId() == R.id.spinTutorSubjects){
             switch (position) {
                 case 0:
-                   TutorCourseAdd = "cs131";
+                   TutorCourseAdd = "cs111";
                     // Whatever you want to happen when the first item gets selected
                     //  gender = "Male";
                     break;
                 case 1:
-                    TutorCourseAdd = "cs132";
+                    TutorCourseAdd = "cs112";
                     // Whatever you want to happen when the first item gets selected
                     //  gender = "Male";
                     break;
+                case 2:
+                    TutorCourseAdd = "cs131";
+                    // Whatever you want to happen when the first item gets selected
+                    //  gender = "Male";
+                    break;
+                case 3:
+                    TutorCourseAdd = "cs132";
+                    break;
+                case 4:
+                    TutorCourseAdd = "cs235";
+                    break;
+                case 5:
+                    TutorCourseAdd = "cs237";
+                    break;
+                case 6:
+                    TutorCourseAdd = "cs320";
+                    break;
+                case 7:
+                    TutorCourseAdd = "cs330";
+                    break;
+                case 8:
+                    TutorCourseAdd = "cs350";
+                    break;
             }
         }
-        if(parent.getId() == R.id.spinFindTutors){
+        if(parent.getId() == R.id.spinFindTutors) {
             switch (position) {
                 case 0:
+                    findTutoradd = "cs111";
+                    // Whatever you want to happen when the first item gets selected
+                    //  gender = "Male";
+                    break;
+                case 1:
+                    findTutoradd = "cs112";
+                    // Whatever you want to happen when the first item gets selected
+                    //  gender = "Male";
+                    break;
+                case 2:
                     findTutoradd = "cs131";
                     // Whatever you want to happen when the first item gets selected
                     //  gender = "Male";
                     break;
-                case 1:
+                case 3:
                     findTutoradd = "cs132";
-                    // Whatever you want to happen when the first item gets selected
-                    //  gender = "Male";
+                    break;
+                case 4:
+                    findTutoradd = "cs235";
+                    break;
+                case 5:
+                    findTutoradd = "cs237";
+                    break;
+                case 6:
+                    findTutoradd = "cs320";
+                    break;
+                case 7:
+                    findTutoradd = "cs330";
+                    break;
+                case 8:
+                    findTutoradd = "cs350";
                     break;
             }
         }
+
     }
+
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
@@ -239,48 +336,6 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
     }
 
 
-
-
-     //   Log.d(TAG, "createAccount:" + email);
-
-  /*      mAuth.getCurrentUser().updateProfile().addOnCompleteListener(this, new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    Map<String, Object> Courses = new HashMap<>();
-                    Courses.put("Courses", courseToAdd);
-                    Courses.put("Tutor Courses", TutorCourseAdd);
-                    Courses.put("UpComing Tutor Appointments", findTutoradd);
-
-                    db.collection("Profile").document(user.getUid()).set(Courses)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "Profile successfully written!");
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error writing profile", e);
-                                }
-                            });
-
-                }
-                Toast.makeText(getApplicationContext(), "Courses Add Success.",
-                        Toast.LENGTH_SHORT).show();
-
-                } else {
-                // If sign in fails, display a message to the user.
-                Log.w(TAG, "Unable to add Courses", task.getException());
-                Toast.makeText(getApplicationContext(), "Course Add failed.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
-   */
-
     void saveSharedPreferenceInfo(){
         //1. Refer to the SharedPreference Object.
         SharedPreferences simpleAppInfo = getSharedPreferences("ManageAccountActivity", Context.MODE_PRIVATE);  //Private means no other Apps can access this.
@@ -292,6 +347,7 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
 
         //3. Store what's important!  Key Value Pair, what else is new...
         editor.putString("tutor", findTutoradd);
+        editor.putString("tutorCourse", TutorCourseAdd);
 
         //4. Save your information.
         editor.apply();
@@ -305,6 +361,10 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
 
     public void goToAddTutor(){
         Intent newIntent = new Intent(this, FindTutorActivity.class);
+        this.startActivity(newIntent);
+    }
+    public void goToCreateTutor(){
+        Intent newIntent = new Intent(this, CreateAppointment.class);
         this.startActivity(newIntent);
     }
 

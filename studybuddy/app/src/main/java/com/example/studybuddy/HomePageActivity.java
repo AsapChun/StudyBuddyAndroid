@@ -2,6 +2,7 @@ package com.example.studybuddy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,9 +26,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.w3c.dom.Text;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class HomePageActivity extends AppCompatActivity {
@@ -37,7 +41,8 @@ public class HomePageActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private ArrayList<String> your_class;
     private Map<String, Object> profile;
-    private TextView txtClasses;
+    private TextView txtSessions;
+    private TextView displayCourses;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,33 +50,44 @@ public class HomePageActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        txtClasses = (TextView) findViewById(R.id.txtSessions );
+        txtSessions = (TextView) findViewById(R.id.txtTutorSessions);
+        txtSessions.setMovementMethod(new ScrollingMovementMethod());
+        displayCourses = (TextView) findViewById(R.id.txtCourses);
+        displayCourses.setMovementMethod(new ScrollingMovementMethod());
         DocumentReference docRef = db.collection("Profile").document(mAuth.getCurrentUser().getUid());
 
 
+       docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                              @Override
+                                              public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                  if (task.isSuccessful()) {
+                                                      DocumentSnapshot document = task.getResult();
+                                                      if (document != null) {
+                                                          Map<String, Object> data = document.getData();
+                                                          Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                                          ArrayList<String> sessions = (ArrayList<String>) data.get("tutor_session");
+                                                          if(sessions != null){
+                                                              String s = "You have a " + sessions.get(0) + " appointment with " + sessions.get(1) +
+                                                                      " at " + sessions.get(2) + " on " + sessions.get(3) + " at " + sessions.get(4);
+                                                              txtSessions.setText(s);
+                                                          }
 
 
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document != null) {
-                        Map<String, Object> data = document.getData();
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        ArrayList<String> courses = (ArrayList<String>) data.get("tutor_session");
-                        if(courses!=null) {
-                            String s = "You have a " + courses.get(0) + " appointment with " + courses.get(1) +
-                                    " at " + courses.get(2) + " on " + courses.get(3) + " at " + courses.get(4);
-                            txtClasses.setText(s);
-                        }
-                    }
-                }
-            }
+                                                          ArrayList<String> courses = (ArrayList<String>) data.get("your_class");
+                                                          if(courses !=  null){
+                                                              Iterator c = courses.iterator();
+                                                              String cc  = "";
+                                                              while(c.hasNext()){
+                                                                  String toAddClass = c.next().toString();
+                                                                  cc = cc + "Course: " + toAddClass + "\n";
+                                                              }
+                                                              displayCourses.setText(cc);
+                                                          }
+                                                      }
+                                                  }
+                                              }
 
-        });
-
-
+                    });
 
     }
     public boolean onCreateOptionsMenu(Menu menu){
