@@ -66,7 +66,7 @@ public class HomePageActivity extends AppCompatActivity {
                                                           Map<String, Object> data = document.getData();
                                                           Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                                           ArrayList<String> sessions = (ArrayList<String>) data.get("tutor_session");
-                                                          if(sessions != null){
+                                                          if(!sessions.isEmpty()){
                                                               String s = "You have a " + sessions.get(0) + " appointment with " + sessions.get(1) +
                                                                       " at " + sessions.get(2) + " on " + sessions.get(3) + " at " + sessions.get(4);
                                                               txtSessions.setText(s);
@@ -74,7 +74,7 @@ public class HomePageActivity extends AppCompatActivity {
 
 
                                                           ArrayList<String> courses = (ArrayList<String>) data.get("your_class");
-                                                          if(courses !=  null){
+                                                          if(!sessions.isEmpty() ){
                                                               Iterator c = courses.iterator();
                                                               String cc  = "";
                                                               while(c.hasNext()){
