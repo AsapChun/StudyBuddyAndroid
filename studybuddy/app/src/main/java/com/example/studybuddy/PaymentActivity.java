@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.stripe.android.ApiResultCallback;
 import com.stripe.android.Stripe;
 import com.stripe.android.model.Card;
@@ -31,6 +33,9 @@ import java.util.Map;
 
 public class PaymentActivity extends AppCompatActivity {
 
+    private static final String TAG = "Payment";
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     private CardMultilineWidget cmw;
     private Card cardToSave;
     private Button btnSaveCard;
@@ -48,6 +53,7 @@ public class PaymentActivity extends AppCompatActivity {
         btnBack = (Button) findViewById(R.id.btnReturn);
         btnPayment = (Button) findViewById(R.id.btnPay);
         edtPay = (EditText) findViewById(R.id.edtPayment);
+        mAuth = FirebaseAuth.getInstance();
 
         //Save a card using the Stripe Api
         //Calls the saveCard function
@@ -68,6 +74,8 @@ public class PaymentActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Save a Card First",Toast.LENGTH_SHORT).show();
                 }
                 else{
+                    String userUid = mAuth.getCurrentUser().getUid();
+
 
                     //Stripe payments will be implemented here once a server has been created to handle payments
                    /* Stripe.apiKey = ;

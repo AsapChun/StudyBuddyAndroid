@@ -15,7 +15,11 @@ public class User {
     private List<Course> studentCourse;
     private List<Appointment> appointments;
     private int TotalRating;
+    private String[] reviews;
 
+    public User(){
+
+    }
 
 
     public User(String e, String firstN, String lastN, String g, int year , String pass){
