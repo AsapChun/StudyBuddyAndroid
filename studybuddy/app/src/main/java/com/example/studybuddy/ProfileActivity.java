@@ -86,8 +86,8 @@ public class ProfileActivity extends AppCompatActivity {
     private static final ArrayList<String> courses = new ArrayList<String>( Arrays.asList("cs101", "cs103", "cs105", "cs111", "cs112", "cs131", "cs132", "cs210",
     "cs235", "cs237", "cs320", "cs330", "cs350", "cs391", "cs410", "cs411", "cs440", "cs460", "cs480", "cs542", "cs558", "cs640"));
 
-    String cameraPermission[];
-    String storagePermission[];
+    String[] cameraPermission;
+    String[] storagePermission;
 
     //Progress Dialog
     ProgressDialog pd;
