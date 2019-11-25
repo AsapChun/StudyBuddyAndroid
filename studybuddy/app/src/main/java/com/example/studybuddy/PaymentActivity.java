@@ -1,6 +1,5 @@
 package com.example.studybuddy;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.studybuddy.Model.Appointment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,7 +25,6 @@ import com.stripe.android.view.CardMultilineWidget;
 
 import java.util.HashMap;
 import java.util.Map;
-
 
 public class PaymentActivity extends AppCompatActivity {
 
@@ -93,7 +92,7 @@ public class PaymentActivity extends AppCompatActivity {
                         result.put(ValidAppointment, true);
 
                         db.collection(Appointment)
-                                .document(app.appId)
+                                .document(app.getAppId())
                                 .update(result)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override

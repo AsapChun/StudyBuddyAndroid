@@ -21,6 +21,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.studybuddy.Model.Appointment;
+import com.example.studybuddy.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -96,13 +98,13 @@ public class FindTutorActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 Appointment tutor = new Appointment();
-                                tutor.appId = document.getId();
-                                tutor.location = document.get(Location).toString();
-                                tutor.tutor = document.get(TutorId).toString();
-                                tutor.price = document.get(Price).toString();
+                                tutor.setAppId(document.getId());
+                                tutor.setLocation(document.get(Location).toString());
+                                tutor.setTutor(document.get(TutorId).toString());
+                                tutor.setPrice(document.get(Price).toString());
                                 tutors.add(tutor);
 
-                                tutorsMap.put(tutor.tutor, tutor);
+                                tutorsMap.put(tutor.getTutor(), tutor);
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                             }
 
@@ -121,13 +123,13 @@ public class FindTutorActivity extends AppCompatActivity {
                                                     Appointment tutor = tutorsMap.get(document.getId());
 
                                                     User tutorProfile = new User();
-                                                    tutorProfile.userId = tutor.tutor;
-                                                    tutorProfile.FirstName = document.get(First_name).toString();
-                                                    tutorProfile.LastName = document.get(Last_name).toString();
-                                                    tutorProfile.img_url = document.get(Image_url).toString();
-                                                    tutorProfile.ratings = (List<String>) document.get(Rating);
+                                                    tutorProfile.setUserId(tutor.getTutor());
+                                                    tutorProfile.setFirstName(document.get(First_name).toString());
+                                                    tutorProfile.setLastName(document.get(Last_name).toString());
+                                                    tutorProfile.setImg_url(document.get(Image_url).toString());
+                                                    tutorProfile.setRatings((List<String>) document.get(Rating));
                                                     tutorProfiles.add(tutorProfile);
-                                                    tutorProfileMap.put(tutorProfile.userId, tutorProfile);
+                                                    tutorProfileMap.put(tutorProfile.getUserId(), tutorProfile);
                                                 }
 
                                                 lvTutors = (ListView) findViewById(R.id.lvTutors);
@@ -207,22 +209,22 @@ public class FindTutorActivity extends AppCompatActivity {
             final RatingBar rbTutor = (RatingBar) row.findViewById(R.id.rbTutor);
 
             //if (position < tutors.size() && position < tutorProfiles.size()) {
-                if(tutorProfileMap.containsKey(tutors.get(position).tutor)){
-                    User user = tutorProfileMap.get(tutors.get(position).tutor);
+                if(tutorProfileMap.containsKey(tutors.get(position).getTutor())){
+                    User user = tutorProfileMap.get(tutors.get(position).getTutor());
 
                     //show tutor name
-                    tvTutorName.setText(user.FirstName + " "+user.LastName);
+                    tvTutorName.setText(user.getFirstName() + " "+user.getLastName());
 
                     //show tutor prefer location and the appointment price
-                    tvTutorDescription.setText("Location" + ": " + tutors.get(position).location + ", " + Price + ": " + tutors.get(position).price);
+                    tvTutorDescription.setText("Location" + ": " + tutors.get(position).getLocation() + ", " + Price + ": " + tutors.get(position).getPrice());
 
                     //show user rating
                     rbTutor.setRating(user.getAvgRating());
-                    String imgUrl = user.img_url;
+                    String imgUrl = user.getImg_url();
                     if (imgUrl != null && imgUrl.length() != 0) {
                         try{
                             //resize and noFade is for increasing loading speed
-                            Picasso.get().load(imgUrl).resize(100, 100).noFade().into(imgTutor);
+                            Picasso.get().load(imgUrl).resize(150, 100).noFade().into(imgTutor);
 
                         }catch (Exception e){
                             Picasso.get().load(R.drawable.ic_add_image).into(imgTutor);
