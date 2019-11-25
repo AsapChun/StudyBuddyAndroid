@@ -5,17 +5,20 @@ import java.util.List;
 public class User {
     //User Object
 
-    private String email;
-    private String FirstName;
-    private String LastName;
-    private String gender;
-    private String password;
-    private int graduationYear;
-    private List<Course> tutorCourse;
-    private List<Course> studentCourse;
-    private List<Appointment> appointments;
-    private int TotalRating;
-    private String[] reviews;
+    public String userId;
+    public String email;
+    public String FirstName;
+    public String LastName;
+    public String gender;
+    public String password;
+    public int graduationYear;
+    public List<Course> tutorCourse;
+    public List<Course> studentCourse;
+    public List<Appointment> appointments;
+    public List<String> ratings;
+    private float avgRating;
+    public List<String> reviews;
+    public String img_url;
 
     public User(){
 
@@ -54,5 +57,14 @@ public class User {
         appointments.add(a);
     }
 
+    public float getAvgRating(){
+        if(ratings == null || ratings.size() == 0)
+            return 0;
+
+        float sum = 0;
+        for(String r : ratings)
+            sum += Float.valueOf(r);
+        return sum/ratings.size();
+    }
 
 }

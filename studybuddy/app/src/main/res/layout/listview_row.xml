@@ -3,13 +3,24 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <!--<ImageView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/imgTutor"
-        android:src="@drawable/baseline_account_circle_black_18dp"
+        android:src="@drawable/livelong_prosper"
         android:layout_weight="1"
-        android:layout_gravity="top|bottom" />
+        android:layout_gravity="top|bottom" />-->
+
+    <ImageView
+        android:id="@+id/imgTutor"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_gravity="top|bottom"
+        android:layout_weight="1"
+        android:background="@color/colorPrimary"
+        android:src="@drawable/ic_add_image"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -37,9 +48,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/rbTutor"
+            android:isIndicator="true"
             android:layout_gravity="center_horizontal"
             android:numStars="5"
-            android:rating="3"
+            android:rating="0"
             android:stepSize=".5" />
 
         <Button

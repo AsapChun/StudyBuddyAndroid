@@ -1,23 +1,26 @@
 package com.example.studybuddy;
 
+import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
 
-public class Appointment {
-    private String course;
-    private String tutor;
-    private String location;
-    private String date;
-    private String time;
+public class Appointment implements Serializable {
+    public String appId;
+    public String course;
+    public String tutor;
+    public String location;
+    public String date;
+    public String price;
 
+    public Appointment(){
 
+    }
 
-    public Appointment(String c, String tut, String l,  String d, String t){
+    public Appointment(String c, String tut, String l,  String d){
         course = c;
         tutor = tut;
         location = l;
         date = d;
-        time = t;
     }
 
     public String getCourse(){
@@ -31,8 +34,5 @@ public class Appointment {
     }
     public String getDate(){
         return date;
-    }
-    public String getTime(){
-        return time;
     }
 }

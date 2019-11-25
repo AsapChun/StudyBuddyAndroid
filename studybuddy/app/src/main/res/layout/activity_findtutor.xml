@@ -7,8 +7,10 @@
     tools:context=".FindTutorActivity">
 
     <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/lvTutors"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:fastScrollAlwaysVisible="false" />
 </RelativeLayout>
