@@ -85,7 +85,7 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
             }
         });
 
-        //Register a New User
+        //Register a New Profile
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +95,7 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
 //                int year = Integer.valueOf(edtClassYear.getText().toString());
 //                String pass = edtPassword.getText().toString();
 //                String g = genderDropDown.getSelectedItem().toString();
-//                User newUser =  new User(e, firstN, lastN, g , year, pass);
+//                Profile newUser =  new Profile(e, firstN, lastN, g , year, pass);
                   createAccount(edtEmail.getText().toString(), edtPassword.getText().toString());
 
             }
@@ -208,7 +208,6 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
                                 profile.put("your_class", courses);
                                 profile.put("image_url","");
                                 profile.put("cover_url","");
-                                profile.put("user_id", mAuth.getCurrentUser().getUid());
 
                                     db.collection("Profile").document(userId).set(profile)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {

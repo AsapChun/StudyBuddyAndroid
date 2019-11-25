@@ -106,6 +106,8 @@ public class HomePageActivity extends AppCompatActivity {
                 goToProfile();
                 return true;
             case R.id.itmMessages:
+                Toast.makeText(getApplicationContext(), "Settings Selected", Toast.LENGTH_SHORT).show();
+                goToMessages();
                 return true;
             case R.id.itmPayment:
                 goToPayment();
@@ -153,6 +155,11 @@ public class HomePageActivity extends AppCompatActivity {
         Intent newIntent = new Intent(this, ManageAccountActivity.class);
         this.startActivity(newIntent);
     }
+    public void goToMessages(){
+        Intent newIntent = new Intent(this, ChatActivity.class);
+        this.startActivity(newIntent);
+    }
+
 
     public void signOut(){
 
