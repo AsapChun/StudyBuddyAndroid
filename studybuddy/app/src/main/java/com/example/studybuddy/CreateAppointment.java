@@ -253,6 +253,7 @@ public class CreateAppointment extends AppCompatActivity implements AdapterView.
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Failure!", Toast.LENGTH_LONG).show();
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
