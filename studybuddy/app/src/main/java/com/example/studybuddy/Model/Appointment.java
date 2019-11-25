@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
 
+//Todo Change naming convetion in both Firebase and here in to lower_case
 public class Appointment implements Serializable {
     public String appId;
     public String course;
