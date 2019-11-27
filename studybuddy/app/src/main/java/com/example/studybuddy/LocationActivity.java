@@ -335,6 +335,7 @@ public class LocationActivity extends AppCompatActivity {
                             {
                                 destination = getLngLat(destinations.get(0));
                             }
+
                             Toast.makeText(getBaseContext(), "data retrieve from firebase", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(getBaseContext(), LocationActivity.class);
                             Bundle b = new Bundle();
