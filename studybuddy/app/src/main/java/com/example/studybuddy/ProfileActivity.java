@@ -662,5 +662,10 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getBaseContext(), HomePageActivity.class);
+        startActivity(intent);
+    }
 
 }

@@ -369,7 +369,9 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
     }
 
     public void goBack(View v) {
+        Intent intent = new Intent(getBaseContext(), HomePageActivity.class);
         this.finish();
+        startActivity(intent);
     }
 
 }
