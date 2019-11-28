@@ -1,6 +1,7 @@
 package com.example.studybuddy;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -113,6 +114,7 @@ public class LocationActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private ArrayList<String> destinations;
     private static boolean update=true;
+    private ProgressDialog progress;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +122,11 @@ public class LocationActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         destinations = new ArrayList<>();
+
+        progress = new ProgressDialog(this);
+        progress.setTitle("Loading");
+        progress.setMessage("Please Wait while Loading Data...");
+        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
 
         //try to get the destination coordinates
         Bundle b = getIntent().getExtras();
@@ -129,6 +136,7 @@ public class LocationActivity extends AppCompatActivity {
                 double tempLo = b.getDouble("longtitude");
                 double tempLa = b.getDouble("latitude");
                 destination = Point.fromLngLat(tempLo, tempLa);
+                progress.dismiss();
             }
             update = b.getBoolean("update");
 
@@ -169,6 +177,7 @@ public class LocationActivity extends AppCompatActivity {
                         origin = Point.fromLngLat(lng, lat);
 
                         if(update){
+                            progress. show();
                             getDestination();
                         }
 

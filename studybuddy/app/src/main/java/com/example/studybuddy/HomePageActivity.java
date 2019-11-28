@@ -1,5 +1,6 @@
 package com.example.studybuddy;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -55,6 +56,7 @@ public class HomePageActivity extends AppCompatActivity {
     private TextView displayCourses;
     private boolean update=true;
     private boolean checkname=true;
+    private ProgressDialog progress;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +68,12 @@ public class HomePageActivity extends AppCompatActivity {
         txtSessions.setMovementMethod(new ScrollingMovementMethod());
         displayCourses = (TextView) findViewById(R.id.txtCourses);
         displayCourses.setMovementMethod(new ScrollingMovementMethod());
+
+        progress = new ProgressDialog(this);
+        progress.setTitle("Loading");
+        progress.setMessage("Please Wait while Loading Data...");
+        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+
 
         classes = new ArrayList<>();
         appointments = new ArrayList<>();
@@ -95,6 +103,7 @@ public class HomePageActivity extends AppCompatActivity {
                         appointmentDisplay+=apt+"<br>";
                     }
                     txtSessions.setText(Html.fromHtml(appointmentDisplay));
+
                 }
                 else if(key.equals("studentNames")){
                     studentNames = b.getStringArrayList("studentNames");
@@ -106,6 +115,7 @@ public class HomePageActivity extends AppCompatActivity {
         }
 
         if(update) {
+            progress.show();
             getHomePageData();
         }
 
@@ -196,6 +206,7 @@ public class HomePageActivity extends AppCompatActivity {
                                         appointmentDisplay+=apt+"<br>";
                                     }
                                     txtSessions.setText(Html.fromHtml(appointmentDisplay));
+                                    progress.dismiss();
                                 }
 
                             }
