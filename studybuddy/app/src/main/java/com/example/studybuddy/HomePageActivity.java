@@ -69,6 +69,7 @@ public class HomePageActivity extends AppCompatActivity {
         displayCourses = (TextView) findViewById(R.id.txtCourses);
         displayCourses.setMovementMethod(new ScrollingMovementMethod());
 
+        //add loading screen
         progress = new ProgressDialog(this);
         progress.setTitle("Loading");
         progress.setMessage("Please Wait while Loading Data...");

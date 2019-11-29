@@ -123,6 +123,7 @@ public class LocationActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         destinations = new ArrayList<>();
 
+        //add loading screen
         progress = new ProgressDialog(this);
         progress.setTitle("Loading");
         progress.setMessage("Please Wait while Loading Data...");
