@@ -341,7 +341,13 @@ public class HomePageActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        if ( progress!=null && progress.isShowing() ){
+            progress.cancel();
+        }
+    }
 
 }
 
