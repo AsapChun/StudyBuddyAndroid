@@ -104,8 +104,7 @@
                         android:numStars="5"
                         android:stepSize="0.5"
                         android:clickable="false"
-                        android:layout_gravity="center"
-                        android:rating="4.5" />
+                        android:layout_gravity="center" />
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
