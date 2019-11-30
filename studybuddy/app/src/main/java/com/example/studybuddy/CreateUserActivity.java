@@ -179,7 +179,7 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
         return valid;
     }
 
-
+    //TODO: add rating column
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
         if (!validateForm()) {
@@ -208,6 +208,7 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
                                 profile.put("your_class", courses);
                                 profile.put("image_url","");
                                 profile.put("cover_url","");
+                                profile.put("rating",new ArrayList<>());
 
                                     db.collection("Profile").document(userId).set(profile)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {

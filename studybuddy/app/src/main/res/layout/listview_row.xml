@@ -3,14 +3,6 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<ImageView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/imgTutor"
-        android:src="@drawable/livelong_prosper"
-        android:layout_weight="1"
-        android:layout_gravity="top|bottom" />-->
-
     <ImageView
         android:id="@+id/imgTutor"
         android:layout_width="0dp"
@@ -18,7 +10,6 @@
         android:layout_gravity="top|bottom"
         android:layout_weight="1"
         android:background="@color/colorPrimary"
-        android:src="@drawable/ic_add_image"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"/>
 

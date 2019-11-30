@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,7 +43,8 @@ public class PaymentActivity extends AppCompatActivity {
     private Button btnSaveCard;
     private Button btnBack;
     private Button btnPayment;
-    private EditText edtPay;
+    private TextView tvAmount;
+    //private EditText edtPay;
     private Appointment app;
 
 
@@ -61,7 +63,9 @@ public class PaymentActivity extends AppCompatActivity {
         btnSaveCard = (Button) findViewById(R.id.btnSave);
         btnBack = (Button) findViewById(R.id.btnReturn);
         btnPayment = (Button) findViewById(R.id.btnPay);
-        edtPay = (EditText) findViewById(R.id.edtPayment);
+        tvAmount = (TextView) findViewById(R.id.tvAmount);
+        //edtPay = (EditText) findViewById(R.id.edtPayment);
+        tvAmount.setText("Amount: "+ app.getPrice().toString());
 
         //Save a card using the Stripe Api
         //Calls the saveCard function

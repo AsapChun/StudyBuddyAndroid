@@ -100,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:scaleX=".7"
                         android:scaleY=".7"
-
+                        android:isIndicator="true"
                         android:numStars="5"
                         android:stepSize="0.5"
                         android:clickable="false"
