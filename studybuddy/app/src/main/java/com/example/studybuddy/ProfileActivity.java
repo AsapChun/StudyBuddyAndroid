@@ -36,6 +36,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.studybuddy.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -55,6 +56,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -74,6 +76,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView firstNameTv, lastNameTv, classYearTv, classTv, classTutorTv;
     private ImageView avatarIv, coverIv;
     private FloatingActionButton fab;
+    private RatingBar ratingBr;
     //permission constants
     private static final int CAMERA_REQUEST_CODE = 100;
     private static final int STORAGE_REQUEST_CODE = 200;
@@ -113,6 +116,7 @@ public class ProfileActivity extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         classTv = findViewById(R.id.classTv);
         classTutorTv = findViewById(R.id.classTutorTv);
+        ratingBr = findViewById(R.id.ratingBr);
 
 
         //init array of permissions
@@ -137,12 +141,16 @@ public class ProfileActivity extends AppCompatActivity {
                             your_class = (ArrayList<String>) data.get("your_class");
                             tutor_session = (ArrayList<String>) data.get("tutor_session");
 
+                            User uForCalculateRating = new User();
+                            uForCalculateRating.setRatings((List<String>) document.get("rating"));
+
                             classTv.setText(toStringArrayList(your_class));
                             classTutorTv.setText(toStringArrayList(tutor_class));
 
                             firstNameTv.setText(first_name);
                             lastNameTv.setText(last_name);
                             classYearTv.setText(class_year);
+                            ratingBr.setRating(uForCalculateRating.getAvgRating());
                             try{
 
                                 String image_url = data.get("image_url").toString();
@@ -662,5 +670,10 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getBaseContext(), HomePageActivity.class);
+        startActivity(intent);
+    }
 
 }

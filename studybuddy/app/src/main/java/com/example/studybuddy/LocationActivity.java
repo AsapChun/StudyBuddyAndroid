@@ -320,7 +320,7 @@ public class LocationActivity extends AppCompatActivity {
 
     private void getDestination(){
         db.collection("Appointment")
-                .whereEqualTo("TutorID",mAuth.getCurrentUser().getUid() )
+                .whereEqualTo("TutorId",mAuth.getCurrentUser().getUid() )
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -335,6 +335,7 @@ public class LocationActivity extends AppCompatActivity {
                             {
                                 destination = getLngLat(destinations.get(0));
                             }
+
                             Toast.makeText(getBaseContext(), "data retrieve from firebase", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(getBaseContext(), LocationActivity.class);
                             Bundle b = new Bundle();
@@ -362,6 +363,9 @@ public class LocationActivity extends AppCompatActivity {
         }
         else if(place.equals("Questrom")){
             return Point.fromLngLat(-71.099540, 42.349580);
+        }
+        else if(place.equals("EMA")){
+            return Point.fromLngLat(-71.106990, 42.349640);
         }
         return destination;
     }

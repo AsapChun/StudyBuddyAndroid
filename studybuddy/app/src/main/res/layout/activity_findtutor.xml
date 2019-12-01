@@ -1,44 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/txtAvailableTime"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".FindTutorActivity">
 
-    <TextView
-        android:id="@+id/txtFindTutor"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="589dp"
-        android:text="Create A Tutor Appointment"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/txtTutorClassInfo"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="540dp"
-        android:text="Finding a tutor for "
-        android:textSize="24sp" />
-
     <ListView
-        android:id="@+id/lvTutors"
         android:layout_width="wrap_content"
-        android:layout_height="534dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="9dp"
-        android:layout_marginBottom="2dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/lvTutors"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
         android:fastScrollAlwaysVisible="false" />
-
 </RelativeLayout>

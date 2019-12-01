@@ -1,53 +1,71 @@
 package com.example.studybuddy;
 
-
-import android.accounts.Account;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.studybuddy.Model.Appointment;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.stripe.android.ApiResultCallback;
 import com.stripe.android.Stripe;
 import com.stripe.android.model.Card;
-import com.stripe.android.model.PaymentIntent;
-import com.stripe.android.model.StripeIntent;
-import com.stripe.android.model.StripePaymentSource;
 import com.stripe.android.model.Token;
 import com.stripe.android.view.CardMultilineWidget;
 
-
-
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class PaymentActivity extends AppCompatActivity {
+
+    private static final String TAG = "Payment";
+    public static final String Appointment = "Appointment";
+
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+
+    public static final String StudentId = "StudentId";
+    public static final String ValidAppointment = "validAppointment";
 
     private CardMultilineWidget cmw;
     private Card cardToSave;
     private Button btnSaveCard;
     private Button btnBack;
     private Button btnPayment;
-    private EditText edtPay;
+    private TextView tvAmount;
+    //private EditText edtPay;
+    private Appointment app;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
+        Intent intent = getIntent();
+        app = (Appointment) intent.getSerializableExtra(Appointment);
+
+        //firebase init
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
         //stripe widget
         cmw = (CardMultilineWidget) findViewById(R.id.card_multiline_widget);
         btnSaveCard = (Button) findViewById(R.id.btnSave);
         btnBack = (Button) findViewById(R.id.btnReturn);
         btnPayment = (Button) findViewById(R.id.btnPay);
-        edtPay = (EditText) findViewById(R.id.edtPayment);
+        tvAmount = (TextView) findViewById(R.id.tvAmount);
+        //edtPay = (EditText) findViewById(R.id.edtPayment);
+        tvAmount.setText("Amount: "+ app.getPrice().toString());
 
         //Save a card using the Stripe Api
         //Calls the saveCard function
@@ -63,11 +81,39 @@ public class PaymentActivity extends AppCompatActivity {
         btnPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Card card =  cmw.getCard(); //stripe widget
-                if(card == null){
-                    Toast.makeText(getApplicationContext(),"Save a Card First",Toast.LENGTH_SHORT).show();
-                }
-                else{
+                Card card = cmw.getCard(); //stripe widget
+                if (card == null) {
+                    Toast.makeText(getApplicationContext(), "Save a Card First", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    //Update Appointment
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    if (user != null) {
+                        String userId = user.getUid();
+
+                        Map<String, Object> result = new HashMap<>();
+                        result.put(StudentId, userId);
+                        result.put(ValidAppointment, true);
+
+                        db.collection(Appointment)
+                                .document(app.getAppId())
+                                .update(result)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(getApplicationContext(), "Payment Complete...", Toast.LENGTH_SHORT).show();
+                                        goToHomePage();
+
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getApplicationContext(), "Error Paying ...", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                    }
 
                     //Stripe payments will be implemented here once a server has been created to handle payments
                    /* Stripe.apiKey = ;
@@ -86,7 +132,7 @@ public class PaymentActivity extends AppCompatActivity {
 
                     */
 
-                    Toast.makeText(getApplicationContext(),"Payment Complete",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),"Payment Complete",Toast.LENGTH_SHORT).show();
 
 
                 }
@@ -107,10 +153,10 @@ public class PaymentActivity extends AppCompatActivity {
     private void saveCard() {
         //save card to Customer
 
-        Card card =  cmw.getCard(); //gets the card from the stripe cmw widgfet
-        if(card == null){
-            Toast.makeText(getApplicationContext(),"Invalid card",Toast.LENGTH_SHORT).show();
-        }else {
+        Card card = cmw.getCard(); //gets the card from the stripe cmw widgfet
+        if (card == null) {
+            Toast.makeText(getApplicationContext(), "Invalid card", Toast.LENGTH_SHORT).show();
+        } else {
             if (!card.validateCard()) { //Stripe function that checks whether if inputted card is valid
                 // Do not continue token creation.
                 Toast.makeText(getApplicationContext(), "Invalid card", Toast.LENGTH_SHORT).show();
@@ -120,11 +166,12 @@ public class PaymentActivity extends AppCompatActivity {
             }
         }
     }
+
     private Token cc;
 
     //Stripe function to create new token within the Stripe API
     //token allows us to use and access the newly created card
-    private void CreateToken( Card card) {
+    private void CreateToken(Card card) {
         Stripe stripe = new Stripe(getApplicationContext(), "pk_test_zpzYaEYYjWapZrdYSBTbkG5x00ZQGlGiST");
         //Our publishable key
         stripe.createToken(
@@ -137,14 +184,15 @@ public class PaymentActivity extends AppCompatActivity {
                         //But we take the necessary card details to create a card toekn
                         Log.e("Stripe Token", token.getId());
                         Intent intent = new Intent();
-                        intent.putExtra("card",token.getCard().getLast4());
-                        intent.putExtra("stripe_token",token.getId());
-                        intent.putExtra("cardtype",token.getCard().getBrand());
-                        setResult(0077,intent);
+                        intent.putExtra("card", token.getCard().getLast4());
+                        intent.putExtra("stripe_token", token.getId());
+                        intent.putExtra("cardtype", token.getCard().getBrand());
+                        setResult(0077, intent);
                         Toast.makeText(getApplicationContext(), "Valid Card", Toast.LENGTH_SHORT).show();
 
 
                     }
+
                     public void onError(Exception error) {
 
                         // Show localized error message
@@ -168,14 +216,15 @@ public class PaymentActivity extends AppCompatActivity {
         }
         return true;
        }
-
  */
-
-
 
     public void goBack(View v) {
         this.finish();
     }
 
+    public void goToHomePage() {
+        Intent newIntent = new Intent(this, HomePageActivity.class);
+        this.startActivity(newIntent);
+    }
 }
 
