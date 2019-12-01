@@ -208,7 +208,7 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
                                 profile.put("your_class", courses);
                                 profile.put("image_url","");
                                 profile.put("cover_url","");
-
+                                profile.put("user_id", userId);
                                     db.collection("Profile").document(userId).set(profile)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override

@@ -93,9 +93,10 @@ public class UsersFragment extends Fragment {
                     Log.w(TAG, "Listen failed.", e);
                     return;
                 }
+                mUsers.clear();
 
                 for (QueryDocumentSnapshot doc : value) {
-                    if (!mAuth.getCurrentUser().getUid().equals(doc.toString())) {
+                    if (!mAuth.getCurrentUser().getUid().equals(doc.getId())) {
                         mUsers.add(doc.toObject(Profile.class));
                     }
                 }
