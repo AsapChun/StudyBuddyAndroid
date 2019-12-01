@@ -195,7 +195,6 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
-                                String uID = generate_UserId();
                                 String userId = mAuth.getCurrentUser().getUid();
                                 ArrayList<String> courses = new ArrayList<String>();
                                 Map<String, Object> profile = new HashMap<>();
@@ -208,8 +207,8 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
                                 profile.put("your_class", courses);
                                 profile.put("image_url","");
                                 profile.put("cover_url","");
-                                profile.put("rating",new ArrayList<>());
-
+                                profile.put("user_id", userId);
+                                profile.put("rating",new ArrayList<String>());
                                     db.collection("Profile").document(userId).set(profile)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
@@ -251,13 +250,6 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
         this.startActivity(newIntent);
     }
 
-    public String generate_UserId() {
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
-
-        return generatedString;
-    }
 
 
 }
