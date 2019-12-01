@@ -1,7 +1,9 @@
 package com.example.studybuddy;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -113,6 +115,7 @@ public class LocationActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private ArrayList<String> destinations;
     private static boolean update=true;
+    private ProgressDialog progress;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,18 +124,42 @@ public class LocationActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         destinations = new ArrayList<>();
 
+        //add loading screen
+        progress = new ProgressDialog(this);
+        progress.setTitle("Loading");
+        progress.setMessage("Please Wait while Loading Data...");
+        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+
         //try to get the destination coordinates
         Bundle b = getIntent().getExtras();
         if(b!=null){
-            if(b.keySet().size()>1){
-                destinations = b.getStringArrayList("destinations");
-                double tempLo = b.getDouble("longtitude");
-                double tempLa = b.getDouble("latitude");
-                destination = Point.fromLngLat(tempLo, tempLa);
+//            if(b.keySet().size()>1){
+//                destinations = b.getStringArrayList("destinations");
+//                double tempLo = b.getDouble("longtitude");
+//                double tempLa = b.getDouble("latitude");
+//                destination = Point.fromLngLat(tempLo, tempLa);
+//                progress.dismiss();
+//            }
+//            update = b.getBoolean("update");
+
+            for(String key: b.keySet()){
+                if(key.equals("destinations")){
+                    destinations=b.getStringArrayList("destinations");
+                }
+                else if(key.equals("longtitude")){
+                    double tempLo = b.getDouble("longtitude");
+                    double tempLa = b.getDouble("latitude");
+                    destination = Point.fromLngLat(tempLo, tempLa);
+                    progress.dismiss();
+                }
+                else if(key.equals("update")){
+                    update = b.getBoolean("update");
+                }
+                else if(key.equals("lat")){
+                    lat = b.getDouble("lat");
+                    lng = b.getDouble("lng");
+                }
             }
-            update = b.getBoolean("update");
-
-
         }
 
 
@@ -164,11 +191,15 @@ public class LocationActivity extends AppCompatActivity {
                     public void onStyleLoaded(@NonNull Style style) {
 // Set the origin location to the Alhambra landmark in Granada, Spain.
 
-                        getLocation();
+                        // only ask for permission after destination been retrieved
+                        if(!update) {
+                            checkLocationPermission();
+                        }
 
                         origin = Point.fromLngLat(lng, lat);
 
                         if(update){
+                            progress. show();
                             getDestination();
                         }
 
@@ -384,7 +415,7 @@ public class LocationActivity extends AppCompatActivity {
         Location location = getLastKnownLocation();
 
         if (location == null){
-            Toast.makeText(getBaseContext(),"Location Not found",Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(),"Location Not Found, Please Grant Location Permission in Setting",Toast.LENGTH_LONG).show();
 
         }else{
             geocoder = new Geocoder(getBaseContext());
@@ -401,16 +432,15 @@ public class LocationActivity extends AppCompatActivity {
         }
     }
     private Location getLastKnownLocation() {
+        if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+
+        }
+
         mLocationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
         List<String> providers = mLocationManager.getProviders(true);
         Location bestLocation = null;
         for (String provider : providers) {
-            if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
-                Toast.makeText(getBaseContext(),"permission not granted",Toast.LENGTH_LONG).show();
-                ActivityCompat.requestPermissions(LocationActivity.this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
-            }
+
             Location l = mLocationManager.getLastKnownLocation(provider);
             if (l == null) {
                 continue;
@@ -421,6 +451,62 @@ public class LocationActivity extends AppCompatActivity {
             }
         }
         return bestLocation;
+    }
+
+    public boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+
+            return false;
+        } else {
+            getLocation();
+
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, get user location, and restart activity
+                    if (ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+
+                        //Request location updates:
+                        getLocation();
+                        Intent i = new Intent(getBaseContext(), LocationActivity.class);
+                        Bundle b = new Bundle();
+                        b.putDouble("lat",lat);
+                        b.putDouble("lng",lng);
+                        b.putBoolean("update",true);
+                        i.putExtras(b);
+                        goBack();
+                        startActivity(i);
+                    }
+
+                } else {
+
+                    // permission denied, go back to homepage
+                    this.finish();
+                }
+                return;
+            }
+
+        }
     }
 
     @Override
@@ -456,11 +542,15 @@ public class LocationActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-// Cancel the Directions API request
+        // Cancel the Directions API request
         if (client != null) {
             client.cancelCall();
         }
+        //destroy loading screen if current activity is destroy
         mapView.onDestroy();
+        if ( progress!=null && progress.isShowing() ){
+            progress.cancel();
+        }
     }
 
     @Override
