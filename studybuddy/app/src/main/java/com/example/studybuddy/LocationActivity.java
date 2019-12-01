@@ -191,11 +191,10 @@ public class LocationActivity extends AppCompatActivity {
                     public void onStyleLoaded(@NonNull Style style) {
 // Set the origin location to the Alhambra landmark in Granada, Spain.
 
-                        // only ask for permission after data been retrieved
+                        // only ask for permission after destination been retrieved
                         if(!update) {
                             checkLocationPermission();
                         }
-                        //getLocation();
 
                         origin = Point.fromLngLat(lng, lat);
 
@@ -434,10 +433,7 @@ public class LocationActivity extends AppCompatActivity {
     }
     private Location getLastKnownLocation() {
         if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
-//            //Toast.makeText(getBaseContext(),"permission not granted",Toast.LENGTH_LONG).show();
-//            ActivityCompat.requestPermissions(LocationActivity.this,
-//                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},
-//                    MY_PERMISSIONS_REQUEST_LOCATION);
+
         }
 
         mLocationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
@@ -485,8 +481,7 @@ public class LocationActivity extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    // permission was granted, yay! Do the
-                    // location-related task you need to do.
+                    // permission was granted, get user location, and restart activity
                     if (ContextCompat.checkSelfPermission(this,
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
@@ -505,8 +500,7 @@ public class LocationActivity extends AppCompatActivity {
 
                 } else {
 
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+                    // permission denied, go back to homepage
                     this.finish();
                 }
                 return;
@@ -548,10 +542,11 @@ public class LocationActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-// Cancel the Directions API request
+        // Cancel the Directions API request
         if (client != null) {
             client.cancelCall();
         }
+        //destroy loading screen if current activity is destroy
         mapView.onDestroy();
         if ( progress!=null && progress.isShowing() ){
             progress.cancel();
