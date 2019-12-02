@@ -84,7 +84,6 @@ public class FindTutorActivity extends AppCompatActivity {
         retrieveSharedPreferenceInfo();
 
         final Context context = this.getBaseContext();
-        final Activity activity = this;
         mAuth = FirebaseAuth.getInstance();
         // Access a Cloud Firestore instance from your Activity
         db = FirebaseFirestore.getInstance();
@@ -317,120 +316,17 @@ public class FindTutorActivity extends AppCompatActivity {
 
         //sort list item by title
         if (id == R.id.mSortByPrice) {
-
-            //if currently not in activity main, change current layout to activity main.
-            /*if(onmain==false){
-                setContentView(R.layout.activity_main);
-                onmain=true;
-                lvEpisodes = (ListView)findViewById(R.id.lvEpisodes);
-
-            }*/
-
-            //cast adapter to our custom adapter to use sortbytitle()
-            //MyCustomAdapter a = (MyCustomAdapter) lvAdapter;
-            //lvTutors.setAdapter(a);
             a.sortbyPrice();
-
             return true;
         }
 
         //sort list item by rating
         if (id == R.id.mSortByRating) {
-            //if currently not in activity main, change current layout to activity main.
-            /*if(onmain==false){
-                setContentView(R.layout.activity_main);
-                onmain=true;
-                lvEpisodes = (ListView)findViewById(R.id.lvEpisodes);
-            }*/
-            //cast adapter to our custom adapter to use sortbyrating()
-            //MyCustomAdapter a = (MyCustomAdapter) lvAdapter;
-            //lvEpisodes.setAdapter(a);
             a.sortbyRating();
-
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-//    @Override
-//    public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
-//
-//        if (parent.getId() == R.id.spinAvailableTutors) {
-//            switch (position) {
-//                case 0:
-//                    tutor = "Pietro";
-//                    // Whatever you want to happen when the first item gets selected
-//                    //  gender = "Male";
-//                    break;
-//            }
-//        }
-//        if (parent.getId() == R.id.spinAvailableTimes) {
-//            switch (position) {
-//                case 0:
-//                    tim = "12:00";
-//                    // Whatever you want to happen when the first item gets selected
-//                    //  gender = "Male";
-//                    break;
-//                case 1:
-//                    tim = "13:00";
-//                    // Whatever you want to happen when the first item gets selected
-//                    //  gender = "Male";
-//                    break;
-//                case 2:
-//                    tim = "14:00";
-//                    break;
-//                case 3:
-//                    tim = "15:00";
-//                    break;
-//                case 4:
-//                    tim = "16:00";
-//                    break;
-//                case 5:
-//                    tim = "17:00";
-//                    break;
-//            }
-//        }
-//        if (parent.getId() == R.id.spinLocations) {
-//            switch (position) {
-//                case 0:
-//                    loc = "Questrom";
-//                    // Whatever you want to happen when the first item gets selected
-//                    //  gender = "Male";
-//
-//                    break;
-//                case 1:
-//                    loc = "GSU";
-//                    // Whate]
-//                    // er you want to happen when the first item gets selected
-//                    //  gender = "Male";
-//                    break;
-//                case 2:
-//                    loc = "Law";
-//                    break;
-//            }
-//        }
-//        if (parent.getId() == R.id.spinDates) {
-//            switch (position) {
-//                case 0:
-//                    date = "4/20/2020";
-//                    // Whatever you want to happen when the first item gets selected
-//                    //  gender = "Male";
-//
-//                    break;
-//                case 1:
-//                    date = "5/20/2020";
-//                    // Whatever you want to happen when the first item gets selected
-//                    //  gender = "Male";
-//                    break;
-//            }
-//        }
-//    }
-
-//    @Override
-//    public void onNothingSelected(AdapterView<?> parent) {
-//        // TODO Auto-generated method stub
-//        //   gender = null;
-//
-//    }
 
     void retrieveSharedPreferenceInfo() {
         //txtFindTut = (TextView) findViewById(R.id.txtTutorClassInfo);
@@ -438,34 +334,5 @@ public class FindTutorActivity extends AppCompatActivity {
         SharedPreferences simpleAppInfo = getSharedPreferences("ManageAccountActivity", Context.MODE_PRIVATE);
         tutorCourse = simpleAppInfo.getString("tutor", "<missing>");
     }
-
-    /*private void addAppointment(Appointment app) {
-
-        DocumentReference ProfileRef = db.collection("Profile").document(mAuth.getCurrentUser().getUid());
-        ArrayList<String> appoint = new ArrayList<>();
-        appoint.add(app.getCourse());
-        appoint.add(app.getTutor());
-        appoint.add(app.getLocation());
-        appoint.add(app.getDate());
-
-        ProfileRef
-                .update("tutor_session", appoint)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(getApplicationContext(), "Appointment has been added!", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "DocumentSnapshot successfully updated!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Appointment Error!", Toast.LENGTH_SHORT).show();
-                        Log.w(TAG, "Error updating document", e);
-                    }
-                });
-
-    }*/
-
 
 }

@@ -38,6 +38,12 @@
             android:name=".PaymentActivity"
             android:screenOrientation="portrait"></activity>
         <activity
+            android:name=".ReviewsReceivedActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".GiveReviewsActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
             android:name=".ProfileActivity"
             android:screenOrientation="portrait"></activity>
         <activity

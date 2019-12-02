@@ -8,16 +8,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.annotations.Nullable;
@@ -28,18 +24,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.mapbox.geojson.Point;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 public class HomePageActivity extends AppCompatActivity {
@@ -259,8 +248,11 @@ public class HomePageActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Settings Selected", Toast.LENGTH_SHORT).show();
                 goToMessages();
                 return true;
-            case R.id.itmPayment:
-                goToPayment();
+            case R.id.itmReviewsReceived:
+                goToReviewsReceived();
+                return true;
+            case R.id.itmGiveReviews:
+                goToGiveReviews();
                 return true;
             case R.id.itmLocation:
                 goToLocation();
@@ -288,6 +280,14 @@ public class HomePageActivity extends AppCompatActivity {
     }
     public void goToPayment(){
         Intent newIntent = new Intent(this, PaymentActivity.class);
+        this.startActivity(newIntent);
+    }
+    public void goToReviewsReceived(){
+        Intent newIntent = new Intent(this, ReviewsReceivedActivity.class);
+        this.startActivity(newIntent);
+    }
+    public void goToGiveReviews(){
+        Intent newIntent = new Intent(this, GiveReviewsActivity.class);
         this.startActivity(newIntent);
     }
     public void goToProfile(){

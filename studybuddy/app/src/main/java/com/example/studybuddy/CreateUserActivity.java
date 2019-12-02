@@ -179,7 +179,7 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
         return valid;
     }
 
-    //TODO: add rating column
+
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
         if (!validateForm()) {
