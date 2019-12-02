@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".HomePageActivity">
+    tools:context=".HomePageActivity"
+    android:background="@color/black">
 
     <TextView
         android:id="@+id/txtUpcomingSessions"
@@ -14,13 +16,16 @@
         android:text="Upcoming Sessions!"
         android:textAlignment="textStart"
         android:textSize="36sp"
-        android:textStyle="bold|italic" />
+        android:textStyle="bold|italic"
+        android:textColor="@color/darkgreen"/>
 
     <androidx.cardview.widget.CardView
+        style="@style/categoriesCardViewButtons"
         android:layout_width="match_parent"
-        android:layout_height="191dp"
-        android:layout_weight="0">
-        card_view:cardBackgroundColor="@android:color/white"
+        android:layout_height="253dp"
+        android:layout_weight="0"
+        app:cardBackgroundColor="@color/darkgray">
+        <!--        card_view:cardBackgroundColor="@color/darkgray"-->
         card_view:contentPadding="3dp"
 
         <TextView
@@ -28,6 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="207dp"
             android:scrollbars="vertical"
+            android:textColor="@android:color/white"
             android:textSize="24sp" />
     </androidx.cardview.widget.CardView>
 
@@ -36,21 +42,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0"
-        android:text="CurrentClasses"
+        android:text="Current Classes"
         android:textSize="36sp"
-        android:textStyle="bold|italic" />
+        android:textStyle="bold|italic"
+        android:textColor="@color/darkgreen"/>
 
     <androidx.cardview.widget.CardView
+        style="@style/categoriesCardViewButtons"
         android:layout_width="match_parent"
         android:layout_height="384dp"
-        android:layout_weight="0">
-        card_view:cardBackgroundColor="@android:color/white"
+        android:layout_weight="0"
+        app:cardBackgroundColor="@color/darkgray">
+<!--        card_view:cardBackgroundColor="@color/darkgray"-->
         card_view:contentPadding="3dp"
 
         <TextView
             android:id="@+id/txtCourses"
             android:layout_width="match_parent"
-            android:layout_height="356dp"
+            android:layout_height="281dp"
+            android:textColor="@android:color/white"
             android:textSize="24sp" />
     </androidx.cardview.widget.CardView>
 

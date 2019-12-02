@@ -249,7 +249,7 @@ public class FindTutorActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent i = new Intent(context, PaymentActivity.class);
                     i.putExtra(Appointment, tutors.get(position));
-                    context.startActivity(i);
+                    startActivity(i);
                 }
             });
 

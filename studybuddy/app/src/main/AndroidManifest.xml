@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".MessagingActivity"></activity>
+        <activity android:name=".MessageFragmentActivity" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
@@ -27,16 +28,16 @@
         </activity>
         <activity
             android:name=".CreateUserActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".HomePageActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SettingsActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PaymentActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ReviewsReceivedActivity"
             android:screenOrientation="portrait"></activity>
@@ -45,19 +46,19 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ProfileActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LocationActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ManageAccountActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".FindTutorActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CreateAppointment"
-            android:screenOrientation="portrait"></activity> <!-- [START firebase_service] -->
+            android:screenOrientation="portrait" /> <!-- [START firebase_service] -->
         <service
             android:name="com.google.firebase.messaging.FirebaseMessagingService"
             android:exported="false">
