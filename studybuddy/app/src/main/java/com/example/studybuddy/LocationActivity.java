@@ -383,6 +383,39 @@ public class LocationActivity extends AppCompatActivity {
                     }
                 });
 
+        db.collection("Appointment")
+                .whereEqualTo("StudentId",mAuth.getCurrentUser().getUid() )
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String data = (String) document.getData().get("Location");
+                                Log.d(TAG, document.getId() + " appointment at " + data);
+                                destinations.add(data);
+                            }
+//                            if(destinations.size()!=0)
+//                            {
+//                                destination = getLngLat(destinations.get(0));
+//                            }
+
+                            Toast.makeText(getBaseContext(), "data retrieve from firebase", Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(getBaseContext(), LocationActivity.class);
+                            Bundle b = new Bundle();
+                            b.putBoolean("update",false);
+                            b.putDouble("latitude",destination.latitude());
+                            b.putDouble("longtitude",destination.longitude());
+                            b.putStringArrayList("destinations",destinations);
+                            i.putExtras(b);
+                            goBack();
+                            startActivity(i);
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
     }
 
     private Point getLngLat(String place){
