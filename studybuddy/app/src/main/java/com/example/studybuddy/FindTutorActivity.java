@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -35,8 +37,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FindTutorActivity extends AppCompatActivity {
     private static final String TAG = "Add Appointment";
@@ -96,6 +101,9 @@ public class FindTutorActivity extends AppCompatActivity {
 
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
+                                //cannot be both tutor and student in a appointment
+                                if (document.get(TutorId).toString().equals(mAuth.getCurrentUser().getUid()))
+                                    continue;
 
                                 Appointment tutor = new Appointment();
                                 tutor.setAppId(document.getId());
@@ -209,36 +217,31 @@ public class FindTutorActivity extends AppCompatActivity {
             final RatingBar rbTutor = (RatingBar) row.findViewById(R.id.rbTutor);
 
             //if (position < tutors.size() && position < tutorProfiles.size()) {
-                if(tutorProfileMap.containsKey(tutors.get(position).getTutor())){
-                    User user = tutorProfileMap.get(tutors.get(position).getTutor());
+            if (tutorProfileMap.containsKey(tutors.get(position).getTutor())) {
+                User user = tutorProfileMap.get(tutors.get(position).getTutor());
 
-                    //show tutor name
-                    tvTutorName.setText(user.getFirstName() + " "+user.getLastName());
+                //show tutor name
+                tvTutorName.setText(user.getFirstName() + " " + user.getLastName());
 
-                    //show tutor prefer location and the appointment price
-                    tvTutorDescription.setText("Location" + ": " + tutors.get(position).getLocation() + ", " + Price + ": " + tutors.get(position).getPrice());
+                //show tutor prefer location and the appointment price
+                tvTutorDescription.setText("Location" + ": " + tutors.get(position).getLocation() + ", " + Price + ": " + tutors.get(position).getPrice());
 
-                    //show user rating
-                    rbTutor.setRating(user.getAvgRating());
-                    String imgUrl = user.getImg_url();
-                    if (imgUrl != null && imgUrl.length() != 0) {
-                        try{
-                            //resize and noFade is for increasing loading speed
-                            Picasso.get().load(imgUrl).resize(150, 100).noFade().into(imgTutor);
+                //show user rating
+                rbTutor.setRating(user.getAvgRating());
+                String imgUrl = user.getImg_url();
+                if (imgUrl != null && imgUrl.length() != 0) {
+                    try {
+                        //resize and noFade is for increasing loading speed
+                        Picasso.get().load(imgUrl).resize(150, 100).noFade().into(imgTutor);
 
-                        }catch (Exception e){
-                            Picasso.get().load(R.drawable.ic_add_image).into(imgTutor);
-
-                        }
+                    } catch (Exception e) {
+                        Picasso.get().load(R.drawable.ic_add_image).into(imgTutor);
 
                     }
 
                 }
 
-            //} else {
-                //Log.d(TAG, "Tutors and tutors profile amounts not matching!");
-
-            //}
+            }
 
             //set up button to payment activity
             btnSelect = (Button) row.findViewById(R.id.btnSelect);
@@ -254,163 +257,100 @@ public class FindTutorActivity extends AppCompatActivity {
             return row;  //once the row is fully constructed, return it.  Hey whatif we had buttons, can we target onClick Events within the rows, yep!
         }
 
-        // TODO: 11/25/2019 : sorting
+        //sorting the tutors, lower prices first
+        public void sortbyPrice() {
+            Collections.sort(tutors, new Comparator<Appointment>() {
+                @Override
+                public int compare(Appointment u1, Appointment u2) {
+                    return u1.getPrice().compareTo(u2.getPrice());
+                }
+            });
+        }
 
-//        public void sortbytitle() {
-//            //make maps of key value paris in the following order: (title,description),(title,image),(titlewebsites)
-//            HashMap<String, String> titledescription = new HashMap<String, String>();
-//            HashMap<String, Integer> titleimage = new HashMap<String, Integer>();
-//            HashMap<String, String> titlewebsites = new HashMap<String, String>();
-//            for (int i = 0; i < episodes.length; i++) {
-//                titledescription.put(episodes[i], episodeDescriptions[i]);
-//                titleimage.put(episodes[i], episodeImages.get(i));
-//                titlewebsites.put(episodes[i], links[i]);
-//            }
-//            //use treeMap structure to sort the keys
-//            Map<String, String> sortdescription = new TreeMap<String, String>(titledescription);
-//            Map<String, Integer> sortimage = new TreeMap<String, Integer>(titleimage);
-//            Map<String, String> sortwebsites = new TreeMap<String, String>(titlewebsites);
-//
-//            //rearrangin episodes and episode descriptions position
-//            Set s = sortdescription.entrySet();
-//            Iterator it = s.iterator();
-//            int counter = 0;
-//            while (it.hasNext()) {
-//                Map.Entry entry = (Map.Entry) it.next();
-//                String key = (String) entry.getKey();
-//                String value = (String) entry.getValue();
-//                episodes[counter] = key;
-//                episodeDescriptions[counter] = value;
-//                counter++;
-//            }
-//
-//            //rearrange episodeImages
-//            Set s2 = sortimage.entrySet();
-//            Iterator it2 = s2.iterator();
-//            int counter2 = 0;
-//            while (it2.hasNext()) {
-//                Map.Entry entry = (Map.Entry) it2.next();
-//                Integer value = (Integer) entry.getValue();
-//                episodeImages.set(counter2, value);
-//                counter2++;
-//            }
-//
-//            //rearrange links
-//            Set s3 = sortwebsites.entrySet();
-//            Iterator it3 = s3.iterator();
-//            int counter3 = 0;
-//            while (it3.hasNext()) {
-//                Map.Entry entry = (Map.Entry) it3.next();
-//                String value = (String) entry.getValue();
-//                links[counter3] = value;
-//                counter3++;
-//            }
-//        }
-//
-//        public void sortbyrating() {
-//            //make maps of key value pair in the following order: (rating,title),(rating,description),(rating,image),(rating,links)
-//            HashMap<Float, ArrayList<String>> ratingtitle = new HashMap<Float, ArrayList<String>>();
-//            HashMap<Float, ArrayList<String>> ratingdescription = new HashMap<Float, ArrayList<String>>();
-//            HashMap<Float, ArrayList<Integer>> ratingimage = new HashMap<Float, ArrayList<Integer>>();
-//            HashMap<Float, ArrayList<String>> ratingwebsites = new HashMap<Float, ArrayList<String>>();
-//
-//            //set up key value pairs for each map
-//            for (int i = 0; i < episodes.length; i++) {
-//                if (ratingtitle.containsKey(ratings[i])) {
-//                    ratingtitle.get(ratings[i]).add(episodes[i]);
-//                } else {
-//                    ArrayList<String> values = new ArrayList<>();
-//                    values.add(episodes[i]);
-//                    ratingtitle.put(ratings[i], values);
-//                }
-//
-//                if (ratingdescription.containsKey(ratings[i])) {
-//                    ratingdescription.get(ratings[i]).add(episodeDescriptions[i]);
-//                } else {
-//                    ArrayList<String> values = new ArrayList<>();
-//                    values.add(episodeDescriptions[i]);
-//                    ratingdescription.put(ratings[i], values);
-//                }
-//                if (ratingimage.containsKey(ratings[i])) {
-//                    ratingimage.get(ratings[i]).add(episodeImages.get(i));
-//                } else {
-//                    ArrayList<Integer> values = new ArrayList<>();
-//                    values.add(episodeImages.get(i));
-//                    ratingimage.put(ratings[i], values);
-//                }
-//                if (ratingwebsites.containsKey(ratings[i])) {
-//                    ratingwebsites.get(ratings[i]).add(links[i]);
-//                } else {
-//                    ArrayList<String> values = new ArrayList<>();
-//                    values.add(links[i]);
-//                    ratingwebsites.put(ratings[i], values);
-//                }
-//
-//            }
-//            //use Treemap structure to sort the maps
-//            Map<Float, ArrayList<String>> sorttitle = new TreeMap<Float, ArrayList<String>>(ratingtitle);
-//            Map<Float, ArrayList<String>> sortdescription = new TreeMap<Float, ArrayList<String>>(ratingdescription);
-//            Map<Float, ArrayList<Integer>> sortimage = new TreeMap<Float, ArrayList<Integer>>(ratingimage);
-//            Map<Float, ArrayList<String>> sortwebsites = new TreeMap<Float, ArrayList<String>>(ratingwebsites);
-//
-//            //rearrange ratings and episodes position
-//            Set s = sorttitle.entrySet();
-//            Iterator it = s.iterator();
-//            int counter = episodes.length - 1;
-//            while (it.hasNext()) {
-//                Map.Entry entry = (Map.Entry) it.next();
-//                Float key = (Float) entry.getKey();
-//                ArrayList<String> values = (ArrayList<String>) entry.getValue();
-//                for (int i = 0; i < values.size(); i++) {
-//                    ratings[counter] = key;
-//                    episodes[counter] = values.get(i);
-//                    counter--;
-//                }
-//
-//            }
-//
-//            //rearrange episodeDescriptions position
-//            Set s2 = sortdescription.entrySet();
-//            Iterator it2 = s2.iterator();
-//            int counter2 = episodeDescriptions.length - 1;
-//            while (it2.hasNext()) {
-//                Map.Entry entry = (Map.Entry) it2.next();
-//                ArrayList<String> values = (ArrayList<String>) entry.getValue();
-//                for (int i = 0; i < values.size(); i++) {
-//                    episodeDescriptions[counter2] = values.get(i);
-//                    counter2--;
-//                }
-//            }
-//
-//            //rearrange episodeimages position
-//            Set s3 = sortimage.entrySet();
-//            Iterator it3 = s3.iterator();
-//            int counter3 = episodeImages.size() - 1;
-//            while (it3.hasNext()) {
-//                Map.Entry entry = (Map.Entry) it3.next();
-//                ArrayList<Integer> values = (ArrayList<Integer>) entry.getValue();
-//                for (int i = 0; i < values.size(); i++) {
-//                    episodeImages.set(counter3, values.get(i));
-//                    counter3--;
-//                }
-//            }
-//
-//            //rearrange links position
-//            Set s4 = sortwebsites.entrySet();
-//            Iterator it4 = s4.iterator();
-//            int counter4 = episodeDescriptions.length - 1;
-//            while (it4.hasNext()) {
-//                Map.Entry entry = (Map.Entry) it4.next();
-//                ArrayList<String> values = (ArrayList<String>) entry.getValue();
-//                for (int i = 0; i < values.size(); i++) {
-//                    links[counter4] = values.get(i);
-//                    counter4--;
-//                }
-//            }
-//        }
+        //sorting the tutors, higher ratings first
+        public void sortbyRating() {
+            Collections.sort(tutorProfiles, new Comparator<User>() {
+                @Override
+                public int compare(User u1, User u2) {
+                    return Double.compare(u2.getAvgRating(), u1.getAvgRating());
+                }
+            });
 
+            //modify the order of tutors to the order of tutorProfiles; because we generate the view according to the order of tutors
+            List<Appointment> tutorsTmp = new ArrayList<>();
+            Boolean breakFlag = false;
+            for (User u : tutorProfiles) {
+                breakFlag = false;
+                for (Map.Entry<String, User> userEntry : tutorProfileMap.entrySet()) {
+                    if (u.hashCode() == userEntry.getValue().hashCode())
+                        for (Map.Entry<String, Appointment> appEntry : tutorsMap.entrySet())
+                            if (userEntry.getKey() == appEntry.getKey()) {
+                                tutorsTmp.add(appEntry.getValue());
+                                breakFlag = true;
+                                break;
+                            }
+                    if (breakFlag)
+                        break;
+                }
+
+            }
+            tutors = tutorsTmp;
+        }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar
+        getMenuInflater().inflate(R.menu.findtutor_menu, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        lvTutors = (ListView) findViewById(R.id.lvTutors);
+
+        MyCustomAdapter a = (MyCustomAdapter) lvAdapter;
+        lvTutors.setAdapter(a);
+
+        //sort list item by title
+        if (id == R.id.mSortByPrice) {
+
+            //if currently not in activity main, change current layout to activity main.
+            /*if(onmain==false){
+                setContentView(R.layout.activity_main);
+                onmain=true;
+                lvEpisodes = (ListView)findViewById(R.id.lvEpisodes);
+
+            }*/
+
+            //cast adapter to our custom adapter to use sortbytitle()
+            //MyCustomAdapter a = (MyCustomAdapter) lvAdapter;
+            //lvTutors.setAdapter(a);
+            a.sortbyPrice();
+
+            return true;
+        }
+
+        //sort list item by rating
+        if (id == R.id.mSortByRating) {
+            //if currently not in activity main, change current layout to activity main.
+            /*if(onmain==false){
+                setContentView(R.layout.activity_main);
+                onmain=true;
+                lvEpisodes = (ListView)findViewById(R.id.lvEpisodes);
+            }*/
+            //cast adapter to our custom adapter to use sortbyrating()
+            //MyCustomAdapter a = (MyCustomAdapter) lvAdapter;
+            //lvEpisodes.setAdapter(a);
+            a.sortbyRating();
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 //    @Override
 //    public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
 //
@@ -499,7 +439,7 @@ public class FindTutorActivity extends AppCompatActivity {
         tutorCourse = simpleAppInfo.getString("tutor", "<missing>");
     }
 
-    private void addAppointment(Appointment app) {
+    /*private void addAppointment(Appointment app) {
 
         DocumentReference ProfileRef = db.collection("Profile").document(mAuth.getCurrentUser().getUid());
         ArrayList<String> appoint = new ArrayList<>();
@@ -525,8 +465,7 @@ public class FindTutorActivity extends AppCompatActivity {
                     }
                 });
 
-    }
-
+    }*/
 
 
 }
