@@ -221,92 +221,8 @@ public class HomePageActivity extends AppCompatActivity {
 
 
     }
-    //retrieve data for appointments for users as a student
-//    private void getAppointmentAsStudent(){
-//        db.collection("Appointment")
-//                .whereEqualTo("StudentId",mAuth.getCurrentUser().getUid())
-//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(@Nullable QuerySnapshot value,
-//                                        @Nullable FirebaseFirestoreException e) {
-//                        if (e != null) {
-//                            Log.w(TAG, "Listen failed.", e);
-//                            return;
-//                        }
-//
-//                        int counterS=0;
-//                        //boolean to check if query is empty
-//                        boolean empty=true;
-//                        for (QueryDocumentSnapshot doc : value) {
-//                            String class_d = (String) doc.getData().get("ClassName");
-//                            String location_d = (String) doc.getData().get("Location");
-//                            ArrayList<String> day_d = (ArrayList<String>) doc.getData().get("Date");
-//                            String student_d = (String) doc.getData().get("TutorId");
-//                            Boolean valid = (Boolean) doc.getData().get("validAppointment");
-//                            Log.d(TAG, doc.getId() + " appointment at " + location_d);
-//                            if(class_d!=null &&valid ){
-//                                empty=false;
-//                                if(renderS){
-//                                    checknameagain.add(true);
-//                                }
-//                                //check if student name need to be retrieve from database
-//                                if(checknameagain.get(counterS)){
-//                                    getStudentName(student_d,true,counterS);
-//                                }
-//
-//                                //formatt appointment text
-//                                String days ="";
-//                                int counter=0;
-//                                for(String day: day_d){
-//                                    if(counter==day_d.size()-1){
-//                                        days+=day;
-//                                    }else{
-//                                        days+=day+", ";
-//                                    }
-//                                    counter+=1;
-//                                }
-//
-//                                //store the text to display each appointment into array
-//                                if(!checknameagain.get(counterS)){
-//                                    String name="";
-//                                    if(counterS<tutorNames.size()){
-//                                        name = tutorNames.get(counterS);
-//                                    }
-//                                    String s = "You have a " + "<i>"+class_d+"</i>" + " appointment with " + "<b>"+name
-//                                            +"</b>"+
-//                                            " at " + location_d + " on " + days+"\n";
-//                                    studentAppointments.add(s);
-//
-//                                }
-//
-//                            }
-//                            counterS+=1;
-//                        }
-//                        //save the data needed, and restart current activity
-//                        if(!checknameagain.get(counterS-1) || empty){
-//                            Intent i = new Intent(getBaseContext(), HomePageActivity.class);
-//                            Bundle b = new Bundle();
-//                            b.putBoolean("update",true);
-//                            b.putBoolean("studentupdate",false);
-//                            b.putBoolean("checkclass",false);
-//                            b.putBoolean("tutorupdate",true);
-//
-//                            b.putBoolean("renderS",renderS);
-//                            b.putBoolean("renderT",renderT);
-//
-//                            b.putStringArrayList("studentNames",studentNames);
-//                            b.putStringArrayList("tutorNames",tutorNames);
-//                            b.putStringArrayList("classes",classes);
-//                            b.putStringArrayList("studentAppointments",studentAppointments);
-//                            b.putStringArrayList("tutorAppointments",tutorAppointments);
-//                            i.putExtras(b);
-//                            goBack();
-//                            startActivity(i);
-//                        }
-//                    }
-//                });
-//    }
 
+    //retrieve data for appointments for users as a student
     private void getstudentappointment(){
         db.collection("Appointment")
                 .whereEqualTo("StudentId",mAuth.getCurrentUser().getUid())
@@ -326,13 +242,14 @@ public class HomePageActivity extends AppCompatActivity {
                             final String class_d = (String) doc.getData().get("ClassName");
                             final String location_d = (String) doc.getData().get("Location");
                             final ArrayList<String> day_d = (ArrayList<String>) doc.getData().get("Date");
-                            String student_d = (String) doc.getData().get("TutorId");
+                            String tutor_d = (String) doc.getData().get("TutorId");
                             Boolean valid = (Boolean) doc.getData().get("validAppointment");
                             Log.d(TAG, doc.getId() + " appointment at " + location_d);
                             if(class_d!=null &&valid ){
                                 empty=false;
                                 checknameagain.add(true);
-                                DocumentReference docRef = db.collection("Profile").document(student_d);
+                                //retrieve tutor name from database with a nested query
+                                DocumentReference docRef = db.collection("Profile").document(tutor_d);
                                 docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     int pos = checknameagain.size()-1;
                                     @Override
@@ -425,6 +342,7 @@ public class HomePageActivity extends AppCompatActivity {
                 });
     }
 
+    //retrieve data for appointments for user as a tutor
     private void gettutorappointment(){
         db.collection("Appointment")
                 .whereEqualTo("TutorId",mAuth.getCurrentUser().getUid())
@@ -450,6 +368,8 @@ public class HomePageActivity extends AppCompatActivity {
                             if(class_d!=null &&valid ){
                                 empty=false;
                                 checkname.add(true);
+
+                                //retrieve student name from database with a nested query
                                 DocumentReference docRef = db.collection("Profile").document(student_d);
                                 docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     int pos = checkname.size()-1;
@@ -543,153 +463,6 @@ public class HomePageActivity extends AppCompatActivity {
                 });
     }
 
-
-
-    //retrieve data for appointments for user as a tutor
-//    private void getAppointmentAsTutor(){
-//        //retrieve appointment information
-//        db.collection("Appointment")
-//                .whereEqualTo("TutorId",mAuth.getCurrentUser().getUid())
-//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(@Nullable QuerySnapshot value,
-//                                        @Nullable FirebaseFirestoreException e) {
-//                        if (e != null) {
-//                            Log.w(TAG, "Listen failed.", e);
-//                            return;
-//                        }
-//
-//                        int counterS=0;
-//                        //boolean to check if query is empty
-//                        boolean empty=true;
-//                        for (QueryDocumentSnapshot doc : value) {
-//                            String class_d = (String) doc.getData().get("ClassName");
-//                            String location_d = (String) doc.getData().get("Location");
-//                            ArrayList<String> day_d = (ArrayList<String>) doc.getData().get("Date");
-//                            String student_d = (String) doc.getData().get("StudentId");
-//                            Boolean valid = (Boolean) doc.getData().get("validAppointment");
-//                            Log.d(TAG, doc.getId() + " appointment at " + location_d);
-//                            if(class_d!=null &&valid ){
-//                                empty=false;
-//                                if(renderT){
-//                                    checkname.add(true);
-//                                }
-//                                //check if student name need to be retrieve from database
-//                                if(checkname.get(counterS)){
-//                                    getStudentName(student_d,false,counterS);
-//                                }
-//
-//                                //formatt appointment text
-//                                String days ="";
-//                                int counter=0;
-//                                for(String day: day_d){
-//                                    if(counter==day_d.size()-1){
-//                                        days+=day;
-//                                    }else{
-//                                        days+=day+", ";
-//                                    }
-//                                    counter+=1;
-//                                }
-//
-//                                //store the text to display each appointment into array
-//                                if(!checkname.get(counterS) ){
-//                                    String name="";
-//                                    if(counterS<studentNames.size()){
-//                                        name = studentNames.get(counterS);
-//                                    }
-//                                    String s = "You have a " + "<i>"+class_d+"</i>" + " tutoring session with " + "<b>"+name
-//                                            +"</b>"+
-//                                            " at " + location_d + " on " + days+"\n";
-//                                    tutorAppointments.add(s);
-//
-//                                }
-//
-//                            }
-//                            counterS+=1;
-//                        }
-//                        //store the data needed, restart current activity
-//                        if(!checkname.get(counterS-1) || empty){
-//                            Intent i = new Intent(getBaseContext(), HomePageActivity.class);
-//                            Bundle b = new Bundle();
-//                            b.putBoolean("update",true);
-//                            b.putBoolean("checkclass",false);
-//                            b.putBoolean("tutorupdate",false);
-//                            b.putBoolean("studentupdate",studentupdate);
-//
-//                            b.putBoolean("renderT",renderT);
-//                            b.putBoolean("renderS",renderS);
-//
-//                            b.putStringArrayList("studentNames",studentNames);
-//                            b.putStringArrayList("tutorNames",tutorNames);
-//                            b.putStringArrayList("classes",classes);
-//                            b.putStringArrayList("studentAppointments",studentAppointments);
-//                            b.putStringArrayList("tutorAppointments",tutorAppointments);
-//                            i.putExtras(b);
-//                            goBack();
-//                            startActivity(i);
-//                        }
-//
-//                    }
-//                });
-//    }
-
-    //retrieve names given studnet ID
-//    private void getStudentName(String id,boolean flag, int index){
-//        final int pos=index;
-//        final boolean isStudent=flag;
-//        DocumentReference docRef = db.collection("Profile").document(id);
-//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document != null) {
-//                        Map<String, Object> data = document.getData();
-//                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-//                        String fname = (String) data.get("first_name");
-//                        String lname = (String) data.get("last_name");
-//                        if(isStudent==true){
-//                            tutorNames.add(fname+" "+lname);
-//                        }
-//                        if(isStudent==false){
-//                            studentNames.add(fname+" "+lname);
-//                        }
-//                        //Names.add(fname+" "+lname);
-//                    }
-//                    //store data needed, and restart current activity
-//                    Intent i = new Intent(getBaseContext(), HomePageActivity.class);
-//                    Bundle b = new Bundle();
-//                    b.putBoolean("update",true);
-//                    if(isStudent==true){
-//                        checknameagain.set(pos,false);
-//                        b.putSerializable("checknameagain",(Serializable)checknameagain);
-//                        b.putBoolean("renderS",false);
-//
-//
-//                    }
-//                    if(isStudent==false){
-//                        checkname.set(pos,false);
-//                        b.putSerializable("checkname",(Serializable) checkname);
-//                        b.putBoolean("renderT",false);
-//                    }
-//                    b.putBoolean("checkclass",false);
-//                    b.putStringArrayList("studentNames",studentNames);
-//                    b.putStringArrayList("tutorNames",tutorNames);
-//                    b.putStringArrayList("classes",classes);
-//                    b.putBoolean("studentupdate",studentupdate);
-//                    b.putBoolean("tutorupdate",tutorupdate);
-//                    b.putStringArrayList("studentAppointments",studentAppointments);
-//                    b.putStringArrayList("tutorAppointments",tutorAppointments);
-//                    i.putExtras(b);
-//                    goBack();
-//                    startActivity(i);
-//                }
-//            }
-//
-//        });
-//
-//    }
 
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
