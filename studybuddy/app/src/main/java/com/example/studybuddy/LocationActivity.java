@@ -116,6 +116,7 @@ public class LocationActivity extends AppCompatActivity {
     private ArrayList<String> destinations;
     private static boolean update=true;
     private ProgressDialog progress;
+    private boolean currentLocationUpdate=true;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,15 +134,6 @@ public class LocationActivity extends AppCompatActivity {
         //try to get the destination coordinates
         Bundle b = getIntent().getExtras();
         if(b!=null){
-//            if(b.keySet().size()>1){
-//                destinations = b.getStringArrayList("destinations");
-//                double tempLo = b.getDouble("longtitude");
-//                double tempLa = b.getDouble("latitude");
-//                destination = Point.fromLngLat(tempLo, tempLa);
-//                progress.dismiss();
-//            }
-//            update = b.getBoolean("update");
-
             for(String key: b.keySet()){
                 if(key.equals("destinations")){
                     destinations=b.getStringArrayList("destinations");
@@ -158,6 +150,9 @@ public class LocationActivity extends AppCompatActivity {
                 else if(key.equals("lat")){
                     lat = b.getDouble("lat");
                     lng = b.getDouble("lng");
+                }
+                else if (key.equals("currentLocationUpdate")){
+                    currentLocationUpdate = b.getBoolean("currentLocationUpdate");
                 }
             }
         }
@@ -192,13 +187,15 @@ public class LocationActivity extends AppCompatActivity {
 // Set the origin location to the Alhambra landmark in Granada, Spain.
 
                         // only ask for permission after destination been retrieved
-                        if(!update) {
+                        if(currentLocationUpdate) {
+                            currentLocationUpdate=false;
                             checkLocationPermission();
                         }
 
                         origin = Point.fromLngLat(lng, lat);
 
                         if(update){
+                            update=false;
                             progress. show();
                             getDestination();
                         }
@@ -345,7 +342,10 @@ public class LocationActivity extends AppCompatActivity {
     }
 
     public void goBack() {
-        this.finish();
+
+//        this.finish();
+        Intent intent = new Intent(getBaseContext(), HomePageActivity.class);
+        startActivity(intent);
     }
 
 
@@ -362,10 +362,44 @@ public class LocationActivity extends AppCompatActivity {
                                 Log.d(TAG, document.getId() + " appointment at " + data);
                                 destinations.add(data);
                             }
+                            //set destination to be the first location in all locations
                             if(destinations.size()!=0)
                             {
                                 destination = getLngLat(destinations.get(0));
                             }
+
+                            Toast.makeText(getBaseContext(), "data retrieve from firebase", Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(getBaseContext(), LocationActivity.class);
+                            Bundle b = new Bundle();
+                            b.putBoolean("update",false);
+                            b.putDouble("latitude",destination.latitude());
+                            b.putDouble("longtitude",destination.longitude());
+                            b.putStringArrayList("destinations",destinations);
+                            i.putExtras(b);
+                            goBack();
+                            startActivity(i);
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+        db.collection("Appointment")
+                .whereEqualTo("StudentId",mAuth.getCurrentUser().getUid() )
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String data = (String) document.getData().get("Location");
+                                Log.d(TAG, document.getId() + " appointment at " + data);
+                                destinations.add(data);
+                            }
+//                            if(destinations.size()!=0)
+//                            {
+//                                destination = getLngLat(destinations.get(0));
+//                            }
 
                             Toast.makeText(getBaseContext(), "data retrieve from firebase", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(getBaseContext(), LocationActivity.class);
@@ -492,7 +526,8 @@ public class LocationActivity extends AppCompatActivity {
                         Bundle b = new Bundle();
                         b.putDouble("lat",lat);
                         b.putDouble("lng",lng);
-                        b.putBoolean("update",true);
+                        b.putBoolean("update",update);
+                        b.putBoolean("currentLocationUpdate",false);
                         i.putExtras(b);
                         goBack();
                         startActivity(i);

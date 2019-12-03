@@ -224,7 +224,7 @@ public class PaymentActivity extends AppCompatActivity {
 
     public void goToHomePage() {
         Intent newIntent = new Intent(this, HomePageActivity.class);
-        this.startActivity(newIntent);
+        startActivity(newIntent);
     }
 }
 
