@@ -293,77 +293,8 @@ public class GiveReviewsActivity extends AppCompatActivity {
             return row;  //once the row is fully constructed, return it.  Hey whatif we had buttons, can we target onClick Events within the rows, yep!
         }
 
-        //sorting the tutors, lower prices first
-        public void sortbyPrice() {
-            Collections.sort(tutors, new Comparator<Appointment>() {
-                @Override
-                public int compare(Appointment u1, Appointment u2) {
-                    return u1.getPrice().compareTo(u2.getPrice());
-                }
-            });
-        }
-
-        //sorting the tutors, higher ratings first
-        public void sortbyRating() {
-            Collections.sort(tutorProfiles, new Comparator<User>() {
-                @Override
-                public int compare(User u1, User u2) {
-                    return Double.compare(u2.getAvgRating(), u1.getAvgRating());
-                }
-            });
-
-            //modify the order of tutors to the order of tutorProfiles; because we generate the view according to the order of tutors
-            List<Appointment> tutorsTmp = new ArrayList<>();
-            Boolean breakFlag = false;
-            for (User u : tutorProfiles) {
-                breakFlag = false;
-                for (Map.Entry<String, User> userEntry : tutorProfileMap.entrySet()) {
-                    if (u.hashCode() == userEntry.getValue().hashCode())
-                        for (Map.Entry<String, Appointment> appEntry : tutorsMap.entrySet())
-                            if (userEntry.getKey() == appEntry.getKey()) {
-                                tutorsTmp.add(appEntry.getValue());
-                                breakFlag = true;
-                                break;
-                            }
-                    if (breakFlag)
-                        break;
-                }
-
-            }
-            tutors = tutorsTmp;
-        }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar
-        getMenuInflater().inflate(R.menu.findtutor_menu, menu);
-        return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-        lvGiveReviews = (ListView) findViewById(R.id.lvTutors);
-
-        MyCustomAdapter a = (MyCustomAdapter) lvAdapter;
-        lvGiveReviews.setAdapter(a);
-
-        //sort list item by title
-        if (id == R.id.mSortByPrice) {
-            a.sortbyPrice();
-            return true;
-        }
-
-        //sort list item by rating
-        if (id == R.id.mSortByRating) {
-            a.sortbyRating();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 }
 
