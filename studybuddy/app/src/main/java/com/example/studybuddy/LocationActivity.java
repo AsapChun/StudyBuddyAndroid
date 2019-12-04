@@ -359,8 +359,11 @@ public class LocationActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String data = (String) document.getData().get("Location");
+                                boolean valid = (boolean) document.getData().get("validAppointment");
                                 Log.d(TAG, document.getId() + " appointment at " + data);
-                                destinations.add(data);
+                                if(valid) {
+                                    destinations.add(data);
+                                }
                             }
                             //set destination to be the first location in all locations
                             if(destinations.size()!=0)
@@ -393,13 +396,16 @@ public class LocationActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String data = (String) document.getData().get("Location");
+                                boolean valid = (boolean) document.getData().get("validAppointment");
                                 Log.d(TAG, document.getId() + " appointment at " + data);
-                                destinations.add(data);
+                                if(valid) {
+                                    destinations.add(data);
+                                }
                             }
-//                            if(destinations.size()!=0)
-//                            {
-//                                destination = getLngLat(destinations.get(0));
-//                            }
+                            if(destinations.size()!=0)
+                            {
+                                destination = getLngLat(destinations.get(0));
+                            }
 
                             Toast.makeText(getBaseContext(), "data retrieve from firebase", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(getBaseContext(), LocationActivity.class);

@@ -1,17 +1,29 @@
 package com.example.studybuddy;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.studybuddy.Model.Appointment;
+import com.example.studybuddy.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +37,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +48,7 @@ import org.w3c.dom.Text;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class HomePageActivity extends AppCompatActivity {
@@ -49,7 +63,12 @@ public class HomePageActivity extends AppCompatActivity {
     private ArrayList<String> studentNames;
     private ArrayList<String> tutorNames;
     private Map<String, Object> profile;
-    private TextView txtSessions;
+    //private TextView txtSessions;
+
+    //listview
+    private ListView lvAppointment;
+    private ListAdapter lvAdapter;
+
     private TextView displayCourses;
     private boolean update=true;
     private boolean studentupdate=true;
@@ -68,10 +87,11 @@ public class HomePageActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        txtSessions = (TextView) findViewById(R.id.txtTutorSessions);
-        txtSessions.setMovementMethod(new ScrollingMovementMethod());
+        //txtSessions = (TextView) findViewById(R.id.txtTutorSessions);
+        //txtSessions.setMovementMethod(new ScrollingMovementMethod());
         displayCourses = (TextView) findViewById(R.id.txtCourses);
         displayCourses.setMovementMethod(new ScrollingMovementMethod());
+        lvAppointment = findViewById(R.id.lvAppointment);
 
         //add loading screen
         progress = new ProgressDialog(this);
@@ -143,19 +163,30 @@ public class HomePageActivity extends AppCompatActivity {
                 }
             }
         }
-        String appointmentDisplay ="";
-        for(String apt: studentAppointments){
-            appointmentDisplay+=apt+"<br>";
-        }
-        for(String apt: tutorAppointments){
-            appointmentDisplay+=apt+"<br>";
-        }
-        txtSessions.setText(Html.fromHtml(appointmentDisplay));
+//        String appointmentDisplay ="";
+//        for(String apt: studentAppointments){
+//            appointmentDisplay+=apt+"<br>";
+//        }
+//        for(String apt: tutorAppointments){
+//            appointmentDisplay+=apt+"<br>";
+//        }
+
+        //txtSessions.setText(Html.fromHtml(appointmentDisplay));
 
         //if no appointment updated are needed, finish loading
         if(!studentupdate && !tutorupdate){
             update=false;
             progress.dismiss();
+
+            ArrayList<String> appointmentDisplay = new ArrayList<>();
+            for(String apt: studentAppointments){
+                appointmentDisplay.add(apt+"<br>");
+            }
+            for(String apt: tutorAppointments){
+                appointmentDisplay.add(apt+"<br>");
+            }
+            lvAdapter = new MyCustomAdapter(this,appointmentDisplay);
+            lvAppointment.setAdapter(lvAdapter);
         }
 
         //check if any update to the homepage is needed
@@ -564,6 +595,78 @@ public class HomePageActivity extends AppCompatActivity {
         if ( progress!=null && progress.isShowing() ){
             progress.cancel();
         }
+    }
+
+    //STEP 1: Create references to needed resources for the ListView Object.  String Arrays, Images, etc.
+
+    class MyCustomAdapter extends BaseAdapter {
+
+        Context context;   //Creating a reference to our context object, so we only have to get it once.  Context enables access to application specific resources.
+        ArrayList<String> appointments;
+
+        //STEP 2: Override the Constructor, be sure to:
+        public MyCustomAdapter(Context aContext, ArrayList<String> apt) {
+            //initializing our data in the constructor.
+            context = aContext;  //saving the context we'll need it again.
+            appointments =apt;
+
+        }
+
+
+        //STEP 3: Override and implement getCount(..), ListView uses this to determine how many rows to render.
+        @Override
+        public int getCount() {
+            return appointments == null ? 0 : appointments.size();   //all of the arrays are same length, so return length of any... ick!  But ok for now. :)
+        }
+
+        //STEP 4: Override getItem/getItemId, we aren't using these, but we must override anyway.
+        @Override
+        public Object getItem(int position) {
+            return appointments.get(position);        //really should be returning entire set of row data, but it's up to us, and we aren't using this call.
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;  //Another call we aren't using, but have to do something since we had to implement (base is abstract).
+        }
+
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {  //convertView is Row (it may be null), parent is the layout that has the row Views.
+
+            //STEP 5a: Inflate the listview row based on the xml.
+            View row;  //this will refer to the row to be inflated or displayed if it's already been displayed. (listview_row.xml)
+
+
+            // Let's optimize a bit by checking to see if we need to inflate, or if it's already been inflated...
+            if (convertView == null) {  //indicates this is the first time we are creating this row.
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);  //Inflater's are awesome, they convert xml to Java Objects!
+                row = inflater.inflate(R.layout.listview_row_homepage, parent, false);
+            } else {
+                row = convertView;
+            }
+
+            //STEP 5b: Now that we have a valid row instance, we need to get references to the views within that row and fill with the appropriate text and images.
+             //Q: Notice we prefixed findViewByID with row, why?  A: Row, is the container.
+            final TextView txtAppointment = (TextView) row.findViewById(R.id.txtAppointment);
+            final Button btnModify = (Button) row.findViewById(R.id.btnModify);
+
+
+            txtAppointment.setText(Html.fromHtml(appointments.get(position)));
+
+
+            btnModify.setOnClickListener(new View.OnClickListener(){
+
+                public void onClick(View v){
+
+                }
+            });
+
+
+
+            return row;  //once the row is fully constructed, return it.  Hey whatif we had buttons, can we target onClick Events within the rows, yep!
+        }
+
     }
 
 }
