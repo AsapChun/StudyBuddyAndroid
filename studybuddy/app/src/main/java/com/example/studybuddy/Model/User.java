@@ -1,11 +1,12 @@
 package com.example.studybuddy.Model;
 
 import com.example.studybuddy.Course;
-import com.example.studybuddy.Model.Appointment;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class User {
+public class User implements Serializable {
     //User Object
 
     private String userId;
@@ -22,7 +23,7 @@ public class User {
     private List<String> reviews;
     private String img_url;
 
-    public User(){
+    public User() {
 
     }
 
@@ -99,7 +100,7 @@ public class User {
     }
 
     public List<String> getRatings() {
-        return ratings;
+        return ratings != null? ratings: new ArrayList<String>();
     }
 
     public void setRatings(List<String> ratings) {
@@ -107,7 +108,7 @@ public class User {
     }
 
     public List<String> getReviews() {
-        return reviews;
+        return reviews != null? reviews: new ArrayList<String>();
     }
 
     public void setReviews(List<String> reviews) {
@@ -122,7 +123,7 @@ public class User {
         this.img_url = img_url;
     }
 
-    public User(String e, String firstN, String lastN, String g, int year , String pass){
+    public User(String e, String firstN, String lastN, String g, int year, String pass) {
         email = e; //set email
         FirstName = firstN;
         LastName = lastN;
@@ -131,37 +132,40 @@ public class User {
         password = pass;
 
     }
-    public String getEmail(){
+
+    public String getEmail() {
 
         return email;
     }
 
-    public String getName(){
+    public String getName() {
         return FirstName + " " + LastName;
     }
 
-    public String getGender(){
+    public String getGender() {
         return gender;
     }
 
-    public void addTutor(Course c){
+    public void addTutor(Course c) {
         tutorCourse.add(c);
     }
-    public void addStudent(Course c){
+
+    public void addStudent(Course c) {
         studentCourse.add(c);
     }
-    public void addAppointment(Appointment a){
+
+    public void addAppointment(Appointment a) {
         appointments.add(a);
     }
 
-    public float getAvgRating(){
-        if(ratings == null || ratings.size() == 0)
+    public float getAvgRating() {
+        if (ratings == null || ratings.size() == 0)
             return 0;
 
         float sum = 0;
-        for(String r : ratings)
+        for (String r : ratings)
             sum += Float.valueOf(r);
-        return sum/ratings.size();
+        return sum / ratings.size();
     }
 
 }

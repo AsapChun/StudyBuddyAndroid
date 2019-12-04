@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MessagingActivity"></activity>
+        <activity android:name=".WriteReviewActivity"></activity>
+        <activity android:name=".MessagingActivity" />
         <activity android:name=".MessageFragmentActivity" />
         <activity
             android:name=".MainActivity"
@@ -40,10 +41,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ReviewsReceivedActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".GiveReviewsActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ProfileActivity"
             android:screenOrientation="portrait" />
