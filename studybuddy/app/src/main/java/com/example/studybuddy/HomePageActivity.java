@@ -29,6 +29,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import org.w3c.dom.Text;
+
+import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -49,10 +54,12 @@ public class HomePageActivity extends AppCompatActivity {
     private boolean update=true;
     private boolean studentupdate=true;
     private boolean tutorupdate=false;
-    private boolean checkname=true;
-    private boolean checknameagain=true;
+    private ArrayList<Boolean> checkname;
+    private ArrayList<Boolean> checknameagain;
     private ProgressDialog progress;
     private boolean checkclass=true;    //boolean check if class need to be updated
+    private boolean renderS=true;
+    private boolean renderT=true;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +86,8 @@ public class HomePageActivity extends AppCompatActivity {
         Names = new ArrayList<>();
         studentNames = new ArrayList<>();
         tutorNames = new ArrayList<>();
+        checkname = new ArrayList<>();
+        checknameagain = new ArrayList<>();
 
 
         //retrieve data from bundle, and store them in variables to be used later
@@ -118,13 +127,19 @@ public class HomePageActivity extends AppCompatActivity {
                     tutorNames = b.getStringArrayList("tutorNames");
                 }
                 else if(key.equals("checkname")){
-                    checkname = b.getBoolean("checkname");
+                    checkname = (ArrayList<Boolean>)b.getSerializable("checkname");
                 }
                 else if(key.equals("checknameagain")){
-                    checknameagain = b.getBoolean("checknameagain");
+                    checknameagain = (ArrayList<Boolean>)b.getSerializable("checknameagain");
                 }
                 else if(key.equals("checkclass")){
                     checkclass = b.getBoolean("checkclass");
+                }
+                else if(key.equals("renderS")){
+                    renderS = b.getBoolean("renderS");
+                }
+                else if(key.equals("renderT")){
+                    renderT = b.getBoolean("renderT");
                 }
             }
         }
@@ -187,17 +202,20 @@ public class HomePageActivity extends AppCompatActivity {
 
         //check if appointment for user as student needs to be updated
         if(studentupdate){
-            getAppointmentAsStudent();
+            //getAppointmentAsStudent();
+            getstudentappointment();
         }
         //check if appointment for user as tutor needs to be updated
         if(tutorupdate){
-            getAppointmentAsTutor();
+            //getAppointmentAsTutor();
+            gettutorappointment();
         }
 
 
     }
+
     //retrieve data for appointments for users as a student
-    private void getAppointmentAsStudent(){
+    private void getstudentappointment(){
         db.collection("Appointment")
                 .whereEqualTo("StudentId",mAuth.getCurrentUser().getUid())
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -213,51 +231,95 @@ public class HomePageActivity extends AppCompatActivity {
                         //boolean to check if query is empty
                         boolean empty=true;
                         for (QueryDocumentSnapshot doc : value) {
-                            String class_d = (String) doc.getData().get("ClassName");
-                            String location_d = (String) doc.getData().get("Location");
-                            ArrayList<String> day_d = (ArrayList<String>) doc.getData().get("Date");
-                            String student_d = (String) doc.getData().get("TutorId");
+                            final String class_d = (String) doc.getData().get("ClassName");
+                            final String location_d = (String) doc.getData().get("Location");
+                            final ArrayList<String> day_d = (ArrayList<String>) doc.getData().get("Date");
+                            String tutor_d = (String) doc.getData().get("TutorId");
                             Boolean valid = (Boolean) doc.getData().get("validAppointment");
                             Log.d(TAG, doc.getId() + " appointment at " + location_d);
                             if(class_d!=null &&valid ){
                                 empty=false;
-                                //check if student name need to be retrieve from database
-                                if(checknameagain){
-                                    getStudentName(student_d,true);
-                                }
+                                checknameagain.add(true);
+                                //retrieve tutor name from database with a nested query
+                                DocumentReference docRef = db.collection("Profile").document(tutor_d);
+                                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    int pos = checknameagain.size()-1;
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
-                                //formatt appointment text
-                                String days ="";
-                                int counter=0;
-                                for(String day: day_d){
-                                    if(counter==day_d.size()-1){
-                                        days+=day;
-                                    }else{
-                                        days+=day+", ";
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document != null) {
+                                                Map<String, Object> data = document.getData();
+                                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                                String fname = (String) data.get("first_name");
+                                                String lname = (String) data.get("last_name");
+                                                String name= fname+" "+lname;
+                                                //studentNames.add(fname+" "+lname);
+
+                                                //formatt appointment text
+                                                String days ="";
+                                                int counter=0;
+                                                for(String day: day_d){
+                                                    if(counter==day_d.size()-1){
+                                                        days+=day;
+                                                    }else{
+                                                        days+=day+", ";
+                                                    }
+                                                    counter+=1;
+                                                }
+
+                                                //store the text to display each appointment into array
+                                                    String s = "You have a " + "<i>"+class_d+"</i>" + " appointment with " + "<b>"+name
+                                                            +"</b>"+
+                                                            " at " + location_d + " on " + days+"\n";
+                                                    studentAppointments.add(s);
+                                                    checknameagain.set(pos,false);
+
+
+                                            }
+                                            if(!checknameagain.get(checknameagain.size()-1)){
+                                                Intent i = new Intent(getBaseContext(), HomePageActivity.class);
+                                                Bundle b = new Bundle();
+                                                b.putBoolean("update",true);
+                                                b.putBoolean("studentupdate",false);
+                                                b.putBoolean("checkclass",false);
+                                                b.putBoolean("tutorupdate",true);
+
+                                                b.putBoolean("renderS",renderS);
+                                                b.putBoolean("renderT",renderT);
+
+                                                b.putStringArrayList("studentNames",studentNames);
+                                                b.putStringArrayList("tutorNames",tutorNames);
+                                                b.putStringArrayList("classes",classes);
+                                                b.putStringArrayList("studentAppointments",studentAppointments);
+                                                b.putStringArrayList("tutorAppointments",tutorAppointments);
+                                                i.putExtras(b);
+                                                goBack();
+                                                startActivity(i);
+                                            }
+                                        }
                                     }
-                                    counter+=1;
-                                }
 
-                                //store the text to display each appointment into array
-                                if(!checknameagain){
-                                    String s = "You have a " + "<i>"+class_d+"</i>" + " appointment with " + "<b>"+tutorNames.get(counterS)
-                                            +"</b>"+
-                                            " at " + location_d + " on " + days+"\n";
-                                    studentAppointments.add(s);
+                                });
 
-                                }
+
+
 
                             }
                             counterS+=1;
                         }
                         //save the data needed, and restart current activity
-                        if(!checknameagain || empty){
+                        if(empty){
                             Intent i = new Intent(getBaseContext(), HomePageActivity.class);
                             Bundle b = new Bundle();
                             b.putBoolean("update",true);
                             b.putBoolean("studentupdate",false);
                             b.putBoolean("checkclass",false);
                             b.putBoolean("tutorupdate",true);
+
+                            b.putBoolean("renderS",renderS);
+                            b.putBoolean("renderT",renderT);
 
                             b.putStringArrayList("studentNames",studentNames);
                             b.putStringArrayList("tutorNames",tutorNames);
@@ -273,8 +335,7 @@ public class HomePageActivity extends AppCompatActivity {
     }
 
     //retrieve data for appointments for user as a tutor
-    private void getAppointmentAsTutor(){
-        //retrieve appointment information
+    private void gettutorappointment(){
         db.collection("Appointment")
                 .whereEqualTo("TutorId",mAuth.getCurrentUser().getUid())
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -290,51 +351,96 @@ public class HomePageActivity extends AppCompatActivity {
                         //boolean to check if query is empty
                         boolean empty=true;
                         for (QueryDocumentSnapshot doc : value) {
-                            String class_d = (String) doc.getData().get("ClassName");
-                            String location_d = (String) doc.getData().get("Location");
-                            ArrayList<String> day_d = (ArrayList<String>) doc.getData().get("Date");
+                            final String class_d = (String) doc.getData().get("ClassName");
+                            final String location_d = (String) doc.getData().get("Location");
+                            final ArrayList<String> day_d = (ArrayList<String>) doc.getData().get("Date");
                             String student_d = (String) doc.getData().get("StudentId");
                             Boolean valid = (Boolean) doc.getData().get("validAppointment");
                             Log.d(TAG, doc.getId() + " appointment at " + location_d);
                             if(class_d!=null &&valid ){
                                 empty=false;
-                                //check if student name need to be retrieve from database
-                                if(checkname){
-                                    getStudentName(student_d,false);
-                                }
+                                checkname.add(true);
 
-                                //formatt appointment text
-                                String days ="";
-                                int counter=0;
-                                for(String day: day_d){
-                                    if(counter==day_d.size()-1){
-                                        days+=day;
-                                    }else{
-                                        days+=day+", ";
+                                //retrieve student name from database with a nested query
+                                DocumentReference docRef = db.collection("Profile").document(student_d);
+                                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    int pos = checkname.size()-1;
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document != null) {
+                                                Map<String, Object> data = document.getData();
+                                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                                String fname = (String) data.get("first_name");
+                                                String lname = (String) data.get("last_name");
+                                                String name= fname+" "+lname;
+                                                //studentNames.add(fname+" "+lname);
+
+                                                //formatt appointment text
+                                                String days ="";
+                                                int counter=0;
+                                                for(String day: day_d){
+                                                    if(counter==day_d.size()-1){
+                                                        days+=day;
+                                                    }else{
+                                                        days+=day+", ";
+                                                    }
+                                                    counter+=1;
+                                                }
+
+                                                //store the text to display each appointment into array
+                                                String s = "You have a " + "<i>"+class_d+"</i>" + " tutoring session with " + "<b>"+name
+                                                        +"</b>"+
+                                                        " at " + location_d + " on " + days+"\n";
+                                                tutorAppointments.add(s);
+                                                checkname.set(pos,false);
+
+
+                                            }
+                                            if(!checkname.get(checkname.size()-1)){
+                                                Intent i = new Intent(getBaseContext(), HomePageActivity.class);
+                                                Bundle b = new Bundle();
+                                                b.putBoolean("update",true);
+                                                b.putBoolean("studentupdate",studentupdate);
+                                                b.putBoolean("checkclass",false);
+                                                b.putBoolean("tutorupdate",false);
+
+                                                b.putBoolean("renderS",renderS);
+                                                b.putBoolean("renderT",renderT);
+
+                                                b.putStringArrayList("studentNames",studentNames);
+                                                b.putStringArrayList("tutorNames",tutorNames);
+                                                b.putStringArrayList("classes",classes);
+                                                b.putStringArrayList("studentAppointments",studentAppointments);
+                                                b.putStringArrayList("tutorAppointments",tutorAppointments);
+                                                i.putExtras(b);
+                                                goBack();
+                                                startActivity(i);
+                                            }
+                                        }
                                     }
-                                    counter+=1;
-                                }
 
-                                //store the text to display each appointment into array
-                                if(!checkname ){
-                                    String s = "You have a " + "<i>"+class_d+"</i>" + " tutoring session with " + "<b>"+studentNames.get(counterS)
-                                            +"</b>"+
-                                            " at " + location_d + " on " + days+"\n";
-                                    tutorAppointments.add(s);
+                                });
 
-                                }
+
+
 
                             }
                             counterS+=1;
                         }
-                        //store the data needed, restart current activity
-                        if(!checkname || empty){
+                        //if no result found, no more update is needed and restart current activity
+                        if(empty){
                             Intent i = new Intent(getBaseContext(), HomePageActivity.class);
                             Bundle b = new Bundle();
                             b.putBoolean("update",true);
+                            b.putBoolean("studentupdate",studentupdate);
                             b.putBoolean("checkclass",false);
                             b.putBoolean("tutorupdate",false);
-                            b.putBoolean("studentupdate",studentupdate);
+
+                            b.putBoolean("renderS",renderS);
+                            b.putBoolean("renderT",renderT);
 
                             b.putStringArrayList("studentNames",studentNames);
                             b.putStringArrayList("tutorNames",tutorNames);
@@ -345,64 +451,10 @@ public class HomePageActivity extends AppCompatActivity {
                             goBack();
                             startActivity(i);
                         }
-
                     }
                 });
     }
 
-    //retrieve names given studnet ID
-    private void getStudentName(String id,boolean flag){
-        final boolean isStudent=flag;
-        DocumentReference docRef = db.collection("Profile").document(id);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document != null) {
-                        Map<String, Object> data = document.getData();
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        String fname = (String) data.get("first_name");
-                        String lname = (String) data.get("last_name");
-                        if(isStudent==true){
-                            tutorNames.add(fname+" "+lname);
-                        }
-                        if(isStudent==false){
-                            studentNames.add(fname+" "+lname);
-                        }
-                        //Names.add(fname+" "+lname);
-                    }
-                    //store data needed, and restart current activity
-                    Intent i = new Intent(getBaseContext(), HomePageActivity.class);
-                    Bundle b = new Bundle();
-                    b.putBoolean("update",true);
-                    if(isStudent==true){
-                        b.putBoolean("checknameagain",false);
-
-
-                    }
-                    if(isStudent==false){
-                        b.putBoolean("checkname",false);
-
-                    }
-                    b.putBoolean("checkclass",false);
-                    b.putStringArrayList("studentNames",studentNames);
-                    b.putStringArrayList("tutorNames",tutorNames);
-                    b.putStringArrayList("classes",classes);
-                    b.putBoolean("studentupdate",studentupdate);
-                    b.putBoolean("tutorupdate",tutorupdate);
-                    b.putStringArrayList("studentAppointments",studentAppointments);
-                    b.putStringArrayList("tutorAppointments",tutorAppointments);
-                    i.putExtras(b);
-                    goBack();
-                    startActivity(i);
-                }
-            }
-
-        });
-
-    }
 
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
