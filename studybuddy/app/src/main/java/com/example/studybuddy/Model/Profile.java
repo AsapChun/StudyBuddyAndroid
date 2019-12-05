@@ -18,10 +18,12 @@ public class Profile {
     private ArrayList<String>  tutor_session;
     private ArrayList<String>  your_class;
     private ArrayList<String> rating;
+    private ArrayList<String> review;
 
 
 
-    public Profile(String user_id, String first_name, String last_name, String gender, String cover_url, String image_url, String class_year, ArrayList<String> tutor_class, ArrayList<String> tutor_session, ArrayList<String> your_class, ArrayList<String> rating){
+    public Profile(String user_id, String first_name, String last_name, String gender, String cover_url, String image_url, String class_year, ArrayList<String> tutor_class, ArrayList<String> tutor_session, ArrayList<String> your_class, ArrayList<String> rating,
+                   ArrayList<String> review){
         this.user_id = user_id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -33,6 +35,7 @@ public class Profile {
         this.tutor_session = tutor_session;
         this.your_class = your_class;
         this.rating = rating;
+        this.review = review;
 
     }
     //Getters
@@ -41,7 +44,6 @@ public class Profile {
         return first_name;
     }
     public String getLast_name() {return last_name;}
-    //Setters
     public String getGender(){
         return gender;
     }
@@ -56,9 +58,12 @@ public class Profile {
     public ArrayList<String> getRating() {
         return rating;
     }
+    public ArrayList<String> getReview() {
+        return review;
+    }
 
 
-
+    //Setters
     public void setUser_id(String user_id){this.user_id = user_id;}
     public void setFirst_name(String first_name){this.first_name = first_name;}
     public void setLast_name(String last_name){this.last_name = last_name;}
@@ -75,6 +80,9 @@ public class Profile {
     public void setYour_class(ArrayList<String> your_class){this.your_class = your_class;}
     public void setRating(ArrayList<String> rating) {
         this.rating = rating;
+    }
+    public void setReview(ArrayList<String> review) {
+        this.review = review;
     }
 
     public Profile() {}
