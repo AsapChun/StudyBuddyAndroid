@@ -30,9 +30,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -64,6 +67,7 @@ public class MessagingActivity extends AppCompatActivity {
     List<Chat> mchat;
 
     RecyclerView recyclerView;
+    String user_id;
 
 
 
@@ -99,7 +103,7 @@ public class MessagingActivity extends AppCompatActivity {
         current_user = FirebaseAuth.getInstance().getCurrentUser();
 
         //the user_id of the person you intend to chat with
-        final String user_id = intent.getStringExtra("user_id");
+        user_id = intent.getStringExtra("user_id");
 
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +163,7 @@ public class MessagingActivity extends AppCompatActivity {
         hashMap.put("sender", sender);
         hashMap.put("receiver", receiver);
         hashMap.put("message", message);
+        hashMap.put("timestamp", FieldValue.serverTimestamp());
         colRef.add(hashMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
@@ -172,11 +177,27 @@ public class MessagingActivity extends AppCompatActivity {
                     }
                 });
 
+
+        final DocumentReference docRef= db.collection("ChatList").document(current_user.getUid()).collection("chat_with").document(user_id);
+        HashMap<String, Object> chatMap = new HashMap<>();
+        chatMap.put("id", user_id);
+        docRef.set(chatMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "DocumentSnapshot successfully written!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
     }
     private void readMessages(final String myid, final String userid, final String imageurl){
         Log.w(TAG, "In read Messages");
         mchat = new ArrayList<>();
-        final CollectionReference colRef = db.collection("Chats");
+        final Query colRef = db.collection("Chats").orderBy("timestamp",Query.Direction.ASCENDING);
         colRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value,
@@ -202,9 +223,6 @@ public class MessagingActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
 
     }
 }
