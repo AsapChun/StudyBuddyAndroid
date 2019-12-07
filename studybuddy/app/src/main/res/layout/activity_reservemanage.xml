@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,15 +9,15 @@
 
     <TextView
         android:id="@+id/txtHeader"
-        android:layout_width="354dp"
-        android:layout_height="66dp"
+        android:layout_width="274dp"
+        android:layout_height="74dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="6dp"
-        android:layout_marginBottom="438dp"
-        android:text="Modify Reservation "
+        android:layout_marginBottom="430dp"
+        android:text=" Modify Reservation "
         android:textAlignment="center"
-        android:textSize="36sp"
+        android:textSize="30sp"
         android:textStyle="bold" />
 
     <TextView
@@ -186,4 +187,14 @@
         android:layout_marginEnd="92dp"
         android:layout_marginBottom="276dp"
         android:text="Sunday" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="57dp"
+        android:layout_height="45dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="293dp"
+        android:layout_marginBottom="449dp"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
 </RelativeLayout>
