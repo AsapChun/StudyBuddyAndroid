@@ -11,11 +11,8 @@
         android:id="@+id/itmMessages"
         android:title="Messages" />
     <item
-        android:id="@+id/itmReviewsReceived"
-        android:title="Reviews Received" />
-    <item
-        android:id="@+id/itmGiveReviews"
-        android:title="Give Reviews" />
+        android:id="@+id/itmReviews"
+        android:title="Reviews" />
     <item
         android:id="@+id/itmLocation"
         android:title="Location" />

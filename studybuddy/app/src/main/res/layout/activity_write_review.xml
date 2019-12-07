@@ -4,58 +4,78 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".WriteReviewActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/tvRate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-
-            android:text="Rate: "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <RatingBar
-            android:id="@+id/rbTutor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:numStars="5"
-            android:rating="0"
-            android:stepSize=".5" />
-
-        <TextView
-            android:id="@+id/tvComment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="426dp"
-
-            android:text="Comment:"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <EditText
-            android:id="@+id/edtComment"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine"
-            android:text="123" />
+            <TextView
+                android:id="@+id/tvRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
 
-        <Button
-            android:id="@+id/btnSend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+                android:text="Rate: "
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            android:text="Send" />
+            <RatingBar
+                android:id="@+id/rbTutor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:numStars="5"
+                android:rating="0"
+                android:stepSize=".5" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/tvComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Comment: "
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+            <EditText
+                android:id="@+id/edtComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="write your comments here"
+                android:inputType="textMultiLine"
+                android:lines="15" />
+
+            <Button
+                android:id="@+id/btnSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Send" />
+        </LinearLayout>
 
 
     </LinearLayout>

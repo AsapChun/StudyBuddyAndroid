@@ -27,14 +27,15 @@
         app:cardBackgroundColor="@color/white">
         card_view:contentPadding="3dp"
 
-        <TextView
-            android:id="@+id/txtTutorSessions"
+        <ListView
+            android:id="@+id/lvAppointment"
             android:layout_width="match_parent"
             android:layout_height="207dp"
             android:scrollbars="vertical"
             android:textColor="@color/colorPrimary"
             android:textSize="24sp" />
     </androidx.cardview.widget.CardView>
+
 
 
 

@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -36,6 +37,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.studybuddy.Model.Appointment;
 import com.example.studybuddy.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -47,12 +49,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -77,6 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView avatarIv, coverIv;
     private FloatingActionButton fab;
     private RatingBar ratingBr;
+    private TextView earningsTv;
     //permission constants
     private static final int CAMERA_REQUEST_CODE = 100;
     private static final int STORAGE_REQUEST_CODE = 200;
@@ -101,6 +107,13 @@ public class ProfileActivity extends AppCompatActivity {
 
     StorageReference storageReference;
 
+    //for firebase columns in Appointment
+    public static final String Appointment = "Appointment";
+    public static final String TutorId = "TutorId";
+    public static final String Price = "price";
+    public static final String ValidAppointment = "validAppointment";
+    public static final String Rated = "rated";
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profilepage);
@@ -117,6 +130,7 @@ public class ProfileActivity extends AppCompatActivity {
         classTv = findViewById(R.id.classTv);
         classTutorTv = findViewById(R.id.classTutorTv);
         ratingBr = findViewById(R.id.ratingBr);
+        earningsTv = findViewById(R.id.txtTutorEarnings);
 
 
         //init array of permissions
@@ -179,6 +193,29 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
+
+        db.collection(Appointment)
+                .whereEqualTo(TutorId, mAuth.getCurrentUser().getUid())
+                .whereEqualTo(ValidAppointment, true)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        if (task.isSuccessful()) {
+                            double earnings = 0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                String strEarnings = document.get(Price).toString();
+                                earnings += Double.parseDouble(strEarnings);
+                            }
+                            earningsTv.setText(new BigDecimal(earnings).toPlainString());
+
+                        } else {
+                            Log.d(TAG, "Error getting documents from Appointment: ", task.getException());
+                        }
+                    }
+                });
 
         //fab Button Clicked
         fab.setOnClickListener(new View.OnClickListener() {

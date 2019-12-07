@@ -1,14 +1,13 @@
 package com.example.studybuddy;
 
-import android.app.Activity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,19 +17,14 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.studybuddy.Model.Appointment;
 import com.example.studybuddy.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -38,51 +32,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.RatingBar;
-import android.widget.TextView;
+public class ReviewActivity extends AppCompatActivity {
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.studybuddy.Model.Appointment;
-import com.example.studybuddy.Model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-public class GiveReviewsActivity extends AppCompatActivity {
-    private static final String TAG = "GiveReviews";
+    private static final String TAG = "Reviews";
     private String tutorCourse;
 
     //firebase
@@ -118,16 +74,27 @@ public class GiveReviewsActivity extends AppCompatActivity {
     private HashMap<String, Appointment> tutorsMap = new HashMap<>();
     private HashMap<String, User> tutorProfileMap = new HashMap<>();
 
+    //for ReviewsReceived
+    //Listview
+    private ListView lvReviewsReceived;
+    private ListAdapter lvAdapter_ReviewsReceived;   //Reference to the Adapter used to populate the listview.
+
+
+    private User currentUser = new User();
+
+    final Context context = this.getBaseContext();
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_givereviews);
+        setContentView(R.layout.activity_review);
 
         final Context context = this.getBaseContext();
         mAuth = FirebaseAuth.getInstance();
         // Access a Cloud Firestore instance from your Activity
         db = FirebaseFirestore.getInstance();
 
-
+        //for Give Reviews
         db.collection(Appointment)
                 .whereEqualTo(StudentId, mAuth.getCurrentUser().getUid())
                 .whereEqualTo(Rated, false)
@@ -176,7 +143,7 @@ public class GiveReviewsActivity extends AppCompatActivity {
                                                 }
 
                                                 lvGiveReviews = (ListView) findViewById(R.id.lvGiveReviews);
-                                                lvAdapter = new MyCustomAdapter(context, tutors, tutorProfiles);
+                                                lvAdapter = new GiveReviewsCustomAdapter(context, tutors, tutorProfiles);
                                                 lvGiveReviews.setAdapter(lvAdapter);
                                             } else {
                                                 Log.d(TAG, "Error getting documents from Profile: ", task.getException());
@@ -190,12 +157,49 @@ public class GiveReviewsActivity extends AppCompatActivity {
                     }
                 });
 
+
+        //firebase init
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+        //Query Profile from cloud firestore and dispaly it
+        final DocumentReference docRef = db.collection("Profile").document(mAuth.getCurrentUser().getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null) {
+                        Map<String, Object> data = document.getData();
+                        if (data != null) {
+
+                            //reverse makes the newest first
+                            List<String> tmp1 = (List<String>) document.get(Rating);
+                            List<String> tmp2 = (List<String>) document.get(Review);
+                            Collections.reverse(tmp1);
+                            Collections.reverse(tmp2);
+                            currentUser.setRatings(tmp1);
+                            currentUser.setReviews(tmp2);
+
+                        }
+
+                        lvReviewsReceived = (ListView) findViewById(R.id.lvReviewsReceived);
+                        lvAdapter_ReviewsReceived = new ReviewsReceivedCustomAdapter(context, currentUser);  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
+                        lvReviewsReceived.setAdapter(lvAdapter_ReviewsReceived);
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
     }
 
-
+    //for GiveReviews
     //STEP 1: Create references to needed resources for the ListView Object.  String Arrays, Images, etc.
-
-    class MyCustomAdapter extends BaseAdapter {
+    class GiveReviewsCustomAdapter extends BaseAdapter {
 
         Button btnGiveReview;
         Context context;   //Creating a reference to our context object, so we only have to get it once.  Context enables access to application specific resources.
@@ -203,7 +207,7 @@ public class GiveReviewsActivity extends AppCompatActivity {
         List<User> tutorProfiles;
 
         //STEP 2: Override the Constructor, be sure to:
-        public MyCustomAdapter(Context aContext, List<Appointment> tutors, List<User> tutorProfiles) {
+        public GiveReviewsCustomAdapter(Context aContext, List<Appointment> tutors, List<User> tutorProfiles) {
             //initializing our data in the constructor.
             context = aContext;  //saving the context we'll need it again.
             this.tutors = tutors;
@@ -295,6 +299,76 @@ public class GiveReviewsActivity extends AppCompatActivity {
 
     }
 
+    //for ReviewsReceived
+    class ReviewsReceivedCustomAdapter extends BaseAdapter {
 
+        Context context;   //Creating a reference to our context object, so we only have to get it once.  Context enables access to application specific resources.
+
+        private User currentUser;
+        private List<String> ratings;
+        private List<String> reviews;
+
+        //STEP 2: Override the Constructor, be sure to:
+        public ReviewsReceivedCustomAdapter(Context aContext, User currentUser) {
+            //initializing our data in the constructor.
+            context = aContext;  //saving the context we'll need it again.
+            this.currentUser = currentUser;
+            this.ratings = currentUser.getRatings();
+            this.reviews = currentUser.getReviews();
+
+        }
+
+        //STEP 3: Override and implement getCount(..), ListView uses this to determine how many rows to render.
+        @Override
+        public int getCount() {
+            return ratings == null ? 0 : ratings.size();   //all of the arrays are same length, so return length of any... ick!  But ok for now. :)
+        }
+
+        //STEP 4: Override getItem/getItemId, we aren't using these, but we must override anyway.
+        @Override
+        public Object getItem(int position) {
+            return ratings.get(position);        //really should be returning entire set of row data, but it's up to us, and we aren't using this call.
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;  //Another call we aren't using, but have to do something since we had to implement (base is abstract).
+        }
+
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {  //convertView is Row (it may be null), parent is the layout that has the row Views.
+
+            //STEP 5a: Inflate the listview row based on the xml.
+            View row;  //this will refer to the row to be inflated or displayed if it's already been displayed. (listview_row.xml)
+
+
+            // Let's optimize a bit by checking to see if we need to inflate, or if it's already been inflated...
+            if (convertView == null) {  //indicates this is the first time we are creating this row.
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);  //Inflater's are awesome, they convert xml to Java Objects!
+                row = inflater.inflate(R.layout.listview_row_reviewsreceived, parent, false);
+            } else {
+                row = convertView;
+            }
+
+            //STEP 5b: Now that we have a valid row instance, we need to get references to the views within that row and fill with the appropriate text and images.
+            final TextView tvReviewsReceivedTitle = (TextView) row.findViewById(R.id.tvReviewsReceivedTitle);
+            final TextView tvReviewsReceivedDescription = (TextView) row.findViewById(R.id.tvReviewsReceivedDescription);
+            final RatingBar rbReviewsReceived = (RatingBar) row.findViewById(R.id.rbReviewsReceived);
+
+            //show user ratings
+            tvReviewsReceivedTitle.setText(ratings.get(position));
+
+            //show user reviews
+            if (reviews != null && reviews.size() >= position)
+                tvReviewsReceivedDescription.setText(reviews.get(position));
+
+            //show user rating
+            rbReviewsReceived.setRating(Float.parseFloat(ratings.get(position)));
+
+
+            return row;  //once the row is fully constructed, return it.  Hey whatif we had buttons, can we target onClick Events within the rows, yep!
+        }
+
+    }
 }
-

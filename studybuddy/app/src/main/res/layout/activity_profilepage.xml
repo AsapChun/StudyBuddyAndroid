@@ -123,10 +123,9 @@
                             android:id="@+id/txtTutorEarnings"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5"
                             android:layout_toRightOf="@id/txtDollarSign"
-                            android:textSize="15sp"
-                            />
+                            android:text="0"
+                            android:textSize="15sp" />
 
                     </RelativeLayout>
 
