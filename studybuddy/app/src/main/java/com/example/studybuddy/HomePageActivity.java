@@ -50,7 +50,6 @@ public class HomePageActivity extends AppCompatActivity {
     private ArrayList<String> tutorNames;
     private Map<String, Object> profile;
     private TextView txtSessions;
-    private TextView displayCourses;
     private boolean update=true;
     private boolean studentupdate=true;
     private boolean tutorupdate=false;
@@ -70,8 +69,6 @@ public class HomePageActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         txtSessions = (TextView) findViewById(R.id.txtTutorSessions);
         txtSessions.setMovementMethod(new ScrollingMovementMethod());
-        displayCourses = (TextView) findViewById(R.id.txtCourses);
-        displayCourses.setMovementMethod(new ScrollingMovementMethod());
 
         //add loading screen
         progress = new ProgressDialog(this);
@@ -111,7 +108,6 @@ public class HomePageActivity extends AppCompatActivity {
                     for(String Class: classes){
                         classDisplay+=Class+"<br>";
                     }
-                    displayCourses.setText(Html.fromHtml(classDisplay));
                 }
                 else if(key.equals("studentAppointments")){
                     studentAppointments = b.getStringArrayList("studentAppointments");
@@ -192,7 +188,6 @@ public class HomePageActivity extends AppCompatActivity {
                         for(String Class: classes){
                             classDisplay+=Class+"<br>";
                         }
-                        displayCourses.setText(Html.fromHtml(classDisplay));
                     }
                 } else {
                     Log.d(TAG, "Current data: null");
