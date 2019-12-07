@@ -58,6 +58,7 @@ import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.mapboxsdk.utils.BitmapUtils;
 
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -111,12 +112,15 @@ public class LocationActivity extends AppCompatActivity {
     private Button btnEMA;
     private Button btnQuestrom;
     private Button btnBack;
+    private Button btnNextApt;
+    private Button btnCurrApt;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private ArrayList<String> destinations;
     private static boolean update=true;
     private ProgressDialog progress;
     private boolean currentLocationUpdate=true;
+    private int aptIndex=0;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,6 +158,9 @@ public class LocationActivity extends AppCompatActivity {
                 else if (key.equals("currentLocationUpdate")){
                     currentLocationUpdate = b.getBoolean("currentLocationUpdate");
                 }
+                else if(key.equals("aptIndex")){
+                    aptIndex = b.getInt("aptIndex");
+                }
             }
         }
 
@@ -165,13 +172,43 @@ public class LocationActivity extends AppCompatActivity {
         // This contains the MapView in XML and needs to be called after the access token is configured.
         setContentView(R.layout.activity_location);
 
-
+        btnNextApt = (Button) findViewById(R.id.btnNextApt);
         btnBack = (Button) findViewById(R.id.btnExit);
+        btnCurrApt = (Button) findViewById(R.id.btnCurrApt);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goBack();
+            }
+        });
+
+        btnNextApt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                if((aptIndex+1)%destinations.size()<destinations.size()){
+                    aptIndex = (aptIndex+1)%destinations.size();
+                    destination = getLngLat(destinations.get(aptIndex));
+                    Intent i = new Intent(getBaseContext(), LocationActivity.class);
+                    Bundle b = new Bundle();
+                    b.putBoolean("update",false);
+                    b.putDouble("latitude",destination.latitude());
+                    b.putDouble("longtitude",destination.longitude());
+                    b.putStringArrayList("destinations",destinations);
+                    b.putInt("aptIndex",aptIndex);
+                    i.putExtras(b);
+                    goBack();
+                    startActivity(i);
+//                }
+            }
+        });
+
+        btnCurrApt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(LocationActivity.this, "your upcoming appointment location is:" + getLName(destination.longitude(),destination.latitude()),
+                        Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -223,10 +260,16 @@ public class LocationActivity extends AppCompatActivity {
 
                         mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(position),2000 );
 
+                        Toast.makeText(LocationActivity.this, "your upcoming appointment location is:" + getLName(destination.longitude(),destination.latitude()),
+                                Toast.LENGTH_SHORT).show();
+
+
                     }
                 });
             }
         });
+
+
     }
 
     /**
@@ -236,10 +279,20 @@ public class LocationActivity extends AppCompatActivity {
         loadedMapStyle.addSource(new GeoJsonSource(ROUTE_SOURCE_ID,
                 FeatureCollection.fromFeatures(new Feature[] {})));
 
-        Feature[] feat = new Feature[destinations.size()+1];
+        Feature[] feat = new Feature[destinations.size()+2];
         feat[0] = Feature.fromGeometry(Point.fromLngLat(origin.longitude(), origin.latitude()));
+        feat[1] = Feature.fromGeometry(Point.fromLngLat(destination.longitude(), destination.latitude()));
         for(int i=0;i<destinations.size();i++){
-            feat[i+1] = Feature.fromGeometry(getLngLat(destinations.get(i)));
+//            if(i==0){
+//                feat[1] = Feature.fromGeometry(Point.fromLngLat(destination.longitude(), destination.latitude()));
+//            }
+//            else{
+//                //make sure destination is not being drawn twice
+//                if(destination.longitude()!=getLngLat(destinations.get(i)).longitude() && destination.latitude()!=getLngLat(destinations.get(i)).latitude()){
+//                    feat[i+1] = Feature.fromGeometry(getLngLat(destinations.get(i)));
+//                }
+//            }
+            feat[i+2] = Feature.fromGeometry(getLngLat(destinations.get(i)));
         }
 
 //        GeoJsonSource iconGeoJsonSource = new GeoJsonSource(ICON_SOURCE_ID, FeatureCollection.fromFeatures(new Feature[] {
@@ -371,13 +424,14 @@ public class LocationActivity extends AppCompatActivity {
                                 destination = getLngLat(destinations.get(0));
                             }
 
-                            Toast.makeText(getBaseContext(), "data retrieve from firebase", Toast.LENGTH_SHORT).show();
+
                             Intent i = new Intent(getBaseContext(), LocationActivity.class);
                             Bundle b = new Bundle();
                             b.putBoolean("update",false);
                             b.putDouble("latitude",destination.latitude());
                             b.putDouble("longtitude",destination.longitude());
                             b.putStringArrayList("destinations",destinations);
+                            b.putInt("aptIndex",0);
                             i.putExtras(b);
                             goBack();
                             startActivity(i);
@@ -407,13 +461,13 @@ public class LocationActivity extends AppCompatActivity {
                                 destination = getLngLat(destinations.get(0));
                             }
 
-                            Toast.makeText(getBaseContext(), "data retrieve from firebase", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(getBaseContext(), LocationActivity.class);
                             Bundle b = new Bundle();
                             b.putBoolean("update",false);
                             b.putDouble("latitude",destination.latitude());
                             b.putDouble("longtitude",destination.longitude());
                             b.putStringArrayList("destinations",destinations);
+                            b.putInt("aptIndex",0);
                             i.putExtras(b);
                             goBack();
                             startActivity(i);
@@ -441,6 +495,22 @@ public class LocationActivity extends AppCompatActivity {
         return destination;
     }
 
+    private String getLName(double longtitude,double latitude){
+        if(longtitude==-71.107140 && latitude==42.351070 ){
+            return "Law";
+        }
+        else if(longtitude==-71.109040 && latitude==42.350760 ){
+            return "GSU";
+        }
+        else if(longtitude==-71.099540 && latitude==42.349580){
+            return "Questrom";
+        }
+        else if(longtitude==-71.106990 && latitude==42.349640){
+            return "EMA";
+        }
+        return "";
+    }
+
 
     private void getLocation(){
         Geocoder geocoder;
@@ -463,8 +533,7 @@ public class LocationActivity extends AppCompatActivity {
                 user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                 lat=(double)user.get(0).getLatitude();
                 lng=(double)user.get(0).getLongitude();
-                Toast.makeText(getBaseContext(),"lat: "+lat+",  longitude: "+lng,Toast.LENGTH_LONG).show();
-                //System.out.println(" DDD lat: " +lat+",  longitude: "+lng);
+
 
             }catch (Exception e) {
                 e.printStackTrace();
