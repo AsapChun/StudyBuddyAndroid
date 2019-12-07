@@ -235,6 +235,7 @@ public class CreateAppointment extends AppCompatActivity implements AdapterView.
         appointment.put("TutorId", mAuth.getCurrentUser().getUid());
         appointment.put("Date", day);
         appointment.put("StudentId", null);
+        appointment.put("rated", false);
 
         db.collection("Appointment").document(mAuth.getCurrentUser().getUid())
                 .set(appointment)

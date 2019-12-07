@@ -535,11 +535,8 @@ public class HomePageActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Settings Selected", Toast.LENGTH_SHORT).show();
                 goToMessages();
                 return true;
-            case R.id.itmReviewsReceived:
-                goToReviewsReceived();
-                return true;
-            case R.id.itmGiveReviews:
-                goToGiveReviews();
+            case R.id.itmReviews:
+                goToReviews();
                 return true;
             case R.id.itmLocation:
                 goToLocation();
@@ -569,12 +566,8 @@ public class HomePageActivity extends AppCompatActivity {
         Intent newIntent = new Intent(this, PaymentActivity.class);
         this.startActivity(newIntent);
     }
-    public void goToReviewsReceived(){
-        Intent newIntent = new Intent(this, ReviewsReceivedActivity.class);
-        this.startActivity(newIntent);
-    }
-    public void goToGiveReviews(){
-        Intent newIntent = new Intent(this, GiveReviewsActivity.class);
+    public void goToReviews(){
+        Intent newIntent = new Intent(this, ReviewActivity.class);
         this.startActivity(newIntent);
     }
     public void goToProfile(){
