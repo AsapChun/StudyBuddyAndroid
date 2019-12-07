@@ -192,7 +192,7 @@ public class CreateAppointment extends AppCompatActivity implements AdapterView.
     void retrieveSharedPreferenceInfo(){
         SharedPreferences simpleAppInfo = getSharedPreferences("ManageAccountActivity", Context.MODE_PRIVATE);
 
-        tutorableSubject = simpleAppInfo.getString("appoint_day", "<missing>");
+        tutorableSubject = simpleAppInfo.getString("tutorCourse", "<missing>");
 
 
     }

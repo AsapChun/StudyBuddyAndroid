@@ -450,7 +450,7 @@ public class HomePageActivity extends AppCompatActivity {
                                                 String s = "You have a " + "<i>"+class_d+"</i>" + " tutoring session with " + "<b>"+name
                                                         +"</b>"+
                                                         " at " + location_d + " on " + days+"\n";
-
+                                                tutorAppointments.add(s);
                                                 checkname.set(pos,false);
 
 
