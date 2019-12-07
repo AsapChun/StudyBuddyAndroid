@@ -237,7 +237,7 @@ public class CreateAppointment extends AppCompatActivity implements AdapterView.
         appointment.put("StudentId", null);
         appointment.put("rated", false);
 
-        db.collection("Appointment").document(mAuth.getCurrentUser().getUid())
+        db.collection("Appointment").document()
                 .set(appointment)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
