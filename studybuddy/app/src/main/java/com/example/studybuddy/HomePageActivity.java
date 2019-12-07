@@ -3,6 +3,7 @@ package com.example.studybuddy;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
@@ -79,6 +80,9 @@ public class HomePageActivity extends AppCompatActivity {
     private boolean checkclass=true;    //boolean check if class need to be updated
     private boolean renderS=true;
     private boolean renderT=true;
+    private String appointment;
+
+    private ArrayList<Appointment> tutors = new ArrayList<>();
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +165,9 @@ public class HomePageActivity extends AppCompatActivity {
                 else if(key.equals("renderT")){
                     renderT = b.getBoolean("renderT");
                 }
+                else if(key.equals("tutor")){
+                    tutors = (ArrayList<Appointment>) b.getSerializable("tutor");
+                }
             }
         }
 //        String appointmentDisplay ="";
@@ -185,7 +192,7 @@ public class HomePageActivity extends AppCompatActivity {
             for(String apt: tutorAppointments){
                 appointmentDisplay.add(apt+"<br>");
             }
-            lvAdapter = new MyCustomAdapter(this,appointmentDisplay);
+            lvAdapter = new MyCustomAdapter(this, appointmentDisplay , tutors);
             lvAppointment.setAdapter(lvAdapter);
         }
 
@@ -291,7 +298,8 @@ public class HomePageActivity extends AppCompatActivity {
                                                 //formatt appointment text
                                                 String days ="";
                                                 int counter=0;
-                                                for(String day: day_d){
+                                                if(!day_d.isEmpty()){
+                                                    for(String day: day_d){
                                                     if(counter==day_d.size()-1){
                                                         days+=day;
                                                     }else{
@@ -300,10 +308,23 @@ public class HomePageActivity extends AppCompatActivity {
                                                     counter+=1;
                                                 }
 
+                                                }
+
+
+
+
                                                 //store the text to display each appointment into array
                                                     String s = "You have a " + "<i>"+class_d+"</i>" + " appointment with " + "<b>"+name
                                                             +"</b>"+
                                                             " at " + location_d + " on " + days+"\n";
+
+                                                    Appointment tutor = new Appointment();
+                                                    tutor.setAppId(document.getId());
+                                                    tutor.setLocation(location_d);
+                                                    tutor.setTutor(name);
+                                                    tutor.setDate(days);
+                                                    tutors.add(tutor);
+
                                                     studentAppointments.add(s);
                                                     checknameagain.set(pos,false);
 
@@ -325,6 +346,8 @@ public class HomePageActivity extends AppCompatActivity {
                                                 b.putStringArrayList("classes",classes);
                                                 b.putStringArrayList("studentAppointments",studentAppointments);
                                                 b.putStringArrayList("tutorAppointments",tutorAppointments);
+
+                                                b.putSerializable("tutor", tutors);
                                                 i.putExtras(b);
                                                 goBack();
                                                 startActivity(i);
@@ -357,6 +380,8 @@ public class HomePageActivity extends AppCompatActivity {
                             b.putStringArrayList("classes",classes);
                             b.putStringArrayList("studentAppointments",studentAppointments);
                             b.putStringArrayList("tutorAppointments",tutorAppointments);
+
+                            b.putSerializable("tutor", tutors);
                             i.putExtras(b);
                             goBack();
                             startActivity(i);
@@ -425,7 +450,7 @@ public class HomePageActivity extends AppCompatActivity {
                                                 String s = "You have a " + "<i>"+class_d+"</i>" + " tutoring session with " + "<b>"+name
                                                         +"</b>"+
                                                         " at " + location_d + " on " + days+"\n";
-                                                tutorAppointments.add(s);
+
                                                 checkname.set(pos,false);
 
 
@@ -446,6 +471,8 @@ public class HomePageActivity extends AppCompatActivity {
                                                 b.putStringArrayList("classes",classes);
                                                 b.putStringArrayList("studentAppointments",studentAppointments);
                                                 b.putStringArrayList("tutorAppointments",tutorAppointments);
+
+                                                b.putSerializable("tutor", tutors);
                                                 i.putExtras(b);
                                                 goBack();
                                                 startActivity(i);
@@ -478,6 +505,8 @@ public class HomePageActivity extends AppCompatActivity {
                             b.putStringArrayList("classes",classes);
                             b.putStringArrayList("studentAppointments",studentAppointments);
                             b.putStringArrayList("tutorAppointments",tutorAppointments);
+
+                            b.putSerializable("tutor", tutors);
                             i.putExtras(b);
                             goBack();
                             startActivity(i);
@@ -567,6 +596,10 @@ public class HomePageActivity extends AppCompatActivity {
         Intent newIntent = new Intent(this, MessageFragmentActivity.class);
         this.startActivity(newIntent);
     }
+    public void goToManage(){
+        Intent newIntent = new Intent(this, ManageReservationActivity.class);
+        this.startActivity(newIntent);
+    }
 
 
     public void signOut(){
@@ -603,12 +636,15 @@ public class HomePageActivity extends AppCompatActivity {
 
         Context context;   //Creating a reference to our context object, so we only have to get it once.  Context enables access to application specific resources.
         ArrayList<String> appointments;
+        ArrayList<Appointment> tutors;
 
         //STEP 2: Override the Constructor, be sure to:
-        public MyCustomAdapter(Context aContext, ArrayList<String> apt) {
+        public MyCustomAdapter(Context aContext, ArrayList<String> apt, ArrayList<Appointment> tutors) {
             //initializing our data in the constructor.
             context = aContext;  //saving the context we'll need it again.
             appointments =apt;
+            this.tutors = tutors;
+
 
         }
 
@@ -649,16 +685,19 @@ public class HomePageActivity extends AppCompatActivity {
             //STEP 5b: Now that we have a valid row instance, we need to get references to the views within that row and fill with the appropriate text and images.
              //Q: Notice we prefixed findViewByID with row, why?  A: Row, is the container.
             final TextView txtAppointment = (TextView) row.findViewById(R.id.txtAppointment);
-            final Button btnModify = (Button) row.findViewById(R.id.btnModify);
+
 
 
             txtAppointment.setText(Html.fromHtml(appointments.get(position)));
 
 
+            //bug needs fix--> java.lang.IndexOutOfBoundsException: Invalid index 0, size is 0
+            final Button btnModify = (Button) row.findViewById(R.id.btnModify);
             btnModify.setOnClickListener(new View.OnClickListener(){
-
                 public void onClick(View v){
-
+                    Intent i = new Intent(context, ManageReservationActivity.class);
+                    i.putExtra("Appointment", tutors.get(position));
+                    startActivity(i);
                 }
             });
 
@@ -667,6 +706,24 @@ public class HomePageActivity extends AppCompatActivity {
             return row;  //once the row is fully constructed, return it.  Hey whatif we had buttons, can we target onClick Events within the rows, yep!
         }
 
+    }
+
+    void saveSharedPreferenceInfo(){
+        //1. Refer to the SharedPreference Object.
+        SharedPreferences AppInfo = getSharedPreferences("HomePageActivity", Context.MODE_PRIVATE);  //Private means no other Apps can access this.
+
+        //2. Create an Shared Preferences Editor for Editing Shared Preferences.
+        //Note, not a real editor, just an object that allows editing...
+
+        SharedPreferences.Editor editor = AppInfo.edit();
+
+        //3. Store what's important!  Key Value Pair, what else is new...
+        editor.putString("appoint", appointment);
+
+        //4. Save your information.
+        editor.apply();
+
+        Toast.makeText(this, "Shared Preference Data Updated.", Toast.LENGTH_LONG).show();
     }
 
 }

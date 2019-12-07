@@ -107,7 +107,7 @@
         android:inputType="phone" />
 
     <Spinner
-        android:id="@+id/spinLoc"
+        android:id="@+id/spinLocation"
         android:layout_width="match_parent"
         android:layout_height="43dp"
         android:layout_alignParentEnd="true"

@@ -3,7 +3,6 @@ package com.example.studybuddy;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,20 +20,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Random;
 
 
 //doesnt actually create an appointment but rather creates the necessary fields to set up an appoitnemnt
@@ -101,7 +95,7 @@ public class CreateAppointment extends AppCompatActivity implements AdapterView.
 
         tutorInfo.setText(tutorInfo.getText().toString() + " " + tutorableSubject);
 
-        dropDownLocations = (Spinner) findViewById(R.id.spinLoc);
+        dropDownLocations = (Spinner) findViewById(R.id.spinLocation);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateAppointment.this, android.R.layout.simple_spinner_dropdown_item, loca);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dropDownLocations.setAdapter(adapter);
@@ -173,7 +167,7 @@ public class CreateAppointment extends AppCompatActivity implements AdapterView.
             }
         }
 
-            if (parent.getId() == R.id.spinLoc) {
+            if (parent.getId() == R.id.spinLocation) {
                 switch (position) {
                     case 0:
                         location = "GSU";
@@ -198,7 +192,8 @@ public class CreateAppointment extends AppCompatActivity implements AdapterView.
     void retrieveSharedPreferenceInfo(){
         SharedPreferences simpleAppInfo = getSharedPreferences("ManageAccountActivity", Context.MODE_PRIVATE);
 
-        tutorableSubject = simpleAppInfo.getString("tutorCourse", "<missing>");
+        tutorableSubject = simpleAppInfo.getString("appoint_day", "<missing>");
+
 
     }
 

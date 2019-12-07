@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".ManageReservationActivity">
+
+    <TextView
+        android:id="@+id/txtHeader"
+        android:layout_width="354dp"
+        android:layout_height="66dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="438dp"
+        android:text="Modify Reservation "
+        android:textAlignment="center"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtChangeDayInfo"
+        android:layout_width="250dp"
+        android:layout_height="37dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="110dp"
+        android:layout_marginBottom="356dp"
+        android:text="Change Day To"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txtChangeLocation"
+        android:layout_width="285dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="77dp"
+        android:layout_marginBottom="151dp"
+        android:text=" Change Appointment Location:"
+        android:textSize="18sp" />
+
+    <Spinner
+        android:id="@+id/spinLocation"
+        android:layout_width="202dp"
+        android:layout_height="35dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="152dp"
+        android:layout_marginBottom="108dp" />
+
+    <Button
+        android:id="@+id/btnUpdateLoc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="103dp"
+        android:text="Update " />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="81dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="137dp"
+        android:layout_marginBottom="0dp"
+        android:text="Cancel Reservation: \n Note: No Refund Will be Allocated"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btnCancelReserve"
+        android:layout_width="112dp"
+        android:layout_height="68dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="4dp"
+        android:text="@android:string/cancel" />
+
+    <TextView
+        android:id="@+id/txtCurrentDay"
+        android:layout_width="350dp"
+        android:layout_height="36dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="397dp"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txtCurrentLoc"
+        android:layout_width="357dp"
+        android:layout_height="33dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="199dp"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btnConfirmDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="149dp"
+        android:layout_marginBottom="220dp"
+        android:text="@string/common_google_play_services_update_button" />
+
+    <CheckBox
+        android:id="@+id/cbMonday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="284dp"
+        android:layout_marginBottom="315dp"
+        android:text="Monday"
+        android:textSize="12sp" />
+
+    <CheckBox
+        android:id="@+id/cbTuesday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="198dp"
+        android:layout_marginBottom="314dp"
+        android:text="Tuesday"
+        android:textSize="12sp" />
+
+    <CheckBox
+        android:id="@+id/cbWednesday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="94dp"
+        android:layout_marginBottom="312dp"
+        android:text="Wednesday"
+        android:textSize="12sp" />
+
+    <CheckBox
+        android:id="@+id/cbThursday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="312dp"
+        android:text="Thursday"
+        android:textSize="12sp" />
+
+    <CheckBox
+        android:id="@+id/cbFriday"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="282dp"
+        android:layout_marginBottom="275dp"
+        android:text="Friday"
+        android:textSize="12sp" />
+
+    <CheckBox
+        android:id="@+id/cbSaturday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="196dp"
+        android:layout_marginBottom="274dp"
+        android:text="Saturday"
+        android:textSize="12sp" />
+
+    <CheckBox
+        android:id="@+id/cbSunday"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="92dp"
+        android:layout_marginBottom="276dp"
+        android:text="Sunday" />
+</RelativeLayout>
