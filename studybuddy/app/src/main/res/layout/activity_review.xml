@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".HomePageActivity">
+
+    <TextView
+        android:id="@+id/txtGiveReviews"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Give Reviews"
+        android:textAlignment="textStart"
+        android:textSize="36sp"
+        android:paddingLeft="10dp"
+        android:textStyle="bold|italic" />
+
+
+    <ListView
+        android:id="@+id/lvGiveReviews"
+        android:layout_width="wrap_content"
+        android:layout_height="294dp"
+        android:layout_below="@+id/txtGiveReviews"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="-3dp"
+        android:layout_marginTop="0dp"
+        android:fastScrollAlwaysVisible="false" />
+
+    <TextView
+        android:id="@+id/txtReviewsReceived"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lvGiveReviews"
+        android:layout_marginTop="0dp"
+        android:text="Reviews Received"
+        android:paddingLeft="10dp"
+        android:textSize="36sp"
+        android:textStyle="bold|italic" />
+
+    <ListView
+        android:id="@+id/lvReviewsReceived"
+        android:layout_width="wrap_content"
+        android:layout_height="344dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="-4dp"
+        android:layout_marginTop="387dp"
+        android:layout_marginBottom="0dp"
+        android:fastScrollAlwaysVisible="false" />
+
+
+</RelativeLayout>
