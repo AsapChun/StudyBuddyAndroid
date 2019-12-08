@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    tools:context=".ManageAccountActivity">
+    tools:context=".ManageAccountActivity"
+    android:background="@color/colorPrimary">
 
     <Button
         android:id="@+id/btnAddCourse"
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="26dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="393dp"
         android:text="Add" />
 
@@ -66,7 +67,9 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="232dp"
-        android:text="ADD" />
+        android:text="ADD"
+        android:background="@color/white"
+        android:textColor="@color/colorPrimary"/>
 
     <TextView
         android:id="@+id/txtFindTutors"
@@ -95,9 +98,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="14dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="80dp"
+        android:background="@color/white"
         android:text="ADD"
+        android:textColor="@color/colorPrimary"
         android:textSize="14sp" />
 
     <Button
@@ -108,7 +113,9 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="276dp"
         android:layout_marginBottom="7dp"
-        android:text="Back" />
+        android:text="Back"
+        android:background="@color/white"
+        android:textColor="@color/colorPrimary"/>
 
     <TextView
         android:id="@+id/txtAccountManagment"
