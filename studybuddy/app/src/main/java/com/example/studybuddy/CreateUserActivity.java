@@ -37,7 +37,7 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
 
     private static final String TAG = "EmailPassword";
     private Button btnRegister;
-    private Button btnReturn;
+
     private Button btnAddCourse;
 
     private EditText edtFirstName;
@@ -58,7 +58,6 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
         setContentView(R.layout.activity_createnewuser);
         mAuth = FirebaseAuth.getInstance();
         btnRegister = (Button) findViewById(R.id.btnRegister);
-        btnReturn = (Button) findViewById(R.id.btnBack);
         edtEmail = (EditText)findViewById(R.id.edtEmail);
         edtPassword = (EditText) findViewById(R.id.edtPassword);
         edtFirstName = (EditText) findViewById(R.id.edtFirst);
@@ -69,21 +68,14 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
 
 
         genderDropDown = (Spinner) findViewById(R.id.spinGender);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateUserActivity.this, android.R.layout.simple_spinner_dropdown_item, paths);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateUserActivity.this, R.layout.spinner_item, paths);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         genderDropDown.setAdapter(adapter);
         genderDropDown.setOnItemSelectedListener(this);
 
 
 
 
-        //Return Back to Login Screen
-        btnReturn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goBack(v);
-            }
-        });
 
         //Register a New Profile
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -250,7 +242,6 @@ public class CreateUserActivity extends AppCompatActivity implements AdapterView
         Intent newIntent = new Intent(this, HomePageActivity.class);
         this.startActivity(newIntent);
     }
-
 
 
 }

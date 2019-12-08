@@ -1,17 +1,30 @@
 package com.example.studybuddy;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.studybuddy.Model.Appointment;
+import com.example.studybuddy.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +38,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +49,7 @@ import org.w3c.dom.Text;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class HomePageActivity extends AppCompatActivity {
@@ -49,8 +64,14 @@ public class HomePageActivity extends AppCompatActivity {
     private ArrayList<String> studentNames;
     private ArrayList<String> tutorNames;
     private Map<String, Object> profile;
-    private TextView txtSessions;
-    private TextView displayCourses;
+
+    //private TextView txtSessions;
+
+    //listview
+    private ListView lvAppointment;
+    private ListAdapter lvAdapter;
+
+
     private boolean update=true;
     private boolean studentupdate=true;
     private boolean tutorupdate=false;
@@ -60,6 +81,9 @@ public class HomePageActivity extends AppCompatActivity {
     private boolean checkclass=true;    //boolean check if class need to be updated
     private boolean renderS=true;
     private boolean renderT=true;
+    private String appointment;
+
+    private ArrayList<Appointment> tutors = new ArrayList<>();
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +92,10 @@ public class HomePageActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        txtSessions = (TextView) findViewById(R.id.txtTutorSessions);
-        txtSessions.setMovementMethod(new ScrollingMovementMethod());
-        displayCourses = (TextView) findViewById(R.id.txtCourses);
-        displayCourses.setMovementMethod(new ScrollingMovementMethod());
+
+        //txtSessions = (TextView) findViewById(R.id.txtTutorSessions);
+        //txtSessions.setMovementMethod(new ScrollingMovementMethod());
+        lvAppointment = findViewById(R.id.lvAppointment);
 
         //add loading screen
         progress = new ProgressDialog(this);
@@ -105,14 +129,7 @@ public class HomePageActivity extends AppCompatActivity {
                 else if(key.equals("tutorupdate")){
                     tutorupdate = b.getBoolean("tutorupdate");
                 }
-                else if(key.equals("classes")){
-                    classes = b.getStringArrayList("classes");
-                    String classDisplay="";
-                    for(String Class: classes){
-                        classDisplay+=Class+"<br>";
-                    }
-                    displayCourses.setText(Html.fromHtml(classDisplay));
-                }
+
                 else if(key.equals("studentAppointments")){
                     studentAppointments = b.getStringArrayList("studentAppointments");
 
@@ -141,21 +158,35 @@ public class HomePageActivity extends AppCompatActivity {
                 else if(key.equals("renderT")){
                     renderT = b.getBoolean("renderT");
                 }
+                 else if(key.equals("tutor")){
+                    tutors = (ArrayList<Appointment>) b.getSerializable("tutor");
+                }
             }
         }
-        String appointmentDisplay ="";
-        for(String apt: studentAppointments){
-            appointmentDisplay+=apt+"<br>";
-        }
-        for(String apt: tutorAppointments){
-            appointmentDisplay+=apt+"<br>";
-        }
-        txtSessions.setText(Html.fromHtml(appointmentDisplay));
+//        String appointmentDisplay ="";
+//        for(String apt: studentAppointments){
+//            appointmentDisplay+=apt+"<br>";
+//        }
+//        for(String apt: tutorAppointments){
+//            appointmentDisplay+=apt+"<br>";
+//        }
+
+        //txtSessions.setText(Html.fromHtml(appointmentDisplay));
 
         //if no appointment updated are needed, finish loading
         if(!studentupdate && !tutorupdate){
             update=false;
             progress.dismiss();
+
+            ArrayList<String> appointmentDisplay = new ArrayList<>();
+            for(String apt: studentAppointments){
+                appointmentDisplay.add(apt+"<br>");
+            }
+            for(String apt: tutorAppointments){
+                appointmentDisplay.add(apt+"<br>");
+            }
+            lvAdapter = new MyCustomAdapter(this, appointmentDisplay , tutors);
+            lvAppointment.setAdapter(lvAdapter);
         }
 
         //check if any update to the homepage is needed
@@ -169,36 +200,6 @@ public class HomePageActivity extends AppCompatActivity {
     //retrieve data for classes and appointments
     private void getHomePageData(){
 
-        //retrieve class information
-        final DocumentReference docRef1 = db.collection("Profile").document(mAuth.getCurrentUser().getUid());
-        docRef1.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
-                    return;
-                }
-
-                if (snapshot != null && snapshot.exists()) {
-                    Log.d(TAG, "Current data: " + snapshot.getData());
-                    Map<String, Object> data = snapshot.getData();
-                    ArrayList<String> courses = (ArrayList<String>) data.get("your_class");
-                    if(checkclass){
-                        for(String c: courses){
-                            classes.add(c);
-                        }
-                        String classDisplay="";
-                        for(String Class: classes){
-                            classDisplay+=Class+"<br>";
-                        }
-                        displayCourses.setText(Html.fromHtml(classDisplay));
-                    }
-                } else {
-                    Log.d(TAG, "Current data: null");
-                }
-            }
-        });
 
         //check if appointment for user as student needs to be updated
         if(studentupdate){
@@ -260,7 +261,8 @@ public class HomePageActivity extends AppCompatActivity {
                                                 //formatt appointment text
                                                 String days ="";
                                                 int counter=0;
-                                                for(String day: day_d){
+                                                if(!day_d.isEmpty()){
+                                                    for(String day: day_d){
                                                     if(counter==day_d.size()-1){
                                                         days+=day;
                                                     }else{
@@ -269,10 +271,23 @@ public class HomePageActivity extends AppCompatActivity {
                                                     counter+=1;
                                                 }
 
+                                                }
+
+
+
+
                                                 //store the text to display each appointment into array
                                                     String s = "You have a " + "<i>"+class_d+"</i>" + " appointment with " + "<b>"+name
                                                             +"</b>"+
                                                             " at " + location_d + " on " + days+"\n";
+
+                                                    Appointment tutor = new Appointment();
+                                                    tutor.setAppId(document.getId());
+                                                    tutor.setLocation(location_d);
+                                                    tutor.setTutor(name);
+                                                    tutor.setDate(days);
+                                                    tutors.add(tutor);
+
                                                     studentAppointments.add(s);
                                                     checknameagain.set(pos,false);
 
@@ -294,6 +309,8 @@ public class HomePageActivity extends AppCompatActivity {
                                                 b.putStringArrayList("classes",classes);
                                                 b.putStringArrayList("studentAppointments",studentAppointments);
                                                 b.putStringArrayList("tutorAppointments",tutorAppointments);
+
+                                                b.putSerializable("tutor", tutors);
                                                 i.putExtras(b);
                                                 goBack();
                                                 startActivity(i);
@@ -326,6 +343,8 @@ public class HomePageActivity extends AppCompatActivity {
                             b.putStringArrayList("classes",classes);
                             b.putStringArrayList("studentAppointments",studentAppointments);
                             b.putStringArrayList("tutorAppointments",tutorAppointments);
+
+                            b.putSerializable("tutor", tutors);
                             i.putExtras(b);
                             goBack();
                             startActivity(i);
@@ -415,6 +434,8 @@ public class HomePageActivity extends AppCompatActivity {
                                                 b.putStringArrayList("classes",classes);
                                                 b.putStringArrayList("studentAppointments",studentAppointments);
                                                 b.putStringArrayList("tutorAppointments",tutorAppointments);
+
+                                                b.putSerializable("tutor", tutors);
                                                 i.putExtras(b);
                                                 goBack();
                                                 startActivity(i);
@@ -447,6 +468,8 @@ public class HomePageActivity extends AppCompatActivity {
                             b.putStringArrayList("classes",classes);
                             b.putStringArrayList("studentAppointments",studentAppointments);
                             b.putStringArrayList("tutorAppointments",tutorAppointments);
+
+                            b.putSerializable("tutor", tutors);
                             i.putExtras(b);
                             goBack();
                             startActivity(i);
@@ -529,6 +552,10 @@ public class HomePageActivity extends AppCompatActivity {
         Intent newIntent = new Intent(this, MessageFragmentActivity.class);
         this.startActivity(newIntent);
     }
+    public void goToManage(){
+        Intent newIntent = new Intent(this, ManageReservationActivity.class);
+        this.startActivity(newIntent);
+    }
 
 
     public void signOut(){
@@ -557,6 +584,102 @@ public class HomePageActivity extends AppCompatActivity {
         if ( progress!=null && progress.isShowing() ){
             progress.cancel();
         }
+    }
+
+    //STEP 1: Create references to needed resources for the ListView Object.  String Arrays, Images, etc.
+
+    class MyCustomAdapter extends BaseAdapter {
+
+        Context context;   //Creating a reference to our context object, so we only have to get it once.  Context enables access to application specific resources.
+        ArrayList<String> appointments;
+        ArrayList<Appointment> tutors;
+
+        //STEP 2: Override the Constructor, be sure to:
+        public MyCustomAdapter(Context aContext, ArrayList<String> apt, ArrayList<Appointment> tutors) {
+            //initializing our data in the constructor.
+            context = aContext;  //saving the context we'll need it again.
+            appointments =apt;
+            this.tutors = tutors;
+
+
+        }
+
+
+        //STEP 3: Override and implement getCount(..), ListView uses this to determine how many rows to render.
+        @Override
+        public int getCount() {
+            return appointments == null ? 0 : appointments.size();   //all of the arrays are same length, so return length of any... ick!  But ok for now. :)
+        }
+
+        //STEP 4: Override getItem/getItemId, we aren't using these, but we must override anyway.
+        @Override
+        public Object getItem(int position) {
+            return appointments.get(position);        //really should be returning entire set of row data, but it's up to us, and we aren't using this call.
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;  //Another call we aren't using, but have to do something since we had to implement (base is abstract).
+        }
+
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {  //convertView is Row (it may be null), parent is the layout that has the row Views.
+
+            //STEP 5a: Inflate the listview row based on the xml.
+            View row;  //this will refer to the row to be inflated or displayed if it's already been displayed. (listview_row.xml)
+
+
+            // Let's optimize a bit by checking to see if we need to inflate, or if it's already been inflated...
+            if (convertView == null) {  //indicates this is the first time we are creating this row.
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);  //Inflater's are awesome, they convert xml to Java Objects!
+                row = inflater.inflate(R.layout.listview_row_homepage, parent, false);
+            } else {
+                row = convertView;
+            }
+
+            //STEP 5b: Now that we have a valid row instance, we need to get references to the views within that row and fill with the appropriate text and images.
+             //Q: Notice we prefixed findViewByID with row, why?  A: Row, is the container.
+            final TextView txtAppointment = (TextView) row.findViewById(R.id.txtAppointment);
+
+
+
+            txtAppointment.setText(Html.fromHtml(appointments.get(position)));
+
+
+            //bug needs fix--> java.lang.IndexOutOfBoundsException: Invalid index 0, size is 0
+            final Button btnModify = (Button) row.findViewById(R.id.btnModify);
+            btnModify.setOnClickListener(new View.OnClickListener(){
+                public void onClick(View v){
+                    Intent i = new Intent(context, ManageReservationActivity.class);
+                    i.putExtra("Appointment", tutors.get(position));
+                    startActivity(i);
+                }
+            });
+
+
+
+            return row;  //once the row is fully constructed, return it.  Hey whatif we had buttons, can we target onClick Events within the rows, yep!
+        }
+
+    }
+
+    void saveSharedPreferenceInfo(){
+        //1. Refer to the SharedPreference Object.
+        SharedPreferences AppInfo = getSharedPreferences("HomePageActivity", Context.MODE_PRIVATE);  //Private means no other Apps can access this.
+
+        //2. Create an Shared Preferences Editor for Editing Shared Preferences.
+        //Note, not a real editor, just an object that allows editing...
+
+        SharedPreferences.Editor editor = AppInfo.edit();
+
+        //3. Store what's important!  Key Value Pair, what else is new...
+        editor.putString("appoint", appointment);
+
+        //4. Save your information.
+        editor.apply();
+
+        Toast.makeText(this, "Shared Preference Data Updated.", Toast.LENGTH_LONG).show();
     }
 
 }

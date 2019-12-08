@@ -53,6 +53,10 @@
             android:name=".FindTutorActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ManageReservationActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".CreateAppointment"
             android:screenOrientation="portrait" /> <!-- [START firebase_service] -->
         <service
