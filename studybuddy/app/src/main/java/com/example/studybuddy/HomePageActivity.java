@@ -427,13 +427,7 @@ public class HomePageActivity extends AppCompatActivity {
 
                                                 tutorAppointments.add(s);
                                                 checkname.set(pos,false);
-
-                                                Appointment tutor = new Appointment();
-                                                tutor.setAppId(document.getId());
-                                                tutor.setLocation(location_d);
-                                                tutor.setTutor(name);
-                                                tutor.setDate(days);
-                                                tutors.add(tutor);
+                                                
 
 
                                             }
