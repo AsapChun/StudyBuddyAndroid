@@ -5,27 +5,39 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SettingsActivity extends AppCompatActivity {
+    private static final String TAG = "Settings Update";
 
     private Button btnBack;
     private Button btnChangeEmail;
     private Button btnChangePassword;
-    private TextView OldUsername;
+    private Button btnDelete;
+    private EditText OldUsername;
     private EditText NewUsername;
-    private TextView OldPassword;
+    private EditText OldPassword;
     private EditText NewPassword;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private FirebaseUser user;
+
+    private CheckBox cbConfirm;
+
+    private String usernameCheck;
+    private String passwordCheck;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,30 +46,60 @@ public class SettingsActivity extends AppCompatActivity {
         btnBack =  (Button) findViewById(R.id.btnNewBack);
         btnChangeEmail = (Button) findViewById(R.id.btnChangeEmail);
         btnChangePassword = (Button) findViewById(R.id.btnConfirm);
-        OldUsername = (TextView) findViewById(R.id.edtOldUsername);
+        OldUsername = (EditText) findViewById(R.id.edtEmail);
         NewUsername = (EditText) findViewById(R.id.edtNewUsername);
-        OldPassword = (TextView) findViewById(R.id.edtOldPassword);
+        OldPassword = (EditText) findViewById(R.id.edtPassword);
         NewPassword = (EditText) findViewById(R.id.edtNewPassword);
+        cbConfirm = (CheckBox) findViewById(R.id.cbConfirm);
+        btnDelete = (Button) findViewById(R.id.btnDelete);
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
 
 
         btnChangeEmail.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-
-
-
+            public void onClick(View v) { //update user login email
+                String email = user.getEmail();
+                if(OldUsername.getText().toString().equals(email)){
+                    user.updateEmail(NewUsername.getText().toString())
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d(TAG, "User email address updated.");
+                                    }
+                                }
+                            });
+                    goBackToHomePage();
+                } else{
+                    Toast.makeText(getApplicationContext(), "Email does not match current email!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(OldPassword.getText().toString().equals(NewPassword.getText().toString())){
+                    user.updatePassword(NewPassword.getText().toString())
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d(TAG, "User password updated.");
+                                    }
+                                }
+                            });
+                    goBackToHomePage();
+                    }
+                else{
+                    Toast.makeText(getApplicationContext(), "Passwords Do Not Match", Toast.LENGTH_SHORT).show();
+                    }
+                }
 
-            }
         });
 
 
@@ -65,8 +107,28 @@ public class SettingsActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                goBackToHomePage();
+            }
+        });
 
-                goBack();
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(cbConfirm.isChecked()){
+                    user.delete()
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d(TAG, "User account deleted.");
+                                    }
+                                }
+                            });
+                    goBackToHomePage();
+                } else{
+                    Toast.makeText(getApplicationContext(), "Check Box To Confirm Delete Account!", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
@@ -90,9 +152,9 @@ public class SettingsActivity extends AppCompatActivity {
         Intent newIntent = new Intent(this, MainActivity.class);
         this.startActivity(newIntent);
     }
-    public void goBack() {
-
-        this.finish();
+    public void goBackToHomePage() {
+        Intent newIntent = new Intent(this, HomePageActivity.class);
+        this.startActivity(newIntent);
     }
 
 
