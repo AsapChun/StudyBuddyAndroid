@@ -21,7 +21,7 @@
     <androidx.cardview.widget.CardView
         style="@style/categoriesCardViewButtons"
         android:layout_gravity="center"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="253dp"
         android:layout_marginTop="15dp"
         app:cardBackgroundColor="@color/white">
@@ -30,11 +30,12 @@
         <ListView
             android:id="@+id/lvAppointment"
             android:layout_width="match_parent"
-            android:layout_height="207dp"
+            android:layout_height="match_parent"
             android:scrollbars="vertical"
             android:textColor="@color/colorPrimary"
             android:textSize="24sp" />
     </androidx.cardview.widget.CardView>
+
 
 
 
