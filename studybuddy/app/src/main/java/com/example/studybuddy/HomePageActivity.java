@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
@@ -42,6 +43,7 @@ import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 
 import org.w3c.dom.Text;
@@ -158,7 +160,7 @@ public class HomePageActivity extends AppCompatActivity {
                 else if(key.equals("renderT")){
                     renderT = b.getBoolean("renderT");
                 }
-                 else if(key.equals("tutor")){
+                else if(key.equals("tutor")){
                     tutors = (ArrayList<Appointment>) b.getSerializable("tutor");
                 }
             }
@@ -254,13 +256,13 @@ public class HomePageActivity extends AppCompatActivity {
                                                 int counter=0;
                                                 if(!day_d.isEmpty()){
                                                     for(String day: day_d){
-                                                    if(counter==day_d.size()-1){
-                                                        days+=day;
-                                                    }else{
-                                                        days+=day+", ";
+                                                        if(counter==day_d.size()-1){
+                                                            days+=day;
+                                                        }else{
+                                                            days+=day+", ";
+                                                        }
+                                                        counter+=1;
                                                     }
-                                                    counter+=1;
-                                                }
 
                                                 }
 
@@ -268,19 +270,20 @@ public class HomePageActivity extends AppCompatActivity {
 
 
                                                 //store the text to display each appointment into array
-                                                    String s = "You have a " + "<i>"+class_d+"</i>" + " appointment with " + "<b>"+name
-                                                            +"</b>"+
-                                                            " at " + location_d + " on " + days+"\n";
+                                                String s = "You have a " + "<i>"+class_d+"</i>" + " appointment with " + "<b>"+name
+                                                        +"</b>"+
+                                                        " at " + location_d + " on " + days+"\n";
 
-                                                    Appointment tutor = new Appointment();
-                                                    tutor.setAppId(document.getId());
-                                                    tutor.setLocation(location_d);
-                                                    tutor.setTutor(name);
-                                                    tutor.setDate(days);
-                                                    tutors.add(tutor);
+                                                Appointment tutor = new Appointment();
+                                                tutor.setAppId(document.getId());
+                                                tutor.setLocation(location_d);
+                                                tutor.setCourse(class_d);
+                                                tutor.setTutor(name);
+                                                tutor.setDate(days);
+                                                tutors.add(tutor);
 
-                                                    studentAppointments.add(s);
-                                                    checknameagain.set(pos,false);
+                                                studentAppointments.add(s);
+                                                checknameagain.set(pos,false);
 
 
                                             }
@@ -404,8 +407,18 @@ public class HomePageActivity extends AppCompatActivity {
                                                 String s = "You have a " + "<i>"+class_d+"</i>" + " tutoring session with " + "<b>"+name
                                                         +"</b>"+
                                                         " at " + location_d + " on " + days+"\n";
+
+                                                Appointment tutor = new Appointment();
+                                                tutor.setAppId(document.getId());
+                                                tutor.setLocation(location_d);
+                                                tutor.setDate(days);
+                                                tutor.setStudent(name);
+                                                tutor.setCourse(class_d);
+                                                tutors.add(tutor);
+
                                                 tutorAppointments.add(s);
                                                 checkname.set(pos,false);
+                                                
 
 
                                             }
@@ -509,7 +522,8 @@ public class HomePageActivity extends AppCompatActivity {
     }
 
     public void goBack() {
-        this.finish();
+        Intent newIntent = new Intent(this, MainActivity.class);
+        this.startActivity(newIntent);
     }
 
     public void goToSettings(){
@@ -624,23 +638,42 @@ public class HomePageActivity extends AppCompatActivity {
             // Let's optimize a bit by checking to see if we need to inflate, or if it's already been inflated...
             if (convertView == null) {  //indicates this is the first time we are creating this row.
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);  //Inflater's are awesome, they convert xml to Java Objects!
-                row = inflater.inflate(R.layout.listview_row_homepage, parent, false);
+                row = inflater.inflate(R.layout.item_appointments, parent, false);
             } else {
                 row = convertView;
             }
 
             //STEP 5b: Now that we have a valid row instance, we need to get references to the views within that row and fill with the appropriate text and images.
-             //Q: Notice we prefixed findViewByID with row, why?  A: Row, is the container.
-            final TextView txtAppointment = (TextView) row.findViewById(R.id.txtAppointment);
+            //Q: Notice we prefixed findViewByID with row, why?  A: Row, is the container.
 
 
-
-            txtAppointment.setText(Html.fromHtml(appointments.get(position)));
-
-
+            //txtDesc.setText(Html.fromHtml(appointments.get(position)));
+            Appointment apt = tutors.get(position);
             //bug needs fix--> java.lang.IndexOutOfBoundsException: Invalid index 0, size is 0
-            final Button btnModify = (Button) row.findViewById(R.id.btnModify);
-            btnModify.setOnClickListener(new View.OnClickListener(){
+            final TextView txtDesc = (TextView) row.findViewById(   R.id.txtDesc);
+            final CardView cardView = (CardView) row.findViewById(R.id.cardView);
+            final TextView txtTitle = (TextView) row.findViewById(R.id.txtTitle);
+            final ImageView image = row.findViewById(R.id.image);
+            txtTitle.setText(apt.getCourse());
+
+            if(apt.getStudent()!=null && apt.getTutor() == null){
+                String s = "You are" + " tutoring " + apt.getStudent() +
+                        " at " + apt.getLocation() + " on " + apt.getDate()+"\n";
+                Picasso.get().load(R.drawable.tutoring_image).into(image);
+                txtDesc.setText(s);
+            }else if(apt.getTutor()!=null && apt.getStudent()==null){
+                String s = "You have an" + " appointment with tutor " + apt.getTutor()
+                        + " at " + apt.getLocation() + " on " + apt.getDate()+"\n";
+                Picasso.get().load(R.drawable.default_cardview).into(image);
+                txtDesc.setText(s);
+
+
+            }
+            else{
+                Log.w(TAG, "Error!");
+            }
+
+            cardView.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
                     Intent i = new Intent(context, ManageReservationActivity.class);
                     i.putExtra("Appointment", tutors.get(position));
@@ -674,4 +707,3 @@ public class HomePageActivity extends AppCompatActivity {
     }
 
 }
-
