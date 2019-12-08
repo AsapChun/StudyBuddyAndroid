@@ -71,7 +71,6 @@ public class HomePageActivity extends AppCompatActivity {
     private ListView lvAppointment;
     private ListAdapter lvAdapter;
 
-    private TextView displayCourses;
 
     private boolean update=true;
     private boolean studentupdate=true;
@@ -96,8 +95,6 @@ public class HomePageActivity extends AppCompatActivity {
 
         //txtSessions = (TextView) findViewById(R.id.txtTutorSessions);
         //txtSessions.setMovementMethod(new ScrollingMovementMethod());
-        displayCourses = (TextView) findViewById(R.id.txtCourses);
-        displayCourses.setMovementMethod(new ScrollingMovementMethod());
         lvAppointment = findViewById(R.id.lvAppointment);
 
         //add loading screen
@@ -132,13 +129,7 @@ public class HomePageActivity extends AppCompatActivity {
                 else if(key.equals("tutorupdate")){
                     tutorupdate = b.getBoolean("tutorupdate");
                 }
-                else if(key.equals("classes")){
-                    classes = b.getStringArrayList("classes");
-                    String classDisplay="";
-                    for(String Class: classes){
-                        classDisplay+=Class+"<br>";
-                    }
-                }
+
                 else if(key.equals("studentAppointments")){
                     studentAppointments = b.getStringArrayList("studentAppointments");
 
@@ -167,7 +158,7 @@ public class HomePageActivity extends AppCompatActivity {
                 else if(key.equals("renderT")){
                     renderT = b.getBoolean("renderT");
                 }
-                else if(key.equals("tutor")){
+                 else if(key.equals("tutor")){
                     tutors = (ArrayList<Appointment>) b.getSerializable("tutor");
                 }
             }
@@ -209,35 +200,6 @@ public class HomePageActivity extends AppCompatActivity {
     //retrieve data for classes and appointments
     private void getHomePageData(){
 
-        //retrieve class information
-        final DocumentReference docRef1 = db.collection("Profile").document(mAuth.getCurrentUser().getUid());
-        docRef1.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
-                    return;
-                }
-
-                if (snapshot != null && snapshot.exists()) {
-                    Log.d(TAG, "Current data: " + snapshot.getData());
-                    Map<String, Object> data = snapshot.getData();
-                    ArrayList<String> courses = (ArrayList<String>) data.get("your_class");
-                    if(checkclass){
-                        for(String c: courses){
-                            classes.add(c);
-                        }
-                        String classDisplay="";
-                        for(String Class: classes){
-                            classDisplay+=Class+"<br>";
-                        }
-                    }
-                } else {
-                    Log.d(TAG, "Current data: null");
-                }
-            }
-        });
 
         //check if appointment for user as student needs to be updated
         if(studentupdate){
