@@ -427,6 +427,7 @@ public class HomePageActivity extends AppCompatActivity {
 
                                                 tutorAppointments.add(s);
                                                 checkname.set(pos,false);
+                                                
 
 
                                             }
