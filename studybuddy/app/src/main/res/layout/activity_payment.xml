@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".PaymentActivity">
 
 
@@ -13,7 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        app:shouldShowPostalCode="true">
+        app:shouldShowPostalCode="true"
+        android:backgroundTint="@color/white"
+        android:textColorHint="#F5F5F5"
+        android:textCursorDrawable="@drawable/color_cursor">
 
     </com.stripe.android.view.CardMultilineWidget>
 
@@ -22,7 +26,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:text="Save Card" />
+        android:text="Save Card"
+        android:background="@color/white"
+        android:textColor="@color/colorPrimary" />
 
     <TextView
         android:id="@+id/tvAmount"
@@ -47,13 +53,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Pay" />
-
+        android:text="Pay"
+        android:background="@color/white"
+        android:textColor="@color/colorPrimary"/>
+<!--
     <Button
         android:id="@+id/btnReturn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:text="Return" />
+        android:text="Return" />-->
 
 </LinearLayout>

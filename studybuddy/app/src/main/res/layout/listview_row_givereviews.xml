@@ -25,7 +25,9 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="tvTutorName"
             android:id="@+id/tvTutorName"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -33,7 +35,8 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="tvTutorDescription"
             android:id="@+id/tvTutorDescription"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white" />
 
         <RatingBar
             android:layout_width="wrap_content"
@@ -43,12 +46,15 @@
             android:layout_gravity="center_horizontal"
             android:numStars="5"
             android:rating="0"
-            android:stepSize=".5" />
+            android:stepSize=".5"
+            android:theme="@style/RatingBar" />
 
         <Button
             android:id="@+id/btnGiveReview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Give Review" />
+            android:text="Give Review"
+            android:background="@color/white"
+            android:textColor="@color/colorPrimary"/>
     </LinearLayout>
 </LinearLayout>

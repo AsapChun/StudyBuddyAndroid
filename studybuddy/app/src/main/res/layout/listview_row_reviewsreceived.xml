@@ -15,7 +15,8 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="tvReviewsReceivedTitle"
             android:id="@+id/tvReviewsReceivedTitle"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -23,7 +24,8 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="tvReviewsReceivedDescription"
             android:id="@+id/tvReviewsReceivedDescription"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white" />
 
         <RatingBar
             android:layout_width="wrap_content"
@@ -33,7 +35,8 @@
             android:layout_gravity="center_horizontal"
             android:numStars="5"
             android:rating="0"
-            android:stepSize=".5" />
+            android:stepSize=".5"
+            android:theme="@style/RatingBar"/>
 
     </LinearLayout>
 </LinearLayout>

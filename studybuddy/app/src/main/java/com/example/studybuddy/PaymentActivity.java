@@ -41,7 +41,6 @@ public class PaymentActivity extends AppCompatActivity {
     private CardMultilineWidget cmw;
     private Card cardToSave;
     private Button btnSaveCard;
-    private Button btnBack;
     private Button btnPayment;
     private TextView tvAmount;
     //private EditText edtPay;
@@ -61,7 +60,6 @@ public class PaymentActivity extends AppCompatActivity {
         //stripe widget
         cmw = (CardMultilineWidget) findViewById(R.id.card_multiline_widget);
         btnSaveCard = (Button) findViewById(R.id.btnSave);
-        btnBack = (Button) findViewById(R.id.btnReturn);
         btnPayment = (Button) findViewById(R.id.btnPay);
         tvAmount = (TextView) findViewById(R.id.tvAmount);
         //edtPay = (EditText) findViewById(R.id.edtPayment);
@@ -137,14 +135,6 @@ public class PaymentActivity extends AppCompatActivity {
 
                 }
 
-            }
-        });
-
-        //return to login activity
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goBack(v);
             }
         });
     }

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:context=".WriteReviewActivity">
 
     <LinearLayout
@@ -22,9 +23,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-
                 android:text="Rate: "
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/white"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                />
 
             <RatingBar
                 android:id="@+id/rbTutor"
@@ -33,7 +37,8 @@
                 android:layout_gravity="center_horizontal"
                 android:numStars="5"
                 android:rating="0"
-                android:stepSize=".5" />
+                android:stepSize=".5"
+                android:theme="@style/RatingBar"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -56,7 +61,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="Comment: "
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/white"
+                android:textSize="36sp"
+                android:textStyle="bold"/>
 
 
             <EditText
@@ -67,14 +75,21 @@
                 android:gravity="start|top"
                 android:hint="write your comments here"
                 android:inputType="textMultiLine"
-                android:lines="15" />
+                android:backgroundTint="@color/white"
+                android:textColorHint="#F5F5F5"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:lines="15"
+                android:paddingLeft="10dp"
+                android:textColor="@color/white"/>
 
             <Button
                 android:id="@+id/btnSend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Send" />
+                android:text="Send"
+                android:background="@color/white"
+                android:textColor="@color/colorPrimary"/>
         </LinearLayout>
 
 
