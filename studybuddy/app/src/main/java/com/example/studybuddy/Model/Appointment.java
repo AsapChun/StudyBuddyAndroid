@@ -12,9 +12,15 @@ public class Appointment implements Serializable {
     private String location;
     private String date;
     private String price;
+    private String student;
+
 
     public void setCourse(String course) {
         this.course = course;
+    }
+
+    public void setStudent(String student) {
+        this.student = student;
     }
 
     public void setTutor(String tutor) {
@@ -27,6 +33,10 @@ public class Appointment implements Serializable {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getStudent(){
+        return this.student;
     }
 
     public String getPrice() {
@@ -56,6 +66,15 @@ public class Appointment implements Serializable {
         date = d;
     }
 
+    public Appointment(String c, String tut, String l,  String d,String student){
+        course = c;
+        tutor = tut;
+        location = l;
+        date = d;
+        this.student=student;
+    }
+
+
     public String getCourse(){
         return course;
     }
@@ -68,4 +87,5 @@ public class Appointment implements Serializable {
     public String getDate(){
         return date;
     }
+
 }
