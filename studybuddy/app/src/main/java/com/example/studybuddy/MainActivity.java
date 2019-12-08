@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -22,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MyActivity";
-    private Button btnNewUser;
+    private TextView txtNewUser;
     private Button btnLogin;
     private EditText edtEmail;
     private EditText edtPassword;
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnNewUser = (Button) findViewById(R.id.btnNewUser);
+        txtNewUser = (TextView) findViewById(R.id.txtNewUser);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         edtEmail = (EditText)findViewById(R.id.edtEmail);
         edtPassword = (EditText) findViewById(R.id.edtPassword);
@@ -54,14 +53,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //Create New Profile
-        btnNewUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NewUser();
-
-            }
-        });
 
 
     }
@@ -149,9 +140,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void NewUser(){
+    public void NewUser(View view){
         Intent newIntent = new Intent(this, CreateUserActivity.class);
         this.startActivity(newIntent);
+        //Create New Profile
     }
 
     public void HomePage(){

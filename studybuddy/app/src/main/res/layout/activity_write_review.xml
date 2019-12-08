@@ -63,11 +63,11 @@
                 android:id="@+id/edtComment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lines="15"
                 android:ems="10"
                 android:gravity="start|top"
+                android:hint="write your comments here"
                 android:inputType="textMultiLine"
-                android:text="123" />
+                android:lines="15" />
 
             <Button
                 android:id="@+id/btnSend"

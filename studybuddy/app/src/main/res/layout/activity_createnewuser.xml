@@ -4,170 +4,152 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:context=".CreateUserActivity">
 
 
-    <TextView
-        android:id="@+id/txtNewUser"
-        android:layout_width="250dp"
-        android:layout_height="73dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="57dp"
-        android:layout_marginBottom="535dp"
-        android:text="Create New User"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+    <LinearLayout
+        android:id="@+id/topSection"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:gravity="center_horizontal">
 
-    <Button
-        android:id="@+id/btnBack"
-        android:layout_width="112dp"
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/be_part_community"
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="241dp"
-        android:layout_marginBottom="7dp"
-        android:text="Return" />
+        android:orientation="vertical"
+        android:layout_below="@id/topSection">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp">
 
-    <Button
-        android:id="@+id/btnRegister"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="124dp"
-        android:layout_marginBottom="67dp"
-        android:text="Register" />
+            <EditText
+                android:id="@+id/edtFirst"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColorHint="#F5F5F5"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/white"
+                android:hint="First name"/>
+        </RelativeLayout>
 
-    <EditText
-        android:id="@+id/edtFirst"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="488dp"
-        android:ems="10"
-        android:inputType="textPersonName" />
 
-    <TextView
-        android:id="@+id/txtFirst"
-        android:layout_width="101dp"
-        android:layout_height="49dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="259dp"
-        android:layout_marginBottom="483dp"
-        android:text="First Name:"
-        android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/txtLast"
-        android:layout_width="103dp"
-        android:layout_height="43dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="257dp"
-        android:layout_marginBottom="416dp"
-        android:text="Last Name:"
-        android:textSize="18sp" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp">
+            <EditText
+                android:id="@+id/edtLast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColorHint="#F5F5F5"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/white"
+                android:hint="Last name"/>
+        </RelativeLayout>
 
-    <EditText
-        android:id="@+id/edtLast"
-        android:layout_width="178dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="26dp"
-        android:layout_marginBottom="415dp"
-        android:ems="10"
-        android:inputType="textPersonName" />
 
-    <TextView
-        android:id="@+id/txtGender"
-        android:layout_width="109dp"
-        android:layout_height="46dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="250dp"
-        android:layout_marginBottom="342dp"
-        android:text="Gender:"
-        android:textSize="18sp" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="48dp"
+            android:layout_marginTop="10dp">
+            <Spinner
+                android:id="@+id/spinGender"
+                android:layout_width="wrap_content"
+                android:textColorHint="#F5F5F5"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/white"
+                android:layout_height="wrap_content"
 
-    <Spinner
-        android:id="@+id/spinGender"
-        android:layout_width="182dp"
-        android:layout_height="40dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="23dp"
-        android:layout_marginBottom="344dp" />
+                />
+        </RelativeLayout>
 
-    <TextView
-        android:id="@+id/txtClassYear"
-        android:layout_width="100dp"
-        android:layout_height="48dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="258dp"
-        android:layout_marginBottom="268dp"
-        android:text="Class Year:"
-        android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/edtClassYear"
-        android:layout_width="183dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="276dp"
-        android:ems="10"
-        android:inputType="textPersonName" />
 
-    <TextView
-        android:id="@+id/txtName"
-        android:layout_width="105dp"
-        android:layout_height="44dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="255dp"
-        android:layout_marginBottom="205dp"
-        android:text="Email:"
-        android:textSize="18sp" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp">
+            <EditText
+                android:id="@+id/edtClassYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColorHint="#F5F5F5"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/white"
+                android:hint="Class Year"/>
+        </RelativeLayout>
 
-    <EditText
-        android:id="@+id/edtEmail"
-        android:layout_width="183dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="21dp"
-        android:layout_marginBottom="208dp"
-        android:ems="10"
-        android:inputType="textPersonName" />
 
-    <TextView
-        android:id="@+id/txtPassword"
-        android:layout_width="107dp"
-        android:layout_height="39dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="252dp"
-        android:layout_marginBottom="150dp"
-        android:text="Password"
-        android:textSize="18sp" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp">
+            <EditText
+                android:id="@+id/edtEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColorHint="#F5F5F5"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/white"
+                android:hint="Email"/>
+        </RelativeLayout>
 
-    <EditText
-        android:id="@+id/edtPassword"
-        android:layout_width="188dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="17dp"
-        android:layout_marginBottom="147dp"
-        android:ems="10"
-        android:inputType="textPersonName" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp">
+            <EditText
+                android:id="@+id/edtPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColorHint="#F5F5F5"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/white"
+                android:hint="Password"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp">
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Join Now"
+                android:background="@color/white"
+                android:textColor="@color/colorPrimary"/>
+        </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>
