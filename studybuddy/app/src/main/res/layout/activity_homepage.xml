@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomePageActivity"
@@ -18,26 +17,21 @@
         android:textStyle="bold"
         android:textColor="@color/white"/>
 
-    <androidx.cardview.widget.CardView
-        style="@style/categoriesCardViewButtons"
-        android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="253dp"
-        android:layout_marginTop="15dp"
-        app:cardBackgroundColor="@color/white">
-        card_view:contentPadding="3dp"
-
         <ListView
             android:id="@+id/lvAppointment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
+            android:scrollbars="horizontal"
             android:textColor="@color/colorPrimary"
-            android:textSize="24sp" />
-    </androidx.cardview.widget.CardView>
+            android:textSize="24sp"
+            android:layoutDirection="ltr"
+            android:layout_weight="1"
+            android:layout_below="@+id/txtUpcomingSessions"/>
 
 
 
 
 
-</LinearLayout>
+
+
+</RelativeLayout>

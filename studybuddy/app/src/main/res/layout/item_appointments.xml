@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical">
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="20dp"
+        card_view:cardCornerRadius="20dp"
+        card_view:cardElevation="3dp"
         android:layout_margin="8dp">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -20,10 +23,11 @@
                 android:src="@drawable/default_cardview"
                 android:scaleType="centerCrop"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="150dp"
+               />
 
             <TextView
-                android:id="@+id/title"
+                android:id="@+id/txtTitle"
                 android:textColor="#262626"
                 android:layout_below="@id/image"
                 android:layout_marginTop="10dp"
@@ -34,8 +38,8 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/desc"
-                android:layout_below="@id/title"
+                android:id="@+id/txtDesc"
+                android:layout_below="@id/txtTitle"
                 android:layout_marginTop="3dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
@@ -45,12 +49,7 @@
                 android:text="Description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-
-
-
         </RelativeLayout>
-
-
 
     </androidx.cardview.widget.CardView>
 

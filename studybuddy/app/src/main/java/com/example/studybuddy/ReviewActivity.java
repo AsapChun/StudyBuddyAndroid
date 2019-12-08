@@ -176,8 +176,10 @@ public class ReviewActivity extends AppCompatActivity {
                             //reverse makes the newest first
                             List<String> tmp1 = (List<String>) document.get(Rating);
                             List<String> tmp2 = (List<String>) document.get(Review);
-                            Collections.reverse(tmp1);
-                            Collections.reverse(tmp2);
+                            if(tmp1 != null)
+                                Collections.reverse(tmp1);
+                            if(tmp2 != null)
+                                Collections.reverse(tmp2);
                             currentUser.setRatings(tmp1);
                             currentUser.setReviews(tmp2);
 
