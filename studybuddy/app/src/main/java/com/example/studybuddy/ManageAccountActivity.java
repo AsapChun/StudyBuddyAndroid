@@ -88,16 +88,16 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
      */
 
         btnBack = (Button) findViewById(R.id.btnRETURN);
-        btnAddCourse = (Button) findViewById(R.id.btnAddCourse);
+//        btnAddCourse = (Button) findViewById(R.id.btnAddCourse);
         btnAddTutorCourse = (Button) findViewById(R.id.btnAddTutorCourse);
         btnAddTutor = (Button) findViewById(R.id.btnAddTutor);
-        btnAddCourse= (Button) findViewById(R.id.btnAddCourse);
+//        btnAddCourse= (Button) findViewById(R.id.btnAddCourse);
 
-        coursesDropDown = (Spinner) findViewById(R.id.spinCourses);
+//        coursesDropDown = (Spinner) findViewById(R.id.spinCourses);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(ManageAccountActivity.this, android.R.layout.simple_spinner_dropdown_item, paths);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        coursesDropDown.setAdapter(adapter);
-        coursesDropDown.setOnItemSelectedListener(this);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        coursesDropDown.setAdapter(adapter);
+//        coursesDropDown.setOnItemSelectedListener(this);
 
         TutorCoursesDropDown = (Spinner) findViewById(R.id.spinTutorSubjects);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -110,24 +110,24 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
         TutorDropDown.setAdapter(adapt);
         TutorDropDown.setOnItemSelectedListener(this);
 
-        btnAddCourse.setOnClickListener(new View.OnClickListener() { //add course to firebase
-            @Override
-            public void onClick(View v) {
-             if(courses.isEmpty()) {
-                 courses.add(courseToAdd);
-                 addCourses(courses);
-             } else{
-                 if(courses.contains(courseToAdd)){
-                     Toast.makeText(getApplicationContext(), "Course has already been added!", Toast.LENGTH_SHORT).show();
-                 }
-                 else{
-                     courses.add(courseToAdd);
-                     addCourses(courses);
-                 }
-             }
-
-            }
-        });
+//        btnAddCourse.setOnClickListener(new View.OnClickListener() { //add course to firebase
+//            @Override
+//            public void onClick(View v) {
+//             if(courses.isEmpty()) {
+//                 courses.add(courseToAdd);
+//                 addCourses(courses);
+//             } else{
+//                 if(courses.contains(courseToAdd)){
+//                     Toast.makeText(getApplicationContext(), "Course has already been added!", Toast.LENGTH_SHORT).show();
+//                 }
+//                 else{
+//                     courses.add(courseToAdd);
+//                     addCourses(courses);
+//                 }
+//             }
+//
+//            }
+//        });
 
         btnAddTutorCourse.setOnClickListener(new View.OnClickListener() { //add course to tutor courses to firebase
             @Override
@@ -173,37 +173,37 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
-        if(parent.getId() == R.id.spinCourses){
-            switch (position) {
-                case 0:
-                    courseToAdd = "cs111";
-                    break;
-                case 1:
-                    courseToAdd = "cs112";
-                    break;
-                case 2:
-                    courseToAdd = "cs131";
-                    break;
-                case 3:
-                    courseToAdd = "cs132";
-                    break;
-                case 4:
-                    courseToAdd = "cs235";
-                    break;
-                case 5:
-                    courseToAdd = "cs237";
-                    break;
-                case 6:
-                    courseToAdd = "cs320";
-                    break;
-                case 7:
-                    courseToAdd = "cs330";
-                    break;
-                case 8:
-                    courseToAdd = "cs350";
-                    break;
-            }
-        }
+//        if(parent.getId() == R.id.spinCourses){
+//            switch (position) {
+//                case 0:
+//                    courseToAdd = "cs111";
+//                    break;
+//                case 1:
+//                    courseToAdd = "cs112";
+//                    break;
+//                case 2:
+//                    courseToAdd = "cs131";
+//                    break;
+//                case 3:
+//                    courseToAdd = "cs132";
+//                    break;
+//                case 4:
+//                    courseToAdd = "cs235";
+//                    break;
+//                case 5:
+//                    courseToAdd = "cs237";
+//                    break;
+//                case 6:
+//                    courseToAdd = "cs320";
+//                    break;
+//                case 7:
+//                    courseToAdd = "cs330";
+//                    break;
+//                case 8:
+//                    courseToAdd = "cs350";
+//                    break;
+//            }
+//        }
         if(parent.getId() == R.id.spinTutorSubjects){
             switch (position) {
                 case 0:

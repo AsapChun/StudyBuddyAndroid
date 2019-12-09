@@ -4,38 +4,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    tools:context=".ManageAccountActivity">
-
-    <Button
-        android:id="@+id/btnAddCourse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="26dp"
-        android:layout_marginBottom="393dp"
-        android:text="Add" />
-
-    <TextView
-        android:id="@+id/txtAddCourses"
-        android:layout_width="257dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="149dp"
-        android:layout_marginBottom="465dp"
-        android:text="Add Courses"
-        android:textSize="36sp"
-        android:textStyle="bold" />
-
-    <Spinner
-        android:id="@+id/spinCourses"
-        android:layout_width="270dp"
-        android:layout_height="38dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="143dp"
-        android:layout_marginBottom="397dp" />
+    tools:context=".ManageAccountActivity"
+    android:background="@color/colorPrimary">
 
     <TextView
         android:id="@+id/txtAddTutorCourses"
@@ -43,11 +13,12 @@
         android:layout_height="52dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="3dp"
-        android:layout_marginBottom="305dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="492dp"
         android:text="Add Tutor Subjects"
         android:textSize="36sp"
-        android:textStyle="bold|italic" />
+        android:textStyle="bold|italic"
+        android:textColor="@color/white"/>
 
     <Spinner
         android:id="@+id/spinTutorSubjects"
@@ -55,8 +26,8 @@
         android:layout_height="38dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="143dp"
-        android:layout_marginBottom="236dp" />
+        android:layout_marginEnd="141dp"
+        android:layout_marginBottom="434dp" />
 
     <Button
         android:id="@+id/btnAddTutorCourse"
@@ -64,21 +35,24 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="232dp"
-        android:text="ADD" />
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="424dp"
+        android:background="@color/white"
+        android:text="ADD"
+        android:textColor="@color/colorPrimary" />
 
     <TextView
         android:id="@+id/txtFindTutors"
-        android:layout_width="294dp"
-        android:layout_height="wrap_content"
+        android:layout_width="398dp"
+        android:layout_height="38dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="113dp"
-        android:layout_marginBottom="153dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="353dp"
         android:text="Find Tutors"
         android:textSize="36sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/white"/>
 
     <Spinner
         android:id="@+id/spinFindTutors"
@@ -86,8 +60,8 @@
         android:layout_height="41dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="135dp"
-        android:layout_marginBottom="85dp" />
+        android:layout_marginEnd="136dp"
+        android:layout_marginBottom="275dp" />
 
     <Button
         android:id="@+id/btnAddTutor"
@@ -95,20 +69,24 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="276dp"
+        android:background="@color/white"
         android:text="ADD"
+        android:textColor="@color/colorPrimary"
         android:textSize="14sp" />
 
     <Button
         android:id="@+id/btnRETURN"
-        android:layout_width="84dp"
+        android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="276dp"
-        android:layout_marginBottom="7dp"
-        android:text="Back" />
+        android:layout_marginEnd="106dp"
+        android:layout_marginBottom="141dp"
+        android:background="@color/white"
+        android:text="Back"
+        android:textColor="@color/colorPrimary" />
 
     <TextView
         android:id="@+id/txtAccountManagment"
@@ -121,5 +99,6 @@
         android:text="Account Management"
         android:textAlignment="center"
         android:textSize="36sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/white"/>
 </RelativeLayout>

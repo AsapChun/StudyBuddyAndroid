@@ -3,7 +3,8 @@
     xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
 
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
@@ -11,33 +12,27 @@
         android:layout_height="497dp" />
 
     <Button
-        android:id="@+id/btnExit"
+        android:id="@+id/btnNextApt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="155dp"
-        android:layout_marginBottom="38dp"
-        android:text="Back" />
-
-    <Button
-        android:id="@+id/btnNextApt"
-        android:layout_width="wrap_content"
-        android:layout_height="58dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginEnd="13dp"
-        android:layout_marginBottom="102dp"
-        android:text="Next Appointment" />
+        android:layout_marginBottom="80dp"
+        android:text="Next Appointment"
+        android:background="@color/white"
+        android:textColor="@color/colorPrimary"/>
 
     <Button
         android:id="@+id/btnCurrApt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="209dp"
-        android:layout_marginBottom="103dp"
-        android:text="Current Appointment" />
+        android:layout_marginStart="26dp"
+        android:layout_marginBottom="80dp"
+        android:background="@color/white"
+        android:text="Current Appointment"
+        android:textColor="@color/colorPrimary" />
 
 </RelativeLayout>

@@ -140,7 +140,7 @@ public class MessagingActivity extends AppCompatActivity {
                         Log.w(TAG, "IDs are equal");
                         username.setText(profile.getFirst_name() + " " + profile.getLast_name());
                         if(profile.getImage_url().equals("")){
-                            profile_image.setImageResource(R.mipmap.ic_launcher);
+                            profile_image.setImageResource(R.drawable.ic_person_white_24dp);
                         } else{
                             Glide.with(MessagingActivity.this).load(profile.getImage_url()).into(profile_image);
                         }
