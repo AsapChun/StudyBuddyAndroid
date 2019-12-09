@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:context=".HomePageActivity">
 
     <TextView
@@ -12,10 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:text="Give Reviews"
-        android:textAlignment="textStart"
-        android:textSize="36sp"
         android:paddingLeft="10dp"
-        android:textStyle="bold|italic" />
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        android:textStyle="bold" />
 
 
     <ListView
@@ -36,8 +38,10 @@
         android:layout_marginTop="0dp"
         android:text="Reviews Received"
         android:paddingLeft="10dp"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
         android:textSize="36sp"
-        android:textStyle="bold|italic" />
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/lvReviewsReceived"
