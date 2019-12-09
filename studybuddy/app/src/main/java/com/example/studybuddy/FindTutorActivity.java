@@ -109,6 +109,7 @@ public class FindTutorActivity extends AppCompatActivity {
                                 tutor.setLocation(document.get(Location).toString());
                                 tutor.setTutor(document.get(TutorId).toString());
                                 tutor.setPrice(document.get(Price).toString());
+                                tutor.setCourse(document.get(ClassName).toString());
                                 tutors.add(tutor);
 
                                 tutorsMap.put(tutor.getTutor(), tutor);
@@ -249,6 +250,7 @@ public class FindTutorActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent i = new Intent(context, PaymentActivity.class);
                     i.putExtra(Appointment, tutors.get(position));
+                    i.putExtra(Profile, tutorProfileMap.get(tutors.get(position).getTutor()));
                     startActivity(i);
                 }
             });

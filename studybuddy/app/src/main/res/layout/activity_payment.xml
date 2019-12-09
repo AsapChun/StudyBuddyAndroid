@@ -9,37 +9,97 @@
     tools:context=".PaymentActivity">
 
 
-    <com.stripe.android.view.CardMultilineWidget
-        android:id="@+id/card_multiline_widget"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        app:shouldShowPostalCode="true"
-        android:backgroundTint="@color/white"
-        android:textColorHint="#F5F5F5"
-        android:textCursorDrawable="@drawable/color_cursor">
-
-    </com.stripe.android.view.CardMultilineWidget>
-
-    <Button
-        android:id="@+id/btnSave"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="2"
-        android:text="Save Card"
-        android:background="@color/white"
-        android:textColor="@color/colorPrimary" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvAmount"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.stripe.android.view.CardMultilineWidget
+                android:id="@+id/card_multiline_widget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+
+                android:textColorHint="#F5F5F5"
+                android:textCursorDrawable="@drawable/color_cursor"
+                app:shouldShowPostalCode="true">
+
+            </com.stripe.android.view.CardMultilineWidget>
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card_multiline_widget"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="35dp"
+                android:layout_marginEnd="51dp"
+                android:background="@color/white"
+                android:text="Save Card"
+                android:textColor="@color/colorPrimary" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:ems="10"
-        android:text="Amount: "
-        android:textSize="30sp" />
+        android:orientation="vertical">
 
-   <!-- <EditText
+        <TextView
+            android:id="@+id/tvClassName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Class: "
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/tvTutorName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tutor: "
+            android:textColor="@color/white"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:id="@+id/tvAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="Amount: "
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btnPay"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginEnd="51dp"
+                android:layout_marginBottom="272dp"
+                android:background="@color/white"
+                android:text="Pay"
+                android:textColor="@color/colorPrimary" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!-- <EditText
         android:id="@+id/edtPayment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,15 +108,7 @@
         android:inputType="textPersonName"
         android:text="Amount: " />-->
 
-    <Button
-        android:id="@+id/btnPay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Pay"
-        android:background="@color/white"
-        android:textColor="@color/colorPrimary"/>
-<!--
+    <!--
     <Button
         android:id="@+id/btnReturn"
         android:layout_width="match_parent"
@@ -65,3 +117,4 @@
         android:text="Return" />-->
 
 </LinearLayout>
+

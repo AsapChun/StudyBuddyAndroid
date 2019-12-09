@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.studybuddy.Model.Appointment;
+import com.example.studybuddy.Model.Profile;
+import com.example.studybuddy.Model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +33,7 @@ public class PaymentActivity extends AppCompatActivity {
 
     private static final String TAG = "Payment";
     public static final String Appointment = "Appointment";
+    public static final String Profile = "Profile";
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -42,9 +45,12 @@ public class PaymentActivity extends AppCompatActivity {
     private Card cardToSave;
     private Button btnSaveCard;
     private Button btnPayment;
+    private TextView tvClassName;
+    private TextView tvTutorName;
     private TextView tvAmount;
     //private EditText edtPay;
     private Appointment app;
+    private User tutor;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +58,7 @@ public class PaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment);
         Intent intent = getIntent();
         app = (Appointment) intent.getSerializableExtra(Appointment);
+        tutor = (User) intent.getSerializableExtra(Profile);
 
         //firebase init
         mAuth = FirebaseAuth.getInstance();
@@ -63,7 +70,13 @@ public class PaymentActivity extends AppCompatActivity {
         btnPayment = (Button) findViewById(R.id.btnPay);
         tvAmount = (TextView) findViewById(R.id.tvAmount);
         //edtPay = (EditText) findViewById(R.id.edtPayment);
-        tvAmount.setText("Amount: "+ app.getPrice().toString());
+
+        tvClassName  = (TextView) findViewById(R.id.tvClassName);
+        tvTutorName  = (TextView) findViewById(R.id.tvTutorName);
+        tvAmount.setText("Amount: $"+ app.getPrice().toString());
+        tvClassName.setText("Class: "+ app.getCourse().toString());
+        tvTutorName.setText("Tutor: "+ tutor.getFirstName() + " " + tutor.getLastName());
+
 
         //Save a card using the Stripe Api
         //Calls the saveCard function
