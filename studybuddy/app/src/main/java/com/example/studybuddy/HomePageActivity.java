@@ -212,6 +212,7 @@ public class HomePageActivity extends AppCompatActivity {
     private void getstudentappointment(){
         db.collection("Appointment")
                 .whereEqualTo("StudentId",mAuth.getCurrentUser().getUid())
+                .whereEqualTo("rated",false)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
@@ -351,6 +352,7 @@ public class HomePageActivity extends AppCompatActivity {
     private void gettutorappointment(){
         db.collection("Appointment")
                 .whereEqualTo("TutorId",mAuth.getCurrentUser().getUid())
+                .whereEqualTo("validAppointment",true)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
