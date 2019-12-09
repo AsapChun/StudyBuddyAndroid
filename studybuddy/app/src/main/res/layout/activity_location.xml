@@ -27,12 +27,12 @@
         android:id="@+id/btnCurrApt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="190dp"
+        android:layout_marginStart="26dp"
         android:layout_marginBottom="80dp"
-        android:text="Current Appointment"
         android:background="@color/white"
-        android:textColor="@color/colorPrimary"/>
+        android:text="Current Appointment"
+        android:textColor="@color/colorPrimary" />
 
 </RelativeLayout>
