@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -97,8 +98,8 @@ public class ManageReservationActivity extends AppCompatActivity implements Adap
         cbSunday = (CheckBox) findViewById(R.id.cbSunday);
 
         //txtHeader.setText("Modify Reservation with " + app.getTutor());
-        txtCurrentDay.setText("Current Appointment's day: " + app.getDate());
-        txtCurrentLoc.setText("Current Appointment Location: " + app.getLocation());
+        txtCurrentDay.setText(Html.fromHtml("Current appointment's day: " + "<b>" +app.getDate()+"</b>"));
+        txtCurrentLoc.setText(Html.fromHtml("Current location: " + "<b>" + app.getLocation() + "</b>"));
 
 
         spinnerLocation = (Spinner) findViewById(R.id.spinLocation);
