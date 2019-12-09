@@ -165,15 +165,6 @@ public class HomePageActivity extends AppCompatActivity {
                 }
             }
         }
-//        String appointmentDisplay ="";
-//        for(String apt: studentAppointments){
-//            appointmentDisplay+=apt+"<br>";
-//        }
-//        for(String apt: tutorAppointments){
-//            appointmentDisplay+=apt+"<br>";
-//        }
-
-        //txtSessions.setText(Html.fromHtml(appointmentDisplay));
 
         //if no appointment updated are needed, finish loading
         if(!studentupdate && !tutorupdate){
