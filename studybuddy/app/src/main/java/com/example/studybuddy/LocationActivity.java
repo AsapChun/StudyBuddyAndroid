@@ -111,7 +111,6 @@ public class LocationActivity extends AppCompatActivity {
     private Button btnGSU;
     private Button btnEMA;
     private Button btnQuestrom;
-    private Button btnBack;
     private Button btnNextApt;
     private Button btnCurrApt;
     private FirebaseAuth mAuth;
@@ -173,15 +172,8 @@ public class LocationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_location);
 
         btnNextApt = (Button) findViewById(R.id.btnNextApt);
-        btnBack = (Button) findViewById(R.id.btnExit);
         btnCurrApt = (Button) findViewById(R.id.btnCurrApt);
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goBack();
-            }
-        });
 
         btnNextApt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,7 +198,7 @@ public class LocationActivity extends AppCompatActivity {
         btnCurrApt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LocationActivity.this, "your upcoming appointment location is:" + getLName(destination.longitude(),destination.latitude()),
+                Toast.makeText(LocationActivity.this, "your upcoming appointment location is: " + getLName(destination.longitude(),destination.latitude()),
                         Toast.LENGTH_SHORT).show();
 
             }
@@ -260,7 +252,7 @@ public class LocationActivity extends AppCompatActivity {
 
                         mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(position),2000 );
 
-                        Toast.makeText(LocationActivity.this, "your upcoming appointment location is:" + getLName(destination.longitude(),destination.latitude()),
+                        Toast.makeText(LocationActivity.this, "your upcoming appointment location is: " + getLName(destination.longitude(),destination.latitude()),
                                 Toast.LENGTH_SHORT).show();
 
 
@@ -283,22 +275,10 @@ public class LocationActivity extends AppCompatActivity {
         feat[0] = Feature.fromGeometry(Point.fromLngLat(origin.longitude(), origin.latitude()));
         feat[1] = Feature.fromGeometry(Point.fromLngLat(destination.longitude(), destination.latitude()));
         for(int i=0;i<destinations.size();i++){
-//            if(i==0){
-//                feat[1] = Feature.fromGeometry(Point.fromLngLat(destination.longitude(), destination.latitude()));
-//            }
-//            else{
-//                //make sure destination is not being drawn twice
-//                if(destination.longitude()!=getLngLat(destinations.get(i)).longitude() && destination.latitude()!=getLngLat(destinations.get(i)).latitude()){
-//                    feat[i+1] = Feature.fromGeometry(getLngLat(destinations.get(i)));
-//                }
-//            }
+
             feat[i+2] = Feature.fromGeometry(getLngLat(destinations.get(i)));
         }
 
-//        GeoJsonSource iconGeoJsonSource = new GeoJsonSource(ICON_SOURCE_ID, FeatureCollection.fromFeatures(new Feature[] {
-//                Feature.fromGeometry(Point.fromLngLat(origin.longitude(), origin.latitude())),
-//                Feature.fromGeometry(Point.fromLngLat(destination.longitude(), destination.latitude())),
-//        }));
         GeoJsonSource iconGeoJsonSource = new GeoJsonSource(ICON_SOURCE_ID, FeatureCollection.fromFeatures(feat));
 
         loadedMapStyle.addSource(iconGeoJsonSource);

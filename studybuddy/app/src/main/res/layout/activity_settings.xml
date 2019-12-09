@@ -11,29 +11,29 @@
 
     <TextView
         android:id="@+id/txtSettings"
-        android:layout_width="287dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="105dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="672dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="0dp"
         android:text="Settings"
         android:textAlignment="center"
         android:textColor="#FCFCF9F9"
-        android:textSize="72sp"
+        android:textSize="24sp"
         android:textStyle="bold|italic" />
 
     <Button
         android:id="@+id/btnNewBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="302dp"
-        android:layout_marginBottom="5dp"
-        android:text="Back" />
+        android:layout_marginStart="11dp"
+        android:layout_marginBottom="15dp"
+        android:background="@color/white"
+        android:text="Back"
+        android:textColor="@color/colorPrimary" />
 
     <Button
         android:id="@+id/btnChangeEmail"
@@ -41,22 +41,24 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="439dp"
-        android:text="Confirm" />
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="430dp"
+        android:background="@color/white"
+        android:text="Confirm"
+        android:textColor="@color/colorPrimary" />
 
     <TextView
         android:id="@+id/txtChangeUsername"
         android:layout_width="356dp"
         android:layout_height="41dp"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="33dp"
-        android:layout_marginBottom="607dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="571dp"
         android:text="Change Profile"
         android:textAlignment="center"
         android:textColor="#FCFCF9F9"
-        android:textSize="30sp"
+        android:textSize="24sp"
         android:textStyle="bold|italic" />
 
     <TextView
@@ -65,9 +67,9 @@
         android:layout_height="46dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="7dp"
+        android:layout_marginStart="27dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="547dp"
+        android:layout_marginBottom="531dp"
         android:text="Old Email"
         android:textColor="#FCFCF9F9"
         android:textSize="18sp" />
@@ -76,10 +78,10 @@
         android:id="@+id/txtNewEmail"
         android:layout_width="110dp"
         android:layout_height="35dp"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="277dp"
-        android:layout_marginBottom="499dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="487dp"
         android:text="New Email"
         android:textColor="#FCFCF9F9"
         android:textSize="18sp" />
@@ -91,7 +93,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="14dp"
-        android:layout_marginBottom="495dp"
+        android:layout_marginBottom="487dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:textColor="#FCFCF9F9"
@@ -99,40 +101,42 @@
 
     <TextView
         android:id="@+id/txtChangePassword"
-        android:layout_width="334dp"
-        android:layout_height="52dp"
-        android:layout_alignParentEnd="true"
+        android:layout_width="356dp"
+        android:layout_height="41dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="57dp"
-        android:layout_marginBottom="383dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="380dp"
         android:text="Change Password"
         android:textAlignment="center"
         android:textColor="#FCFCF9F9"
-        android:textSize="30sp"
+        android:textSize="24sp"
         android:textStyle="bold|italic" />
 
     <TextView
         android:id="@+id/txtOldPassword"
         android:layout_width="93dp"
         android:layout_height="55dp"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="300dp"
-        android:layout_marginBottom="320dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="314dp"
         android:text="New Password"
+        android:textAlignment="center"
         android:textColor="#FCFCF9F9"
         android:textSize="18sp"
         tools:text="New Password" />
 
     <TextView
         android:id="@+id/txtNewPassword"
-        android:layout_width="wrap_content"
+        android:layout_width="110dp"
         android:layout_height="61dp"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="284dp"
-        android:layout_marginBottom="249dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="248dp"
         android:text="Confirm New Password"
+        android:textAlignment="center"
         android:textColor="#FCFCF9F9"
         android:textSize="18sp" />
 
@@ -142,8 +146,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="31dp"
-        android:layout_marginBottom="263dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="259dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:textColor="#FCFCF9F9"
@@ -155,18 +159,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="208dp"
-        android:text="Confirm" />
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="204dp"
+        android:background="@color/white"
+        android:text="Confirm"
+        android:textColor="@color/colorPrimary" />
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="87dp"
-        android:layout_height="66dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="295dp"
-        android:layout_marginBottom="686dp"
+        android:layout_width="55dp"
+        android:layout_height="36dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
         app:srcCompat="@drawable/icn_24_settings" />
 
     <EditText
@@ -176,7 +182,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="33dp"
-        android:layout_marginBottom="325dp"
+        android:layout_marginBottom="321dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:textColor="#FCFCF9F9" />
@@ -187,23 +193,24 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="550dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="543dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:textColor="#FCFCF9F9" />
 
     <TextView
         android:id="@+id/txtDeleteAccount"
-        android:layout_width="277dp"
-        android:layout_height="53dp"
-        android:layout_alignParentEnd="true"
+        android:layout_width="356dp"
+        android:layout_height="41dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="116dp"
-        android:layout_marginBottom="156dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="158dp"
         android:text="Delete Account"
+        android:textAlignment="center"
         android:textColor="#FCFCF9F9"
-        android:textSize="30sp"
+        android:textSize="24sp"
         android:textStyle="bold|italic" />
 
     <CheckBox
@@ -226,5 +233,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="13dp"
         android:layout_marginBottom="63dp"
-        android:text="@string/delete" />
+        android:text="@string/delete"
+        android:background="@color/white"
+        android:textColor="@color/colorPrimary"/>
 </RelativeLayout>
