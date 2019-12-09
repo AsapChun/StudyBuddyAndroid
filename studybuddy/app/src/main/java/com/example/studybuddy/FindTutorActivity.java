@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -90,6 +91,7 @@ public class FindTutorActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
 
+
         db.collection(Appointment)
                 .whereEqualTo(ClassName, tutorCourse)
                 //.whereEqualTo(StudentId, null)
@@ -144,6 +146,17 @@ public class FindTutorActivity extends AppCompatActivity {
                                                 lvTutors = (ListView) findViewById(R.id.lvTutors);
                                                 lvAdapter = new MyCustomAdapter(context, tutors, tutorProfiles);  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
                                                 lvTutors.setAdapter(lvAdapter);
+
+                                                //Select tutor and go to the Payment page
+                                                lvTutors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                    @Override
+                                                    public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                                                        Intent i = new Intent(context, PaymentActivity.class);
+                                                        i.putExtra(Appointment, tutors.get(position));
+                                                        i.putExtra(Profile, tutorProfileMap.get(tutors.get(position).getTutor()));
+                                                        startActivity(i);
+                                                    }
+                                                });
                                             } else {
                                                 Log.d(TAG, "Error getting documents from Profile: ", task.getException());
                                             }
@@ -163,7 +176,6 @@ public class FindTutorActivity extends AppCompatActivity {
 
     class MyCustomAdapter extends BaseAdapter {
 
-        Button btnSelect;   //button to go to the website link of item
         Context context;   //Creating a reference to our context object, so we only have to get it once.  Context enables access to application specific resources.
         List<Appointment> tutors;
         List<User> tutorProfiles;
@@ -249,18 +261,6 @@ public class FindTutorActivity extends AppCompatActivity {
 
             }
 
-            //set up button to payment activity
-            btnSelect = (Button) row.findViewById(R.id.btnSelect);
-            btnSelect.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(context, PaymentActivity.class);
-                    i.putExtra(Appointment, tutors.get(position));
-                    i.putExtra(Profile, tutorProfileMap.get(tutors.get(position).getTutor()));
-                    startActivity(i);
-                }
-            });
-
             return row;  //once the row is fully constructed, return it.  Hey whatif we had buttons, can we target onClick Events within the rows, yep!
         }
 
@@ -270,6 +270,17 @@ public class FindTutorActivity extends AppCompatActivity {
                 @Override
                 public int compare(Appointment u1, Appointment u2) {
                     return u1.getPrice().compareTo(u2.getPrice());
+                }
+            });
+
+            //reset onClick function because we change the order of listview items
+            lvTutors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                    Intent i = new Intent(context, PaymentActivity.class);
+                    i.putExtra(Appointment, tutors.get(position));
+                    i.putExtra(Profile, tutorProfileMap.get(tutors.get(position).getTutor()));
+                    startActivity(i);
                 }
             });
         }
@@ -302,6 +313,17 @@ public class FindTutorActivity extends AppCompatActivity {
 
             }
             tutors = tutorsTmp;
+
+            //reset onClick function because we change the order of listview items
+            lvTutors.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                    Intent i = new Intent(context, PaymentActivity.class);
+                    i.putExtra(Appointment, tutors.get(position));
+                    i.putExtra(Profile, tutorProfileMap.get(tutors.get(position).getTutor()));
+                    startActivity(i);
+                }
+            });
         }
     }
 
