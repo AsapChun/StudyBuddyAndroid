@@ -275,7 +275,7 @@ public class HomePageActivity extends AppCompatActivity {
                                                         " at " + location_d + " on " + days+"\n";
 
                                                 Appointment tutor = new Appointment();
-                                                tutor.setAppId(document.getId());
+                                                tutor.setAppId(doc.getId());
                                                 tutor.setLocation(location_d);
                                                 tutor.setCourse(class_d);
                                                 tutor.setTutor(name);
@@ -409,7 +409,7 @@ public class HomePageActivity extends AppCompatActivity {
                                                         " at " + location_d + " on " + days+"\n";
 
                                                 Appointment tutor = new Appointment();
-                                                tutor.setAppId(document.getId());
+                                                tutor.setAppId(doc.getId());
                                                 tutor.setLocation(location_d);
                                                 tutor.setDate(days);
                                                 tutor.setStudent(name);
@@ -514,7 +514,6 @@ public class HomePageActivity extends AppCompatActivity {
                 return true;
             case R.id.itmLogoff:
                 signOut();
-                goBack();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -523,6 +522,7 @@ public class HomePageActivity extends AppCompatActivity {
 
     public void goBack() {
         Intent newIntent = new Intent(this, MainActivity.class);
+        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         this.startActivity(newIntent);
     }
 
@@ -567,6 +567,7 @@ public class HomePageActivity extends AppCompatActivity {
 
         try {
             mAuth.signOut();
+            goBack();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -657,15 +658,17 @@ public class HomePageActivity extends AppCompatActivity {
             txtTitle.setText(apt.getCourse());
 
             if(apt.getStudent()!=null && apt.getTutor() == null){
-                String s = "You are" + " tutoring " + apt.getStudent() +
-                        " at " + apt.getLocation() + " on " + apt.getDate()+"\n";
+                String s = "You are" + " tutoring " + "<b>" + apt.getStudent()+ "</b>" +
+                        " at " + "<b>" + apt.getLocation() + "</b>" + " on " +  "<b>" + apt.getDate() +"</b>" +"\n";
                 Picasso.get().load(R.drawable.tutoring_image).into(image);
-                txtDesc.setText(s);
+                txtDesc.setText(Html.fromHtml(s));
             }else if(apt.getTutor()!=null && apt.getStudent()==null){
-                String s = "You have an" + " appointment with tutor " + apt.getTutor()
-                        + " at " + apt.getLocation() + " on " + apt.getDate()+"\n";
+//                String s = "You have an" + " appointment with tutor " + apt.getTutor()
+//                        + " at " + apt.getLocation() + " on " + apt.getDate()+"\n";
+                String s = "You have an" + " appointment with tutor " + "<b>" + apt.getTutor()+ "</b>" +
+                        " at " + "<b>" + apt.getLocation() + "</b>" + " on " +  "<b>" + apt.getDate() +"</b>" +"\n";
                 Picasso.get().load(R.drawable.default_cardview).into(image);
-                txtDesc.setText(s);
+                txtDesc.setText(Html.fromHtml(s));
 
 
             }
