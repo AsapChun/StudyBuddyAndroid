@@ -269,7 +269,7 @@ public class FindTutorActivity extends AppCompatActivity {
             Collections.sort(tutors, new Comparator<Appointment>() {
                 @Override
                 public int compare(Appointment u1, Appointment u2) {
-                    return u1.getPrice().compareTo(u2.getPrice());
+                    return Long.compare(Long.parseLong(u1.getPrice()), Long.parseLong(u2.getPrice()));
                 }
             });
 
