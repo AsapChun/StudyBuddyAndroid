@@ -145,6 +145,7 @@ public class ManageReservationActivity extends AppCompatActivity implements Adap
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                    goToHomePage();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -155,7 +156,7 @@ public class ManageReservationActivity extends AppCompatActivity implements Adap
                             });
 
                 }
-              goToHomePage();
+
             }
 
         });
@@ -169,6 +170,7 @@ public class ManageReservationActivity extends AppCompatActivity implements Adap
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                goToHomePage();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -177,7 +179,6 @@ public class ManageReservationActivity extends AppCompatActivity implements Adap
                                 Log.w(TAG, "Error deleting document", e);
                             }
                         });
-                goToHomePage();
             }
         });
 
@@ -192,6 +193,7 @@ public class ManageReservationActivity extends AppCompatActivity implements Adap
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                goToHomePage();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -201,7 +203,7 @@ public class ManageReservationActivity extends AppCompatActivity implements Adap
                             }
                         });
 
-                goToHomePage();
+
             }
         });
     }
@@ -237,6 +239,7 @@ public class ManageReservationActivity extends AppCompatActivity implements Adap
 
     public void goToHomePage(){
         Intent newIntent = new Intent(this, HomePageActivity.class);
-        this.startActivity(newIntent);
+        finish();
+        startActivity(newIntent);
     }
 }

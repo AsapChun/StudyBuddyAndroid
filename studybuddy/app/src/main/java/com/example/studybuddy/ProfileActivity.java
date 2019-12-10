@@ -484,8 +484,6 @@ public class ProfileActivity extends AppCompatActivity {
                                     public void onSuccess(Void aVoid) {
                                         pd.dismiss();
                                         Toast.makeText(getApplicationContext(), "Updated...", Toast.LENGTH_SHORT).show();
-                                        finish();
-                                        startActivity(getIntent());
 
                                     }
                                 })
