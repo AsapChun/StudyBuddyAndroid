@@ -113,6 +113,7 @@ public class ProfileActivity extends AppCompatActivity {
     public static final String Price = "price";
     public static final String ValidAppointment = "validAppointment";
     public static final String Rated = "rated";
+    public static final String StudentId = "StudentId";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -196,7 +197,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         db.collection(Appointment)
                 .whereEqualTo(TutorId, mAuth.getCurrentUser().getUid())
-                .whereEqualTo(ValidAppointment, true)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -205,7 +205,8 @@ public class ProfileActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             double earnings = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
-
+                                if(document.get(StudentId) == null)
+                                    continue;
                                 String strEarnings = document.get(Price).toString();
                                 earnings += Double.parseDouble(strEarnings);
                             }

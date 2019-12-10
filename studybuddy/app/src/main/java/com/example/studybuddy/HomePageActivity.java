@@ -353,6 +353,7 @@ public class HomePageActivity extends AppCompatActivity {
         db.collection("Appointment")
                 .whereEqualTo("TutorId",mAuth.getCurrentUser().getUid())
                 .whereEqualTo("validAppointment",true)
+                .whereEqualTo("rated",false)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,

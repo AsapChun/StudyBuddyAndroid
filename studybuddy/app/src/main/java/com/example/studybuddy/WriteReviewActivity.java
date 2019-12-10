@@ -38,6 +38,7 @@ public class WriteReviewActivity extends AppCompatActivity {
     public static final String rating = "rating";
     public static final String review = "review";
     public static final String rated = "rated";
+    public static final String validAppointment = "validAppointment";
 
     //widgets on the page
     private RatingBar rbTutor;
@@ -79,6 +80,7 @@ public class WriteReviewActivity extends AppCompatActivity {
                     //Update rated column on Appointment Table False->True
                     DocumentReference appRef = db.collection(Appointment).document(app.getAppId());
                     batch.update(appRef, rated, Boolean.TRUE);
+                    batch.update(appRef, validAppointment, Boolean.FALSE);
 
                     //Add the rating and comments to Tutor's profile
                     DocumentReference proRef = db.collection(Profile).document(tutor.getUserId());

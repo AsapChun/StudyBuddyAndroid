@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -276,10 +277,13 @@ public class ReviewActivity extends AppCompatActivity {
                         Picasso.get().load(imgUrl).resize(150, 100).noFade().into(imgTutor);
 
                     } catch (Exception e) {
-                        Picasso.get().load(R.drawable.ic_add_image).into(imgTutor);
-
+                        Drawable myDrawable = getResources().getDrawable(R.drawable.ic_person_white_24dp);
+                        imgTutor.setImageDrawable(myDrawable);
                     }
 
+                }else{
+                    Drawable myDrawable = getResources().getDrawable(R.drawable.ic_person_white_24dp);
+                    imgTutor.setImageDrawable(myDrawable);
                 }
 
             }
