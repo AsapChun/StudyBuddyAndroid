@@ -28,12 +28,13 @@
 
             <TextView
                 android:id="@+id/txtTitle"
-                android:textColor="#262626"
+                android:textColor="#81262626"
                 android:layout_below="@id/image"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
                 android:text="CS111"
-                android:textSize="16sp"
+
+                android:textSize="25sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -44,7 +45,8 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:maxLines="3"
-                android:drawablePadding="10dp"
+                android:textSize="20sp"
+                android:drawablePadding="16dp"
                 android:ellipsize="end"
                 android:text="Description"
                 android:layout_width="wrap_content"

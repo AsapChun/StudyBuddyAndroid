@@ -8,16 +8,19 @@
     android:background="@color/colorPrimary">
 
     <TextView
+        android:layout_marginTop="10dp"
         android:id="@+id/txtUpcomingSessions"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:text="Upcoming Sessions!"
+        android:text=" Upcoming Sessions!"
+        android:background="@color/white"
         android:layout_gravity="center"
-        android:textSize="36sp"
+        android:textSize="30sp"
         android:textStyle="bold"
-        android:textColor="@color/white"/>
+        android:textColor="@color/colorPrimary"/>
 
         <ListView
+            android:layout_marginTop="10dp"
             android:id="@+id/lvAppointment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
