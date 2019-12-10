@@ -657,7 +657,7 @@ public class HomePageActivity extends AppCompatActivity {
             final CardView cardView = (CardView) row.findViewById(R.id.cardView);
             final TextView txtTitle = (TextView) row.findViewById(R.id.txtTitle);
             final ImageView image = row.findViewById(R.id.image);
-            txtTitle.setText(apt.getCourse());
+            txtTitle.setText(Html.fromHtml("<b>"+apt.getCourse()+"</b>"));
 
             if(apt.getStudent()!=null && apt.getTutor() == null){
                 String s = "You are" + " tutoring " + "<b>" + apt.getStudent()+ "</b>" +
