@@ -502,7 +502,7 @@ public class HomePageActivity extends AppCompatActivity {
                 goToProfile();
                 return true;
             case R.id.itmMessages:
-                Toast.makeText(getApplicationContext(), "Settings Selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Messages Selected", Toast.LENGTH_SHORT).show();
                 goToMessages();
                 return true;
             case R.id.itmReviews:
@@ -511,10 +511,10 @@ public class HomePageActivity extends AppCompatActivity {
             case R.id.itmLocation:
                 goToLocation();
                 return true;
-            case R.id.itmSettings:
-                Toast.makeText(getApplicationContext(), "Settings Selected", Toast.LENGTH_SHORT).show();
-                goToSettings();
-                return true;
+//            case R.id.itmSettings:
+//                Toast.makeText(getApplicationContext(), "Settings Selected", Toast.LENGTH_SHORT).show();
+//                goToSettings();
+//                return true;
             case R.id.itmLogoff:
                 signOut();
                 return true;
@@ -529,10 +529,10 @@ public class HomePageActivity extends AppCompatActivity {
         this.startActivity(newIntent);
     }
 
-    public void goToSettings(){
-        Intent newIntent = new Intent(this, SettingsActivity.class);
-        this.startActivity(newIntent);
-    }
+//    public void goToSettings(){
+//        Intent newIntent = new Intent(this, SettingsActivity.class);
+//        this.startActivity(newIntent);
+//    }
     public void goToPayment(){
         Intent newIntent = new Intent(this, PaymentActivity.class);
         this.startActivity(newIntent);

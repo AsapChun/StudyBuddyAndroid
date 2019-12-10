@@ -10,11 +10,23 @@
     <TextView
         android:id="@+id/txtTutorInformation"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:text="Set Tutor Subject for "
+        android:layout_height="wrap_content"
+        android:text=" Create Appointment "
+        android:textColor="@color/colorPrimary"
+        android:background="@color/white"
+        android:layout_gravity="center"
         android:textSize="30sp"
-        android:textStyle="bold|italic"
-        android:textColor="@color/white"/>
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"/>
+    <TextView
+        android:id="@+id/txtLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtTutorInformation"
+        android:layout_marginTop="20dp"
+        android:text="Select Location:"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/txtTutorPrice"
@@ -94,19 +106,12 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="2dp"
-        android:layout_marginBottom="229dp" />
-
-    <TextView
-        android:id="@+id/txtLocation"
-        android:layout_width="185dp"
-        android:layout_height="40dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="562dp"
-        android:text="Select Location"
+        android:layout_marginBottom="229dp"
+        android:textColorHint="#F5F5F5"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:backgroundTint="@color/white"/>
+
+
 
     <EditText
         android:id="@+id/edtPrice"
@@ -116,6 +121,8 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="0dp"
         android:layout_marginBottom="326dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/white"
         android:ems="10"
         android:inputType="phone" />
 
@@ -126,6 +133,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
-        android:layout_marginBottom="493dp" />
+        android:layout_marginBottom="493dp"
+        android:textColorHint="#F5F5F5"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/white"/>
 
 </RelativeLayout>

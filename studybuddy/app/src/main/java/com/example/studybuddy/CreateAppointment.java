@@ -96,15 +96,15 @@ public class CreateAppointment extends AppCompatActivity implements AdapterView.
         tutorInfo.setText(tutorInfo.getText().toString() + " " + tutorableSubject);
 
         dropDownLocations = (Spinner) findViewById(R.id.spinLocation);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateAppointment.this, android.R.layout.simple_spinner_dropdown_item, loca);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateAppointment.this, R.layout.spinner_item, loca);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         dropDownLocations.setAdapter(adapter);
         dropDownLocations.setOnItemSelectedListener(this);
 
 
         dropDownDays = (Spinner) findViewById(R.id.spinDaTes);
-        ArrayAdapter<String> daysAdapter = new ArrayAdapter<String>(CreateAppointment.this, android.R.layout.simple_spinner_dropdown_item, days);
-        daysAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> daysAdapter = new ArrayAdapter<String>(CreateAppointment.this, R.layout.spinner_item, days);
+        daysAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         dropDownDays.setAdapter(daysAdapter);
         dropDownDays.setOnItemSelectedListener(this);
 

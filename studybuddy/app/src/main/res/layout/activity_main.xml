@@ -63,6 +63,7 @@
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:hint="Password"
+                android:inputType="textPassword"
                 android:backgroundTint="@color/white"
                 android:textColorHint="#F5F5F5"
                 android:drawableLeft="@drawable/ic_lock_white_24dp"

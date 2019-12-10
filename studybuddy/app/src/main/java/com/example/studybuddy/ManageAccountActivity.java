@@ -94,19 +94,19 @@ public class ManageAccountActivity extends AppCompatActivity implements AdapterV
 //        btnAddCourse= (Button) findViewById(R.id.btnAddCourse);
 
 //        coursesDropDown = (Spinner) findViewById(R.id.spinCourses);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(ManageAccountActivity.this, android.R.layout.simple_spinner_dropdown_item, paths);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(ManageAccountActivity.this, R.layout.spinner_item, paths);
 //        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //        coursesDropDown.setAdapter(adapter);
 //        coursesDropDown.setOnItemSelectedListener(this);
 
         TutorCoursesDropDown = (Spinner) findViewById(R.id.spinTutorSubjects);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         TutorCoursesDropDown.setAdapter(adapter);
         TutorCoursesDropDown.setOnItemSelectedListener(this);
 
-        ArrayAdapter<String> adapt = new ArrayAdapter<String>(ManageAccountActivity.this, android.R.layout.simple_spinner_dropdown_item, paths);
+        ArrayAdapter<String> adapt = new ArrayAdapter<String>(ManageAccountActivity.this, R.layout.spinner_item, paths);
         TutorDropDown = (Spinner) findViewById(R.id.spinFindTutors);
-        adapt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapt.setDropDownViewResource(R.layout.spinner_dropdown_item);
         TutorDropDown.setAdapter(adapt);
         TutorDropDown.setOnItemSelectedListener(this);
 
