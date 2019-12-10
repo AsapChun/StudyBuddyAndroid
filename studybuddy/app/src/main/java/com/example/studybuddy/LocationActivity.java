@@ -178,7 +178,7 @@ public class LocationActivity extends AppCompatActivity {
         btnNextApt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if((aptIndex+1)%destinations.size()<destinations.size()){
+                if(destinations.size()!=0){
                     aptIndex = (aptIndex+1)%destinations.size();
                     destination = getLngLat(destinations.get(aptIndex));
                     Intent i = new Intent(getBaseContext(), LocationActivity.class);
@@ -191,7 +191,7 @@ public class LocationActivity extends AppCompatActivity {
                     i.putExtras(b);
                     goBack();
                     startActivity(i);
-//                }
+                }
             }
         });
 
@@ -583,6 +583,7 @@ public class LocationActivity extends AppCompatActivity {
                         b.putDouble("lng",lng);
                         b.putBoolean("update",update);
                         b.putBoolean("currentLocationUpdate",false);
+                        b.putStringArrayList("destinations",destinations);
                         i.putExtras(b);
                         goBack();
                         startActivity(i);
