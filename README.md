@@ -1,7 +1,5 @@
-# CaffeineOverFlow
-Trust The Process
+# Study Buddy Mobile App
 
-Making Music
 
 
 Don't forget to use Pixel 3 API 29
